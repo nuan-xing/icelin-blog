@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const photos = (await getCollection('photos'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="摄影">
+  <section class="page">
+    <div class="section-heading">
+      <p class="eyebrow">Photography</p>
+      <h1>摄影作品</h1>
+      <p>一些被光线和时间留下来的瞬间。</p>
+    </div>
+    <div class="photo-grid">
+      {photos.map((photo) => (
+        <figure>
+          <img src={photo.data.image} alt={photo.data.alt} loading="lazy" />
+          <figcaption>
+            <span>{photo.data.title}</span>
+            {photo.data.location && <small>{photo.data.location}</small>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

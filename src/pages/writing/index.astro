@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="随笔">
+  <section class="page">
+    <div class="section-heading">
+      <p class="eyebrow">Writing</p>
+      <h1>生活随笔</h1>
+      <p>慢慢写下来的日常、想法和阶段性的自己。</p>
+    </div>
+    <div class="post-list spacious">
+      {posts.map((post) => (
+        <a class="post-row" href={`/writing/${post.slug}/`}>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+          </time>
+          <div>
+            <h2>{post.data.title}</h2>
+            <p>{post.data.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

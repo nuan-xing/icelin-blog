@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const photos = (await getCollection('photos'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <p class="eyebrow">Personal journal & photography</p>
+    <h1>icelin</h1>
+    <p class="hero-copy">
+      这里会放一些生活里的片段、偶然遇见的光、慢慢写下来的想法，以及关于我的一点点介绍。
+    </p>
+  </section>
+
+  <section class="section-grid">
+    <div>
+      <div class="section-heading">
+        <p class="eyebrow">Writing</p>
+        <h2>最近随笔</h2>
+      </div>
+      <div class="post-list">
+        {posts.map((post) => (
+          <a class="post-row" href={`/writing/${post.slug}/`}>
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+            </time>
+            <div>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <aside class="intro-panel">
+      <p class="eyebrow">About</p>
+      <h2>你好，我是 icelin。</h2>
+      <p>
+        我想把这个博客当作一个安静的角落，用来保存日常、照片、路上的观察和阶段性的自己。
+      </p>
+      <a class="text-link" href="/about/">阅读关于我</a>
+    </aside>
+  </section>
+
+  <section class="photo-strip" aria-label="摄影作品">
+    {photos.map((photo) => (
+      <a href="/photos/">
+        <img src={photo.data.image} alt={photo.data.alt} loading="lazy" />
+        <span>{photo.data.title}</span>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

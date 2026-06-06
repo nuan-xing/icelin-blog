@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+
+const {
+  title = 'icelin',
+  description = '生活随笔、摄影作品和个人日记。',
+} = Astro.props;
+
+const nav = [
+  { href: '/', label: '首页' },
+  { href: '/writing/', label: '随笔' },
+  { href: '/photos/', label: '摄影' },
+  { href: '/about/', label: '关于' },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title === 'icelin' ? title : `${title} | icelin`}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="icelin 首页">
+          <span class="brand-mark"></span>
+          <span>icelin</span>
+        </a>
+        <nav class="nav" aria-label="主导航">
+          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <span>© {new Date().getFullYear()} icelin</span>
+        <span>记录生活，收藏光线。</span>
+      </footer>
+    </div>
+  </body>
+</html>
