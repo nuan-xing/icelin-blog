@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { qinglongLakePhotos } from '../../data/qinglong-lake';
+
+const photos = qinglongLakePhotos;
+---
+
+<BaseLayout title="青龙湖公园">
+  <section class="page">
+    <div class="section-heading">
+      <a class="text-link" href="/photos/">返回摄影</a>
+      <p class="eyebrow">Qinglong Lake</p>
+      <h1>青龙湖公园</h1>
+      <p>风、湖面、树影和一些独处时刻。这里会作为一个长期更新的湖边相册。</p>
+    </div>
+
+    {photos.length > 0 ? (
+      <div class="place-timeline">
+        {photos.map((photo) => (
+          <article class="place-entry">
+            <time datetime={photo.pubDate.toISOString()}>
+              {photo.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+            </time>
+            <figure>
+              <img src={photo.image} alt={photo.alt} loading="lazy" />
+              <figcaption>
+                <strong>{photo.title}</strong>
+                {photo.caption && <span>{photo.caption}</span>}
+              </figcaption>
+            </figure>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <p>青龙湖专题已经准备好了。</p>
+        <p>等你放入第一组照片后，这里会变成按时间排列的湖边照片日记。</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>

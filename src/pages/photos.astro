@@ -1,9 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { qinglongLakePhotos } from '../data/qinglong-lake';
 
 const photos = (await getCollection('photos'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const qinglongPreview = qinglongLakePhotos.slice(0, 3);
 ---
 
 <BaseLayout title="摄影">
@@ -12,6 +15,31 @@ const photos = (await getCollection('photos'))
       <p class="eyebrow">Photography</p>
       <h1>摄影作品</h1>
       <p>一些被光线和时间留下来的瞬间。</p>
+    </div>
+
+    <a class="feature-link" href="/photos/qinglong-lake/">
+      <div>
+        <p class="eyebrow">Place Journal</p>
+        <h2>青龙湖公园</h2>
+        <p>风、湖面、树影和一些独处时刻。这里会慢慢收集我在青龙湖拍下的照片。</p>
+        <span class="text-link">查看这个专题</span>
+      </div>
+      <div class="feature-preview" aria-hidden="true">
+        {qinglongPreview.length > 0 ? (
+          qinglongPreview.map((photo) => <img src={photo.image} alt="" loading="lazy" />)
+        ) : (
+          <>
+            <span></span>
+            <span></span>
+            <span></span>
+          </>
+        )}
+      </div>
+    </a>
+
+    <div class="section-heading compact-heading">
+      <p class="eyebrow">Recent</p>
+      <h2>最近照片</h2>
     </div>
     <div class="photo-grid">
       {photos.map((photo) => (
