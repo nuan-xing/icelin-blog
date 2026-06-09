@@ -239,6 +239,13 @@ h3 {
   border-bottom: 1px solid var(--soft);
 }
 
+.prose img {
+  width: 100%;
+  margin: 32px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
 .photo-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
