@@ -48,4 +48,28 @@ export const qinglongLakePhotos: QinglongLakePhoto[] = [
     caption: '第一次在湖边搭帐篷，认真地把生活展开一点。',
     tags: ['青龙湖', '帐篷'],
   },
+  {
+    title: '田野行',
+    pubDate: new Date('2026-04-14'),
+    image: '/images/qinglong-lake/2026-04-14-field-walk.jpg',
+    alt: '青龙湖公园附近田野行走时拍下的照片。',
+    caption: '走到更开阔的地方，风和草都慢下来。',
+    tags: ['青龙湖', '田野'],
+  },
+  {
+    title: '睡吊床',
+    pubDate: new Date('2026-04-06'),
+    image: '/images/qinglong-lake/2026-04-06-hammock.jpg',
+    alt: '青龙湖公园树下吊床和阳光里的照片。',
+    caption: '把吊床挂在树下，躺进一小片阳光和风里。',
+    tags: ['青龙湖', '吊床'],
+  },
+  {
+    title: '鬼知道5分钟之后我从一个湿滑的斜坡上摔下来',
+    pubDate: new Date('2026-04-02'),
+    image: '/images/qinglong-lake/2026-04-02-slippery-slope.jpg',
+    alt: '青龙湖公园湿滑斜坡附近拍下的照片。',
+    caption: '这一刻还好好的，五分钟之后就从湿滑的斜坡上摔下来了。',
+    tags: ['青龙湖', '日常'],
+  },
 ];
