@@ -24,4 +24,28 @@ export const qinglongLakePhotos: QinglongLakePhoto[] = [
     caption: '天气很好，适合把自己放进阳光里。',
     tags: ['青龙湖', '阳光'],
   },
+  {
+    title: '在湖边骑行',
+    pubDate: new Date('2026-05-04'),
+    image: '/images/qinglong-lake/2026-05-04-lake-ride.jpg',
+    alt: '青龙湖公园湖边骑行时拍下的照片。',
+    caption: '沿着湖边慢慢骑，风从身边经过。',
+    tags: ['青龙湖', '骑行'],
+  },
+  {
+    title: '搭帐篷 x2',
+    pubDate: new Date('2026-04-25'),
+    image: '/images/qinglong-lake/2026-04-25-camping-02.jpg',
+    alt: '青龙湖公园第二次搭帐篷时拍下的照片。',
+    caption: '又一次把帐篷撑起来，像给周末留出一小块安静地方。',
+    tags: ['青龙湖', '帐篷'],
+  },
+  {
+    title: '第一次搭帐篷',
+    pubDate: new Date('2026-04-23'),
+    image: '/images/qinglong-lake/2026-04-23-first-camping.jpg',
+    alt: '青龙湖公园第一次搭帐篷时拍下的照片。',
+    caption: '第一次在湖边搭帐篷，认真地把生活展开一点。',
+    tags: ['青龙湖', '帐篷'],
+  },
 ];
