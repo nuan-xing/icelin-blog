@@ -12,8 +12,8 @@ export const qinglongLakePhotos: QinglongLakePhoto[] = [
     title: '呼吸之根',
     pubDate: new Date('2026-06-09'),
     image: '/images/qinglong-lake/2026-06-09-breathing-roots.jpg',
-    alt: '青龙湖公园里像是在呼吸的树根与自然景象。',
-    caption: '根向土地深处去，也像在安静地呼吸。',
+    alt: '青龙湖公园树旁向上生长的呼吸根。',
+    caption: '树旁边向上生长的呼吸根，像从土地里伸出来的小小呼吸。',
     tags: ['青龙湖', '自然'],
   },
   {
