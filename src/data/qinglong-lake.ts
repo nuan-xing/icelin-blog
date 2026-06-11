@@ -9,6 +9,14 @@ export type QinglongLakePhoto = {
 
 export const qinglongLakePhotos: QinglongLakePhoto[] = [
   {
+    title: '呼吸之根',
+    pubDate: new Date('2026-06-09'),
+    image: '/images/qinglong-lake/2026-06-09-breathing-roots.jpg',
+    alt: '青龙湖公园里像是在呼吸的树根与自然景象。',
+    caption: '根向土地深处去，也像在安静地呼吸。',
+    tags: ['青龙湖', '自然'],
+  },
+  {
     title: '新书到了，来看看吧',
     pubDate: new Date('2026-05-30'),
     image: '/images/qinglong-lake/2026-05-30-new-book.jpg',
