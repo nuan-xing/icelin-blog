@@ -17,12 +17,28 @@ export const qinglongLakePhotos: QinglongLakePhoto[] = [
     tags: ['青龙湖', '自然'],
   },
   {
+    title: '双人行',
+    pubDate: new Date('2026-06-08'),
+    image: '/images/qinglong-lake/2026-06-08-two-person-walk.jpg',
+    alt: '青龙湖公园里两个人同行时拍下的照片。',
+    caption: '两个人一起走，路也变得慢一点。',
+    tags: ['青龙湖', '同行'],
+  },
+  {
     title: '新书到了，来看看吧',
     pubDate: new Date('2026-05-30'),
     image: '/images/qinglong-lake/2026-05-30-new-book.jpg',
     alt: '青龙湖公园里与新书有关的一张照片。',
     caption: '把新书带到湖边，慢慢翻几页。',
     tags: ['青龙湖', '阅读'],
+  },
+  {
+    title: '在路上',
+    pubDate: new Date('2026-05-17'),
+    image: '/images/qinglong-lake/2026-05-17-on-the-road.jpg',
+    alt: '青龙湖公园路上拍下的日常照片。',
+    caption: '在路上，风景也在一点点靠近。',
+    tags: ['青龙湖', '路上'],
   },
   {
     title: '好天气，晒太阳',
