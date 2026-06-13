@@ -151,11 +151,43 @@ h3 {
 }
 
 .post-row {
+  --magnet-x: 0px;
+  --magnet-y: 0px;
   display: grid;
   grid-template-columns: 116px minmax(0, 1fr);
   gap: 28px;
   padding: 24px 0;
   border-bottom: 1px solid var(--line);
+  opacity: 1;
+  transform: translate3d(var(--magnet-x), var(--magnet-y), 0);
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    opacity 560ms ease,
+    transform 560ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.post-row:hover {
+  background: color-mix(in srgb, var(--surface) 58%, transparent);
+  border-color: color-mix(in srgb, var(--warm) 38%, var(--line));
+  box-shadow: 0 16px 40px rgba(47, 75, 69, 0.07);
+}
+
+.post-row:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--warm) 60%, var(--accent));
+  outline-offset: 6px;
+}
+
+.js-motion .post-row {
+  opacity: 0;
+  transform: translate3d(var(--magnet-x), calc(var(--magnet-y) + 22px), 0);
+}
+
+.js-motion .post-row.is-visible {
+  opacity: 1;
+  transform: translate3d(var(--magnet-x), var(--magnet-y), 0);
 }
 
 .post-row time {
@@ -426,5 +458,23 @@ h3 {
   .feature-preview img,
   .feature-preview span {
     min-height: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .post-row,
+  .js-motion .post-row,
+  .js-motion .post-row.is-visible {
+    opacity: 1;
+    transform: none;
   }
 }

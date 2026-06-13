@@ -42,5 +42,51 @@ const nav = [
         <span>记录生活，收藏光线。</span>
       </footer>
     </div>
+    <script>
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      if (!motionQuery.matches) {
+        document.documentElement.classList.add('js-motion');
+
+        const postRows = [...document.querySelectorAll<HTMLElement>('.post-row')];
+
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('is-visible');
+              window.setTimeout(() => {
+                if (entry.target instanceof HTMLElement) {
+                  entry.target.style.transitionDelay = '0ms';
+                }
+              }, 780);
+              revealObserver.unobserve(entry.target);
+            });
+          },
+          {
+            threshold: 0.18,
+            rootMargin: '0px 0px -8% 0px',
+          },
+        );
+
+        postRows.forEach((row, index) => {
+          row.style.transitionDelay = `${Math.min(index * 90, 360)}ms`;
+          revealObserver.observe(row);
+
+          row.addEventListener('pointermove', (event: PointerEvent) => {
+            const rect = row.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+            const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
+            row.style.setProperty('--magnet-x', `${x.toFixed(2)}px`);
+            row.style.setProperty('--magnet-y', `${y.toFixed(2)}px`);
+          });
+
+          row.addEventListener('pointerleave', () => {
+            row.style.setProperty('--magnet-x', '0px');
+            row.style.setProperty('--magnet-y', '0px');
+          });
+        });
+      }
+    </script>
   </body>
 </html>
