@@ -344,8 +344,10 @@ h3 {
 
 .photo-grid img {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+  height: auto;
+  max-height: 640px;
+  object-fit: contain;
+  background: color-mix(in srgb, var(--surface) 72%, var(--bg));
 }
 
 .photo-grid figcaption {
