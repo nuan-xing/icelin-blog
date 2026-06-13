@@ -19,6 +19,7 @@ const photos = defineCollection({
     pubDate: z.coerce.date(),
     image: z.string(),
     alt: z.string(),
+    caption: z.string().optional(),
   }),
 });
 
