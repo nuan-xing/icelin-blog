@@ -48,7 +48,7 @@ const nav = [
       if (!motionQuery.matches) {
         document.documentElement.classList.add('js-motion');
 
-        const postRows = [...document.querySelectorAll<HTMLElement>('.post-row')];
+        const motionCards = [...document.querySelectorAll<HTMLElement>('.post-row, .feature-link')];
 
         const revealObserver = new IntersectionObserver(
           (entries) => {
@@ -69,21 +69,23 @@ const nav = [
           },
         );
 
-        postRows.forEach((row, index) => {
-          row.style.transitionDelay = `${Math.min(index * 90, 360)}ms`;
-          revealObserver.observe(row);
+        motionCards.forEach((card, index) => {
+          card.style.transitionDelay = `${Math.min(index * 90, 360)}ms`;
+          revealObserver.observe(card);
 
-          row.addEventListener('pointermove', (event: PointerEvent) => {
-            const rect = row.getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
-            const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
-            row.style.setProperty('--magnet-x', `${x.toFixed(2)}px`);
-            row.style.setProperty('--magnet-y', `${y.toFixed(2)}px`);
+          card.addEventListener('pointermove', (event: PointerEvent) => {
+            const rect = card.getBoundingClientRect();
+            const strengthX = card.classList.contains('feature-link') ? 8 : 10;
+            const strengthY = card.classList.contains('feature-link') ? 6 : 8;
+            const x = ((event.clientX - rect.left) / rect.width - 0.5) * strengthX;
+            const y = ((event.clientY - rect.top) / rect.height - 0.5) * strengthY;
+            card.style.setProperty('--magnet-x', `${x.toFixed(2)}px`);
+            card.style.setProperty('--magnet-y', `${y.toFixed(2)}px`);
           });
 
-          row.addEventListener('pointerleave', () => {
-            row.style.setProperty('--magnet-x', '0px');
-            row.style.setProperty('--magnet-y', '0px');
+          card.addEventListener('pointerleave', () => {
+            card.style.setProperty('--magnet-x', '0px');
+            card.style.setProperty('--magnet-y', '0px');
           });
         });
       }
