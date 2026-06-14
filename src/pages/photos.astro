@@ -44,7 +44,9 @@ const qinglongPreview = qinglongLakePhotos.slice(0, 3);
     <div class="photo-grid">
       {photos.map((photo) => (
         <figure>
-          <img src={photo.data.image} alt={photo.data.alt} loading="lazy" />
+          <div class="photo-frame">
+            <img src={photo.data.image} alt={photo.data.alt} loading="lazy" />
+          </div>
           <figcaption>
             <span>{photo.data.title}</span>
             <small>

@@ -284,8 +284,11 @@ h3 {
   overflow: hidden;
   margin: 0;
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: 8px;
+}
+
+.photo-strip a {
+  border: 1px solid var(--line);
 }
 
 .photo-strip img {
@@ -347,7 +350,19 @@ h3 {
   height: auto;
   max-height: 640px;
   object-fit: contain;
+  border-radius: 7px;
+}
+
+.photo-frame {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
   background: color-mix(in srgb, var(--surface) 72%, var(--bg));
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 .photo-grid figcaption {
