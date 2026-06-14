@@ -202,7 +202,8 @@ h3 {
 }
 
 .post-row,
-.feature-link {
+.feature-link,
+.photo-card {
   --magnet-x: 0px;
   --magnet-y: 0px;
   opacity: 1;
@@ -236,13 +237,15 @@ h3 {
 }
 
 .js-motion .post-row,
-.js-motion .feature-link {
+.js-motion .feature-link,
+.js-motion .photo-card {
   opacity: 0;
   transform: translate3d(var(--magnet-x), calc(var(--magnet-y) + 22px), 0);
 }
 
 .js-motion .post-row.is-visible,
-.js-motion .feature-link.is-visible {
+.js-motion .feature-link.is-visible,
+.js-motion .photo-card.is-visible {
   opacity: 1;
   transform: translate3d(var(--magnet-x), var(--magnet-y), 0);
 }
@@ -382,6 +385,15 @@ h3 {
   display: grid;
   gap: 6px;
   padding: 16px;
+}
+
+.photo-card:hover {
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  box-shadow: 0 18px 48px rgba(47, 75, 69, 0.08);
+}
+
+.photo-card:hover .photo-frame {
+  border-color: color-mix(in srgb, var(--warm) 42%, var(--line));
 }
 
 .photo-grid small {
@@ -577,12 +589,15 @@ h3 {
 
   .post-row,
   .feature-link,
+  .photo-card,
   .brand,
   .nav a,
   .js-motion .post-row,
   .js-motion .feature-link,
+  .js-motion .photo-card,
   .js-motion .post-row.is-visible,
-  .js-motion .feature-link.is-visible {
+  .js-motion .feature-link.is-visible,
+  .js-motion .photo-card.is-visible {
     opacity: 1;
     transform: none;
   }

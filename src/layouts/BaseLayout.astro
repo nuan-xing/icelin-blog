@@ -43,15 +43,19 @@ const nav = [
       </footer>
     </div>
     <script>
+      declare global {
+        interface Window {
+          __icelinBindMotion?: (cards: HTMLElement[]) => void;
+        }
+      }
+
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let revealObserver: IntersectionObserver | undefined;
 
       if (!motionQuery.matches) {
         document.documentElement.classList.add('js-motion');
 
-        const revealCards = [...document.querySelectorAll<HTMLElement>('.post-row, .feature-link')];
-        const magnetItems = [...document.querySelectorAll<HTMLElement>('.post-row, .feature-link, .brand, .nav a')];
-
-        const revealObserver = new IntersectionObserver(
+        revealObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) return;
@@ -61,7 +65,7 @@ const nav = [
                   entry.target.style.transitionDelay = '0ms';
                 }
               }, 780);
-              revealObserver.unobserve(entry.target);
+              revealObserver?.unobserve(entry.target);
             });
           },
           {
@@ -70,17 +74,22 @@ const nav = [
           },
         );
 
-        revealCards.forEach((card, index) => {
+        const observeReveal = (card: HTMLElement, index: number) => {
+          if (card.dataset.revealBound === 'true') return;
+          card.dataset.revealBound = 'true';
           card.style.transitionDelay = `${Math.min(index * 90, 360)}ms`;
-          revealObserver.observe(card);
-        });
+          revealObserver?.observe(card);
+        };
 
-        magnetItems.forEach((card) => {
+        const bindMagnet = (card: HTMLElement) => {
+          if (card.dataset.magnetBound === 'true') return;
+          card.dataset.magnetBound = 'true';
           card.addEventListener('pointermove', (event: PointerEvent) => {
             const rect = card.getBoundingClientRect();
             const isHeaderItem = card.classList.contains('brand') || card.closest('.nav');
-            const strengthX = isHeaderItem ? 5 : card.classList.contains('feature-link') ? 8 : 10;
-            const strengthY = isHeaderItem ? 4 : card.classList.contains('feature-link') ? 6 : 8;
+            const isPhotoCard = card.classList.contains('photo-card');
+            const strengthX = isHeaderItem ? 5 : card.classList.contains('feature-link') ? 8 : isPhotoCard ? 7 : 10;
+            const strengthY = isHeaderItem ? 4 : card.classList.contains('feature-link') ? 6 : isPhotoCard ? 5 : 8;
             const x = ((event.clientX - rect.left) / rect.width - 0.5) * strengthX;
             const y = ((event.clientY - rect.top) / rect.height - 0.5) * strengthY;
             card.style.setProperty('--magnet-x', `${x.toFixed(2)}px`);
@@ -91,7 +100,17 @@ const nav = [
             card.style.setProperty('--magnet-x', '0px');
             card.style.setProperty('--magnet-y', '0px');
           });
-        });
+        };
+
+        document.querySelectorAll<HTMLElement>('.post-row, .feature-link').forEach(observeReveal);
+        document.querySelectorAll<HTMLElement>('.post-row, .feature-link, .brand, .nav a').forEach(bindMagnet);
+
+        window.__icelinBindMotion = (cards: HTMLElement[]) => {
+          cards.forEach((card, index) => {
+            observeReveal(card, index);
+            bindMagnet(card);
+          });
+        };
       }
 
       let masonryTimer: number | undefined;
@@ -125,6 +144,8 @@ const nav = [
             columns[targetIndex].append(card);
             heights[targetIndex] += card.getBoundingClientRect().height;
           });
+
+          window.__icelinBindMotion?.(cards);
         });
       };
 
