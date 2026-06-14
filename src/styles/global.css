@@ -346,6 +346,18 @@ h3 {
   margin-top: 36px;
 }
 
+.photo-grid.is-masonry {
+  display: flex;
+  align-items: flex-start;
+}
+
+.photo-column {
+  display: grid;
+  flex: 1 1 0;
+  gap: 24px;
+  min-width: 0;
+}
+
 .photo-grid img {
   width: 100%;
   height: auto;

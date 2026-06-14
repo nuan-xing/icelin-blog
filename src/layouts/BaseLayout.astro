@@ -93,6 +93,54 @@ const nav = [
           });
         });
       }
+
+      let masonryTimer: number | undefined;
+
+      const setupMasonry = () => {
+        document.querySelectorAll<HTMLElement>('[data-masonry]').forEach((grid) => {
+          const existingCards = [...grid.querySelectorAll<HTMLElement>('.photo-card')];
+          if (existingCards.length === 0) return;
+
+          const cards = existingCards.map((card) => {
+            card.style.removeProperty('width');
+            return card;
+          });
+
+          grid.classList.remove('is-masonry');
+          grid.replaceChildren(...cards);
+
+          const columnCount = window.matchMedia('(max-width: 760px)').matches ? 1 : 2;
+          const columns = Array.from({ length: columnCount }, () => {
+            const column = document.createElement('div');
+            column.className = 'photo-column';
+            return column;
+          });
+
+          grid.classList.add('is-masonry');
+          grid.replaceChildren(...columns);
+
+          const heights = new Array(columnCount).fill(0);
+          cards.forEach((card) => {
+            const targetIndex = heights.indexOf(Math.min(...heights));
+            columns[targetIndex].append(card);
+            heights[targetIndex] += card.getBoundingClientRect().height;
+          });
+        });
+      };
+
+      const scheduleMasonry = () => window.requestAnimationFrame(setupMasonry);
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scheduleMasonry);
+      } else {
+        scheduleMasonry();
+      }
+
+      window.addEventListener('load', scheduleMasonry);
+      window.addEventListener('resize', () => {
+        window.clearTimeout(masonryTimer);
+        masonryTimer = window.setTimeout(scheduleMasonry, 120);
+      });
     </script>
   </body>
 </html>
