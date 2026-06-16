@@ -9,6 +9,14 @@ export type QinglongLakePhoto = {
 
 export const qinglongLakePhotos: QinglongLakePhoto[] = [
   {
+    title: '草径向前',
+    pubDate: new Date('2026-06-13'),
+    image: '/images/qinglong-lake/2026-06-13-grass-path.webp',
+    alt: '青龙湖公园草地小路和自行车把手。',
+    caption: '骑进草间的小路，风把夏天推向前面。',
+    tags: ['青龙湖', '骑行'],
+  },
+  {
     title: '呼吸之根',
     pubDate: new Date('2026-06-09'),
     image: '/images/qinglong-lake/2026-06-09-breathing-roots.webp',
@@ -95,5 +103,13 @@ export const qinglongLakePhotos: QinglongLakePhoto[] = [
     alt: '青龙湖公园湿滑斜坡附近拍下的照片。',
     caption: '这一刻还好好的，五分钟之后就从湿滑的斜坡上摔下来了。',
     tags: ['青龙湖', '日常'],
+  },
+  {
+    title: '冬日落',
+    pubDate: new Date('2026-01-10'),
+    image: '/images/qinglong-lake/2026-01-10-winter-fall.webp',
+    alt: '青龙湖公园冬日落下的光影。',
+    caption: '冬天的光落下来，湖边也安静了一点。',
+    tags: ['青龙湖', '冬日'],
   },
 ];
