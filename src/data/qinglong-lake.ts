@@ -9,6 +9,38 @@ export type QinglongLakePhoto = {
 
 export const qinglongLakePhotos: QinglongLakePhoto[] = [
   {
+    title: '树隙里的云',
+    pubDate: new Date('2026-06-18'),
+    image: '/images/qinglong-lake/2026-06-18-sky-through-leaves.webp',
+    alt: '青龙湖公园树叶围住蓝天和云。',
+    caption: '抬头看见树叶围出一块天空，云慢慢从中间经过。',
+    tags: ['青龙湖', '天空'],
+  },
+  {
+    title: '暗处小花',
+    pubDate: new Date('2026-06-18'),
+    image: '/images/qinglong-lake/2026-06-18-small-flowers.webp',
+    alt: '青龙湖公园草地边几朵小花。',
+    caption: '暗绿的背景里，几朵小花自己亮着。',
+    tags: ['青龙湖', '花'],
+  },
+  {
+    title: '傍晚水岸',
+    pubDate: new Date('2026-06-18'),
+    image: '/images/qinglong-lake/2026-06-18-evening-waterbank.webp',
+    alt: '青龙湖公园傍晚的水面和草岸。',
+    caption: '水面、草岸和远处的树，在傍晚里慢慢安静下来。',
+    tags: ['青龙湖', '湖边'],
+  },
+  {
+    title: '垂花照水',
+    pubDate: new Date('2026-06-18'),
+    image: '/images/qinglong-lake/2026-06-18-hanging-flowers-water.webp',
+    alt: '青龙湖公园垂下的花枝和湖面倒影。',
+    caption: '垂下来的花枝把湖面框住，连倒影都变得柔软。',
+    tags: ['青龙湖', '水面'],
+  },
+  {
     title: '草径向前',
     pubDate: new Date('2026-06-13'),
     image: '/images/qinglong-lake/2026-06-13-grass-path.webp',
