@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 
 const {
   title = 'icelin',
@@ -22,14 +23,23 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title === 'icelin' ? title : `${title} | icelin`}</title>
+    <ClientRouter />
   </head>
   <body>
     <div class="site-shell">
       <header class="site-header">
-        <a class="brand" href="/" aria-label="icelin 首页">
-          <span class="brand-mark"></span>
-          <span>icelin</span>
-        </a>
+        <div class="brand-cluster">
+          <a class="brand" href="/" aria-label="icelin 首页">
+            <span class="brand-mark"></span>
+            <span>icelin</span>
+          </a>
+          <aside class="music-player" aria-label="Background music player" transition:persist>
+            <audio class="music-audio" src="/audio/二人の時間-RADWIMPS.mp3" preload="metadata" loop></audio>
+            <button class="music-toggle" type="button" aria-label="Play Time for Two" aria-pressed="false" title="Time for Two">
+              <span class="music-icon" aria-hidden="true"></span>
+            </button>
+          </aside>
+        </div>
         <nav class="nav" aria-label="主导航">
           {nav.map((item) => <a href={item.href}>{item.label}</a>)}
         </nav>
@@ -46,16 +56,58 @@ const nav = [
       declare global {
         interface Window {
           __icelinBindMotion?: (cards: HTMLElement[]) => void;
+          __icelinMasonryTimer?: number;
+          __icelinResizeBound?: boolean;
         }
       }
 
-      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      let revealObserver: IntersectionObserver | undefined;
+      const setupMusic = () => {
+        const musicRoot = document.querySelector<HTMLElement>('.music-player');
+        const musicAudio = musicRoot?.querySelector<HTMLAudioElement>('.music-audio');
+        const musicToggle = musicRoot?.querySelector<HTMLButtonElement>('.music-toggle');
 
-      if (!motionQuery.matches) {
+        if (!musicRoot || !musicAudio || !musicToggle) return;
+
+        musicAudio.volume = 0.6;
+
+        const setMusicUi = (isPlaying: boolean) => {
+          musicRoot.classList.toggle('is-playing', isPlaying);
+          musicToggle.setAttribute('aria-pressed', String(isPlaying));
+          musicToggle.setAttribute('aria-label', isPlaying ? 'Pause Time for Two' : 'Play Time for Two');
+        };
+
+        setMusicUi(!musicAudio.paused);
+
+        if (musicRoot.dataset.musicBound === 'true') return;
+        musicRoot.dataset.musicBound = 'true';
+
+        musicToggle.addEventListener('click', async () => {
+          if (!musicAudio.paused) {
+            musicAudio.pause();
+            setMusicUi(false);
+            return;
+          }
+
+          try {
+            await musicAudio.play();
+            setMusicUi(true);
+          } catch {
+            setMusicUi(false);
+          }
+        });
+
+        musicAudio.addEventListener('play', () => setMusicUi(true));
+        musicAudio.addEventListener('pause', () => setMusicUi(false));
+        musicAudio.addEventListener('error', () => setMusicUi(false));
+      };
+
+      const setupMotion = () => {
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (motionQuery.matches) return;
+
         document.documentElement.classList.add('js-motion');
 
-        revealObserver = new IntersectionObserver(
+        const revealObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) return;
@@ -65,7 +117,7 @@ const nav = [
                   entry.target.style.transitionDelay = '0ms';
                 }
               }, 780);
-              revealObserver?.unobserve(entry.target);
+              revealObserver.unobserve(entry.target);
             });
           },
           {
@@ -78,7 +130,7 @@ const nav = [
           if (card.dataset.revealBound === 'true') return;
           card.dataset.revealBound = 'true';
           card.style.transitionDelay = `${Math.min(index * 90, 360)}ms`;
-          revealObserver?.observe(card);
+          revealObserver.observe(card);
         };
 
         const bindMagnet = (card: HTMLElement) => {
@@ -111,9 +163,7 @@ const nav = [
             bindMagnet(card);
           });
         };
-      }
-
-      let masonryTimer: number | undefined;
+      };
 
       const setupMasonry = () => {
         document.querySelectorAll<HTMLElement>('[data-masonry]').forEach((grid) => {
@@ -151,17 +201,28 @@ const nav = [
 
       const scheduleMasonry = () => window.requestAnimationFrame(setupMasonry);
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', scheduleMasonry);
-      } else {
+      const setupPage = () => {
+        setupMusic();
+        setupMotion();
         scheduleMasonry();
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupPage, { once: true });
+      } else {
+        setupPage();
       }
 
+      document.addEventListener('astro:page-load', setupPage);
       window.addEventListener('load', scheduleMasonry);
-      window.addEventListener('resize', () => {
-        window.clearTimeout(masonryTimer);
-        masonryTimer = window.setTimeout(scheduleMasonry, 120);
-      });
+
+      if (!window.__icelinResizeBound) {
+        window.__icelinResizeBound = true;
+        window.addEventListener('resize', () => {
+          window.clearTimeout(window.__icelinMasonryTimer);
+          window.__icelinMasonryTimer = window.setTimeout(scheduleMasonry, 120);
+        });
+      }
     </script>
   </body>
 </html>
