@@ -34,7 +34,7 @@ const nav = [
             <span>icelin</span>
           </a>
           <aside class="music-player" aria-label="Background music player" transition:persist>
-            <audio class="music-audio" src="/audio/二人の時間-RADWIMPS.mp3" preload="metadata" loop></audio>
+            <audio class="music-audio" src="/audio/二人の時間-RADWIMPS.mp3" preload="auto" autoplay loop></audio>
             <button class="music-toggle" type="button" aria-label="Play Time for Two" aria-pressed="false" title="Time for Two">
               <span class="music-icon" aria-hidden="true"></span>
             </button>
@@ -80,6 +80,19 @@ const nav = [
 
         if (musicRoot.dataset.musicBound === 'true') return;
         musicRoot.dataset.musicBound = 'true';
+
+        const tryAutoplay = async () => {
+          if (!musicAudio.paused) return;
+
+          try {
+            await musicAudio.play();
+            setMusicUi(true);
+          } catch {
+            setMusicUi(false);
+          }
+        };
+
+        void tryAutoplay();
 
         musicToggle.addEventListener('click', async () => {
           if (!musicAudio.paused) {
