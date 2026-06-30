@@ -1,7 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ResponsiveImage from '../components/ResponsiveImage.astro';
+import imageManifest from '../data/generated-image-manifest.json';
 import { getCollection } from 'astro:content';
+
+type ImageRecord = {
+  width: number;
+  height: number;
+};
 
 const posts = (await getCollection('writing'))
   .filter((post) => !post.data.draft)
@@ -10,7 +16,14 @@ const posts = (await getCollection('writing'))
 
 const photos = (await getCollection('photos'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+  .slice(0, 3)
+  .map((photo) => {
+    const image = (imageManifest as Record<string, ImageRecord>)[photo.data.image];
+    return {
+      ...photo,
+      imageOrientation: image && image.height > image.width ? 'portrait' : 'landscape',
+    };
+  });
 ---
 
 <BaseLayout>
@@ -56,11 +69,13 @@ const photos = (await getCollection('photos'))
   <section class="photo-strip" aria-label="摄影作品">
     {photos.map((photo) => (
       <a href="/photos/">
-        <ResponsiveImage
-          src={photo.data.image}
-          alt={photo.data.alt}
-          sizes="(max-width: 760px) calc(100vw - 28px), 420px"
-        />
+        <div class:list={['photo-strip-frame', `is-${photo.imageOrientation}`]}>
+          <ResponsiveImage
+            src={photo.data.image}
+            alt={photo.data.alt}
+            sizes="(max-width: 760px) calc(100vw - 28px), 420px"
+          />
+        </div>
         <span>{photo.data.title}</span>
       </a>
     ))}
