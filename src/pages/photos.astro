@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { getCollection } from 'astro:content';
 import { qinglongLakePhotos } from '../data/qinglong-lake';
 
@@ -26,7 +27,9 @@ const qinglongPreview = qinglongLakePhotos.slice(0, 3);
       </div>
       <div class="feature-preview" aria-hidden="true">
         {qinglongPreview.length > 0 ? (
-          qinglongPreview.map((photo) => <img src={photo.image} alt="" loading="lazy" />)
+          qinglongPreview.map((photo) => (
+            <ResponsiveImage src={photo.image} alt="" sizes="(max-width: 760px) 31vw, 96px" />
+          ))
         ) : (
           <>
             <span></span>
@@ -45,7 +48,11 @@ const qinglongPreview = qinglongLakePhotos.slice(0, 3);
       {photos.map((photo) => (
         <figure class="photo-card">
           <div class="photo-frame">
-            <img src={photo.data.image} alt={photo.data.alt} loading="lazy" />
+            <ResponsiveImage
+              src={photo.data.image}
+              alt={photo.data.alt}
+              sizes="(max-width: 760px) calc(100vw - 28px), 520px"
+            />
           </div>
           <figcaption>
             <span>{photo.data.title}</span>

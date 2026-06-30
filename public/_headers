@@ -4,6 +4,9 @@
 /images/*
   Cache-Control: public, max-age=2592000
 
+/generated/images/*
+  Cache-Control: public, max-age=2592000
+
 /audio/*
   Cache-Control: public, max-age=2592000
 

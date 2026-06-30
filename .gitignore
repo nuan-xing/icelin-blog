@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .astro/
+public/generated/
 .vercel/
 .DS_Store
 npm-debug.log*

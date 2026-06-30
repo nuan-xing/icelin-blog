@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('writing'))
@@ -55,7 +56,11 @@ const photos = (await getCollection('photos'))
   <section class="photo-strip" aria-label="摄影作品">
     {photos.map((photo) => (
       <a href="/photos/">
-        <img src={photo.data.image} alt={photo.data.alt} loading="lazy" />
+        <ResponsiveImage
+          src={photo.data.image}
+          alt={photo.data.alt}
+          sizes="(max-width: 760px) calc(100vw - 28px), 340px"
+        />
         <span>{photo.data.title}</span>
       </a>
     ))}

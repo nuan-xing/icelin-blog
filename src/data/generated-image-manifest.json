@@ -1,0 +1,1373 @@
+{
+  "/images/photos/2025-06-16-dufu.webp": {
+    "width": 1600,
+    "height": 1067,
+    "src": "/generated/images/photos/2025-06-16-dufu-1280.webp",
+    "srcset": "/generated/images/photos/2025-06-16-dufu-360.webp 360w, /generated/images/photos/2025-06-16-dufu-640.webp 640w, /generated/images/photos/2025-06-16-dufu-960.webp 960w, /generated/images/photos/2025-06-16-dufu-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2025-06-16-dufu-360.webp",
+        "bytes": 9036
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2025-06-16-dufu-640.webp",
+        "bytes": 18992
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2025-06-16-dufu-960.webp",
+        "bytes": 31766
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/photos/2025-06-16-dufu-1280.webp",
+        "bytes": 44464
+      }
+    ]
+  },
+  "/images/photos/2025-07-27-fireworks.webp": {
+    "width": 1600,
+    "height": 1067,
+    "src": "/generated/images/photos/2025-07-27-fireworks-1280.webp",
+    "srcset": "/generated/images/photos/2025-07-27-fireworks-360.webp 360w, /generated/images/photos/2025-07-27-fireworks-640.webp 640w, /generated/images/photos/2025-07-27-fireworks-960.webp 960w, /generated/images/photos/2025-07-27-fireworks-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2025-07-27-fireworks-360.webp",
+        "bytes": 11108
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2025-07-27-fireworks-640.webp",
+        "bytes": 27286
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2025-07-27-fireworks-960.webp",
+        "bytes": 48156
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/photos/2025-07-27-fireworks-1280.webp",
+        "bytes": 70836
+      }
+    ]
+  },
+  "/images/photos/2025-07-29-set-sail.webp": {
+    "width": 1600,
+    "height": 1067,
+    "src": "/generated/images/photos/2025-07-29-set-sail-1280.webp",
+    "srcset": "/generated/images/photos/2025-07-29-set-sail-360.webp 360w, /generated/images/photos/2025-07-29-set-sail-640.webp 640w, /generated/images/photos/2025-07-29-set-sail-960.webp 960w, /generated/images/photos/2025-07-29-set-sail-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2025-07-29-set-sail-360.webp",
+        "bytes": 7166
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2025-07-29-set-sail-640.webp",
+        "bytes": 18652
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2025-07-29-set-sail-960.webp",
+        "bytes": 36886
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/photos/2025-07-29-set-sail-1280.webp",
+        "bytes": 58136
+      }
+    ]
+  },
+  "/images/photos/2025-07-30-rainy-west-lake.webp": {
+    "width": 1600,
+    "height": 1067,
+    "src": "/generated/images/photos/2025-07-30-rainy-west-lake-1280.webp",
+    "srcset": "/generated/images/photos/2025-07-30-rainy-west-lake-360.webp 360w, /generated/images/photos/2025-07-30-rainy-west-lake-640.webp 640w, /generated/images/photos/2025-07-30-rainy-west-lake-960.webp 960w, /generated/images/photos/2025-07-30-rainy-west-lake-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2025-07-30-rainy-west-lake-360.webp",
+        "bytes": 1774
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2025-07-30-rainy-west-lake-640.webp",
+        "bytes": 4000
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2025-07-30-rainy-west-lake-960.webp",
+        "bytes": 7710
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/photos/2025-07-30-rainy-west-lake-1280.webp",
+        "bytes": 11406
+      }
+    ]
+  },
+  "/images/photos/2025-08-16-milky-way.webp": {
+    "width": 1067,
+    "height": 1600,
+    "src": "/generated/images/photos/2025-08-16-milky-way-960.webp",
+    "srcset": "/generated/images/photos/2025-08-16-milky-way-360.webp 360w, /generated/images/photos/2025-08-16-milky-way-640.webp 640w, /generated/images/photos/2025-08-16-milky-way-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2025-08-16-milky-way-360.webp",
+        "bytes": 9124
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2025-08-16-milky-way-640.webp",
+        "bytes": 32290
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2025-08-16-milky-way-960.webp",
+        "bytes": 67922
+      }
+    ]
+  },
+  "/images/photos/2025-09-08-lunar-eclipse.webp": {
+    "width": 1600,
+    "height": 1067,
+    "src": "/generated/images/photos/2025-09-08-lunar-eclipse-1280.webp",
+    "srcset": "/generated/images/photos/2025-09-08-lunar-eclipse-360.webp 360w, /generated/images/photos/2025-09-08-lunar-eclipse-640.webp 640w, /generated/images/photos/2025-09-08-lunar-eclipse-960.webp 960w, /generated/images/photos/2025-09-08-lunar-eclipse-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2025-09-08-lunar-eclipse-360.webp",
+        "bytes": 3006
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2025-09-08-lunar-eclipse-640.webp",
+        "bytes": 5818
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2025-09-08-lunar-eclipse-960.webp",
+        "bytes": 9756
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/photos/2025-09-08-lunar-eclipse-1280.webp",
+        "bytes": 14024
+      }
+    ]
+  },
+  "/images/photos/2026-01-02-emei-night-hike.webp": {
+    "width": 1600,
+    "height": 1067,
+    "src": "/generated/images/photos/2026-01-02-emei-night-hike-1280.webp",
+    "srcset": "/generated/images/photos/2026-01-02-emei-night-hike-360.webp 360w, /generated/images/photos/2026-01-02-emei-night-hike-640.webp 640w, /generated/images/photos/2026-01-02-emei-night-hike-960.webp 960w, /generated/images/photos/2026-01-02-emei-night-hike-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2026-01-02-emei-night-hike-360.webp",
+        "bytes": 15150
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2026-01-02-emei-night-hike-640.webp",
+        "bytes": 34512
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2026-01-02-emei-night-hike-960.webp",
+        "bytes": 59512
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/photos/2026-01-02-emei-night-hike-1280.webp",
+        "bytes": 82526
+      }
+    ]
+  },
+  "/images/photos/2026-02-04-sunspot.webp": {
+    "width": 1016,
+    "height": 1524,
+    "src": "/generated/images/photos/2026-02-04-sunspot-960.webp",
+    "srcset": "/generated/images/photos/2026-02-04-sunspot-360.webp 360w, /generated/images/photos/2026-02-04-sunspot-640.webp 640w, /generated/images/photos/2026-02-04-sunspot-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2026-02-04-sunspot-360.webp",
+        "bytes": 8014
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2026-02-04-sunspot-640.webp",
+        "bytes": 24458
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2026-02-04-sunspot-960.webp",
+        "bytes": 44512
+      }
+    ]
+  },
+  "/images/photos/2026-03-08-chongqing-trip.webp": {
+    "width": 1430,
+    "height": 960,
+    "src": "/generated/images/photos/2026-03-08-chongqing-trip-1280.webp",
+    "srcset": "/generated/images/photos/2026-03-08-chongqing-trip-360.webp 360w, /generated/images/photos/2026-03-08-chongqing-trip-640.webp 640w, /generated/images/photos/2026-03-08-chongqing-trip-960.webp 960w, /generated/images/photos/2026-03-08-chongqing-trip-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/photos/2026-03-08-chongqing-trip-360.webp",
+        "bytes": 5670
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/photos/2026-03-08-chongqing-trip-640.webp",
+        "bytes": 11818
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/photos/2026-03-08-chongqing-trip-960.webp",
+        "bytes": 20654
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/photos/2026-03-08-chongqing-trip-1280.webp",
+        "bytes": 28454
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-01-10-winter-fall.webp": {
+    "width": 1067,
+    "height": 1600,
+    "src": "/generated/images/qinglong-lake/2026-01-10-winter-fall-960.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-01-10-winter-fall-360.webp 360w, /generated/images/qinglong-lake/2026-01-10-winter-fall-640.webp 640w, /generated/images/qinglong-lake/2026-01-10-winter-fall-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-01-10-winter-fall-360.webp",
+        "bytes": 23168
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-01-10-winter-fall-640.webp",
+        "bytes": 63182
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-01-10-winter-fall-960.webp",
+        "bytes": 127240
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-04-02-slippery-slope.webp": {
+    "width": 1280,
+    "height": 960,
+    "src": "/generated/images/qinglong-lake/2026-04-02-slippery-slope-960.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-04-02-slippery-slope-360.webp 360w, /generated/images/qinglong-lake/2026-04-02-slippery-slope-640.webp 640w, /generated/images/qinglong-lake/2026-04-02-slippery-slope-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-04-02-slippery-slope-360.webp",
+        "bytes": 5456
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-04-02-slippery-slope-640.webp",
+        "bytes": 15666
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-04-02-slippery-slope-960.webp",
+        "bytes": 26986
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-04-06-hammock.webp": {
+    "width": 1200,
+    "height": 1600,
+    "src": "/generated/images/qinglong-lake/2026-04-06-hammock-960.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-04-06-hammock-360.webp 360w, /generated/images/qinglong-lake/2026-04-06-hammock-640.webp 640w, /generated/images/qinglong-lake/2026-04-06-hammock-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-04-06-hammock-360.webp",
+        "bytes": 38608
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-04-06-hammock-640.webp",
+        "bytes": 111166
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-04-06-hammock-960.webp",
+        "bytes": 213982
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-04-14-field-walk.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/qinglong-lake/2026-04-14-field-walk-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-04-14-field-walk-360.webp 360w, /generated/images/qinglong-lake/2026-04-14-field-walk-640.webp 640w, /generated/images/qinglong-lake/2026-04-14-field-walk-960.webp 960w, /generated/images/qinglong-lake/2026-04-14-field-walk-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-04-14-field-walk-360.webp",
+        "bytes": 8762
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-04-14-field-walk-640.webp",
+        "bytes": 23078
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-04-14-field-walk-960.webp",
+        "bytes": 45552
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-04-14-field-walk-1280.webp",
+        "bytes": 68966
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-04-23-first-camping.webp": {
+    "width": 1600,
+    "height": 910,
+    "src": "/generated/images/qinglong-lake/2026-04-23-first-camping-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-04-23-first-camping-360.webp 360w, /generated/images/qinglong-lake/2026-04-23-first-camping-640.webp 640w, /generated/images/qinglong-lake/2026-04-23-first-camping-960.webp 960w, /generated/images/qinglong-lake/2026-04-23-first-camping-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-04-23-first-camping-360.webp",
+        "bytes": 14128
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-04-23-first-camping-640.webp",
+        "bytes": 47264
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-04-23-first-camping-960.webp",
+        "bytes": 107222
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-04-23-first-camping-1280.webp",
+        "bytes": 173010
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-04-25-camping-02.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/qinglong-lake/2026-04-25-camping-02-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-04-25-camping-02-360.webp 360w, /generated/images/qinglong-lake/2026-04-25-camping-02-640.webp 640w, /generated/images/qinglong-lake/2026-04-25-camping-02-960.webp 960w, /generated/images/qinglong-lake/2026-04-25-camping-02-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-04-25-camping-02-360.webp",
+        "bytes": 8348
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-04-25-camping-02-640.webp",
+        "bytes": 22970
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-04-25-camping-02-960.webp",
+        "bytes": 44346
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-04-25-camping-02-1280.webp",
+        "bytes": 66624
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-05-04-lake-ride.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/qinglong-lake/2026-05-04-lake-ride-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-05-04-lake-ride-360.webp 360w, /generated/images/qinglong-lake/2026-05-04-lake-ride-640.webp 640w, /generated/images/qinglong-lake/2026-05-04-lake-ride-960.webp 960w, /generated/images/qinglong-lake/2026-05-04-lake-ride-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-05-04-lake-ride-360.webp",
+        "bytes": 4088
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-05-04-lake-ride-640.webp",
+        "bytes": 9448
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-05-04-lake-ride-960.webp",
+        "bytes": 17766
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-05-04-lake-ride-1280.webp",
+        "bytes": 26190
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-05-10-sunshine.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/qinglong-lake/2026-05-10-sunshine-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-05-10-sunshine-360.webp 360w, /generated/images/qinglong-lake/2026-05-10-sunshine-640.webp 640w, /generated/images/qinglong-lake/2026-05-10-sunshine-960.webp 960w, /generated/images/qinglong-lake/2026-05-10-sunshine-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-05-10-sunshine-360.webp",
+        "bytes": 28664
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-05-10-sunshine-640.webp",
+        "bytes": 84422
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-05-10-sunshine-960.webp",
+        "bytes": 172378
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-05-10-sunshine-1280.webp",
+        "bytes": 266848
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-05-17-on-the-road.webp": {
+    "width": 1282,
+    "height": 960,
+    "src": "/generated/images/qinglong-lake/2026-05-17-on-the-road-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-05-17-on-the-road-360.webp 360w, /generated/images/qinglong-lake/2026-05-17-on-the-road-640.webp 640w, /generated/images/qinglong-lake/2026-05-17-on-the-road-960.webp 960w, /generated/images/qinglong-lake/2026-05-17-on-the-road-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-05-17-on-the-road-360.webp",
+        "bytes": 5026
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-05-17-on-the-road-640.webp",
+        "bytes": 10670
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-05-17-on-the-road-960.webp",
+        "bytes": 18324
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-05-17-on-the-road-1280.webp",
+        "bytes": 24950
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-05-30-new-book.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/qinglong-lake/2026-05-30-new-book-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-05-30-new-book-360.webp 360w, /generated/images/qinglong-lake/2026-05-30-new-book-640.webp 640w, /generated/images/qinglong-lake/2026-05-30-new-book-960.webp 960w, /generated/images/qinglong-lake/2026-05-30-new-book-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-05-30-new-book-360.webp",
+        "bytes": 18920
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-05-30-new-book-640.webp",
+        "bytes": 41666
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-05-30-new-book-960.webp",
+        "bytes": 70852
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-05-30-new-book-1280.webp",
+        "bytes": 101946
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-06-08-two-person-walk.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/qinglong-lake/2026-06-08-two-person-walk-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-06-08-two-person-walk-360.webp 360w, /generated/images/qinglong-lake/2026-06-08-two-person-walk-640.webp 640w, /generated/images/qinglong-lake/2026-06-08-two-person-walk-960.webp 960w, /generated/images/qinglong-lake/2026-06-08-two-person-walk-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-06-08-two-person-walk-360.webp",
+        "bytes": 8250
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-06-08-two-person-walk-640.webp",
+        "bytes": 25790
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-06-08-two-person-walk-960.webp",
+        "bytes": 56774
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-06-08-two-person-walk-1280.webp",
+        "bytes": 88658
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-06-09-breathing-roots.webp": {
+    "width": 1600,
+    "height": 1066,
+    "src": "/generated/images/qinglong-lake/2026-06-09-breathing-roots-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-06-09-breathing-roots-360.webp 360w, /generated/images/qinglong-lake/2026-06-09-breathing-roots-640.webp 640w, /generated/images/qinglong-lake/2026-06-09-breathing-roots-960.webp 960w, /generated/images/qinglong-lake/2026-06-09-breathing-roots-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-06-09-breathing-roots-360.webp",
+        "bytes": 14358
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-06-09-breathing-roots-640.webp",
+        "bytes": 42532
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-06-09-breathing-roots-960.webp",
+        "bytes": 91550
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-06-09-breathing-roots-1280.webp",
+        "bytes": 146414
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-06-13-grass-path.webp": {
+    "width": 1600,
+    "height": 1066,
+    "src": "/generated/images/qinglong-lake/2026-06-13-grass-path-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-06-13-grass-path-360.webp 360w, /generated/images/qinglong-lake/2026-06-13-grass-path-640.webp 640w, /generated/images/qinglong-lake/2026-06-13-grass-path-960.webp 960w, /generated/images/qinglong-lake/2026-06-13-grass-path-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-06-13-grass-path-360.webp",
+        "bytes": 15566
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-06-13-grass-path-640.webp",
+        "bytes": 47912
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-06-13-grass-path-960.webp",
+        "bytes": 101502
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-06-13-grass-path-1280.webp",
+        "bytes": 162254
+      }
+    ]
+  },
+  "/images/qinglong-lake/2026-06-18-hanging-flowers-water.webp": {
+    "width": 1800,
+    "height": 1200,
+    "src": "/generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-1280.webp",
+    "srcset": "/generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-360.webp 360w, /generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-640.webp 640w, /generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-960.webp 960w, /generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-360.webp",
+        "bytes": 17750
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-640.webp",
+        "bytes": 45870
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-960.webp",
+        "bytes": 90094
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/qinglong-lake/2026-06-18-hanging-flowers-water-1280.webp",
+        "bytes": 144764
+      }
+    ]
+  },
+  "/images/writing/2026-06-18-restless-01.webp": {
+    "width": 1200,
+    "height": 1800,
+    "src": "/generated/images/writing/2026-06-18-restless-01-960.webp",
+    "srcset": "/generated/images/writing/2026-06-18-restless-01-360.webp 360w, /generated/images/writing/2026-06-18-restless-01-640.webp 640w, /generated/images/writing/2026-06-18-restless-01-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-18-restless-01-360.webp",
+        "bytes": 33154
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-18-restless-01-640.webp",
+        "bytes": 76558
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-18-restless-01-960.webp",
+        "bytes": 123714
+      }
+    ]
+  },
+  "/images/writing/2026-06-18-restless-02.webp": {
+    "width": 1440,
+    "height": 960,
+    "src": "/generated/images/writing/2026-06-18-restless-02-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-18-restless-02-360.webp 360w, /generated/images/writing/2026-06-18-restless-02-640.webp 640w, /generated/images/writing/2026-06-18-restless-02-960.webp 960w, /generated/images/writing/2026-06-18-restless-02-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-18-restless-02-360.webp",
+        "bytes": 4450
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-18-restless-02-640.webp",
+        "bytes": 8598
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-18-restless-02-960.webp",
+        "bytes": 14396
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-18-restless-02-1280.webp",
+        "bytes": 20338
+      }
+    ]
+  },
+  "/images/writing/2026-06-18-restless-03.webp": {
+    "width": 1800,
+    "height": 1200,
+    "src": "/generated/images/writing/2026-06-18-restless-03-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-18-restless-03-360.webp 360w, /generated/images/writing/2026-06-18-restless-03-640.webp 640w, /generated/images/writing/2026-06-18-restless-03-960.webp 960w, /generated/images/writing/2026-06-18-restless-03-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-18-restless-03-360.webp",
+        "bytes": 6372
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-18-restless-03-640.webp",
+        "bytes": 18724
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-18-restless-03-960.webp",
+        "bytes": 41668
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-18-restless-03-1280.webp",
+        "bytes": 74202
+      }
+    ]
+  },
+  "/images/writing/2026-06-18-restless-04.webp": {
+    "width": 1800,
+    "height": 1200,
+    "src": "/generated/images/writing/2026-06-18-restless-04-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-18-restless-04-360.webp 360w, /generated/images/writing/2026-06-18-restless-04-640.webp 640w, /generated/images/writing/2026-06-18-restless-04-960.webp 960w, /generated/images/writing/2026-06-18-restless-04-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-18-restless-04-360.webp",
+        "bytes": 17750
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-18-restless-04-640.webp",
+        "bytes": 45870
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-18-restless-04-960.webp",
+        "bytes": 90094
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-18-restless-04-1280.webp",
+        "bytes": 144764
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-01.webp": {
+    "width": 1461,
+    "height": 1279,
+    "src": "/generated/images/writing/2026-06-20-ride-01-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-01-360.webp 360w, /generated/images/writing/2026-06-20-ride-01-640.webp 640w, /generated/images/writing/2026-06-20-ride-01-960.webp 960w, /generated/images/writing/2026-06-20-ride-01-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-01-360.webp",
+        "bytes": 18828
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-01-640.webp",
+        "bytes": 46108
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-01-960.webp",
+        "bytes": 87762
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-20-ride-01-1280.webp",
+        "bytes": 129872
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-02.webp": {
+    "width": 992,
+    "height": 1800,
+    "src": "/generated/images/writing/2026-06-20-ride-02-960.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-02-360.webp 360w, /generated/images/writing/2026-06-20-ride-02-640.webp 640w, /generated/images/writing/2026-06-20-ride-02-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-02-360.webp",
+        "bytes": 16258
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-02-640.webp",
+        "bytes": 33102
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-02-960.webp",
+        "bytes": 51874
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-03.webp": {
+    "width": 1280,
+    "height": 960,
+    "src": "/generated/images/writing/2026-06-20-ride-03-960.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-03-360.webp 360w, /generated/images/writing/2026-06-20-ride-03-640.webp 640w, /generated/images/writing/2026-06-20-ride-03-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-03-360.webp",
+        "bytes": 5732
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-03-640.webp",
+        "bytes": 16012
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-03-960.webp",
+        "bytes": 26094
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-04.webp": {
+    "width": 1800,
+    "height": 1200,
+    "src": "/generated/images/writing/2026-06-20-ride-04-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-04-360.webp 360w, /generated/images/writing/2026-06-20-ride-04-640.webp 640w, /generated/images/writing/2026-06-20-ride-04-960.webp 960w, /generated/images/writing/2026-06-20-ride-04-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-04-360.webp",
+        "bytes": 15270
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-04-640.webp",
+        "bytes": 45976
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-04-960.webp",
+        "bytes": 100934
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-20-ride-04-1280.webp",
+        "bytes": 168328
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-05.webp": {
+    "width": 1800,
+    "height": 1198,
+    "src": "/generated/images/writing/2026-06-20-ride-05-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-05-360.webp 360w, /generated/images/writing/2026-06-20-ride-05-640.webp 640w, /generated/images/writing/2026-06-20-ride-05-960.webp 960w, /generated/images/writing/2026-06-20-ride-05-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-05-360.webp",
+        "bytes": 7118
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-05-640.webp",
+        "bytes": 17050
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-05-960.webp",
+        "bytes": 32560
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-20-ride-05-1280.webp",
+        "bytes": 51808
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-06.webp": {
+    "width": 1800,
+    "height": 1199,
+    "src": "/generated/images/writing/2026-06-20-ride-06-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-06-360.webp 360w, /generated/images/writing/2026-06-20-ride-06-640.webp 640w, /generated/images/writing/2026-06-20-ride-06-960.webp 960w, /generated/images/writing/2026-06-20-ride-06-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-06-360.webp",
+        "bytes": 12760
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-06-640.webp",
+        "bytes": 38076
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-06-960.webp",
+        "bytes": 82570
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-20-ride-06-1280.webp",
+        "bytes": 136896
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-07.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/writing/2026-06-20-ride-07-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-07-360.webp 360w, /generated/images/writing/2026-06-20-ride-07-640.webp 640w, /generated/images/writing/2026-06-20-ride-07-960.webp 960w, /generated/images/writing/2026-06-20-ride-07-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-07-360.webp",
+        "bytes": 30438
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-07-640.webp",
+        "bytes": 96600
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-07-960.webp",
+        "bytes": 210706
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-20-ride-07-1280.webp",
+        "bytes": 340224
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-08.webp": {
+    "width": 1200,
+    "height": 1800,
+    "src": "/generated/images/writing/2026-06-20-ride-08-960.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-08-360.webp 360w, /generated/images/writing/2026-06-20-ride-08-640.webp 640w, /generated/images/writing/2026-06-20-ride-08-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-08-360.webp",
+        "bytes": 48690
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-08-640.webp",
+        "bytes": 140246
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-08-960.webp",
+        "bytes": 262438
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-09.webp": {
+    "width": 1800,
+    "height": 1240,
+    "src": "/generated/images/writing/2026-06-20-ride-09-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-09-360.webp 360w, /generated/images/writing/2026-06-20-ride-09-640.webp 640w, /generated/images/writing/2026-06-20-ride-09-960.webp 960w, /generated/images/writing/2026-06-20-ride-09-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-09-360.webp",
+        "bytes": 14586
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-09-640.webp",
+        "bytes": 39350
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-09-960.webp",
+        "bytes": 73702
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-20-ride-09-1280.webp",
+        "bytes": 109002
+      }
+    ]
+  },
+  "/images/writing/2026-06-20-ride-10.webp": {
+    "width": 1280,
+    "height": 960,
+    "src": "/generated/images/writing/2026-06-20-ride-10-960.webp",
+    "srcset": "/generated/images/writing/2026-06-20-ride-10-360.webp 360w, /generated/images/writing/2026-06-20-ride-10-640.webp 640w, /generated/images/writing/2026-06-20-ride-10-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-20-ride-10-360.webp",
+        "bytes": 11746
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-20-ride-10-640.webp",
+        "bytes": 28284
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-20-ride-10-960.webp",
+        "bytes": 44918
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-01.webp": {
+    "width": 1706,
+    "height": 1279,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-01-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-01-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-01-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-01-960.webp 960w, /generated/images/writing/2026-06-24-dujiangyan-01-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-01-360.webp",
+        "bytes": 16040
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-01-640.webp",
+        "bytes": 45276
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-01-960.webp",
+        "bytes": 88910
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-01-1280.webp",
+        "bytes": 137308
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-02.webp": {
+    "width": 1279,
+    "height": 1706,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-02-960.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-02-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-02-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-02-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-02-360.webp",
+        "bytes": 18734
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-02-640.webp",
+        "bytes": 42468
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-02-960.webp",
+        "bytes": 72006
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-03.webp": {
+    "width": 1066,
+    "height": 1600,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-03-960.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-03-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-03-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-03-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-03-360.webp",
+        "bytes": 46132
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-03-640.webp",
+        "bytes": 134230
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-03-960.webp",
+        "bytes": 259428
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-04.webp": {
+    "width": 1800,
+    "height": 1199,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-04-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-04-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-04-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-04-960.webp 960w, /generated/images/writing/2026-06-24-dujiangyan-04-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-04-360.webp",
+        "bytes": 16400
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-04-640.webp",
+        "bytes": 40754
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-04-960.webp",
+        "bytes": 79102
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-04-1280.webp",
+        "bytes": 122504
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-05.webp": {
+    "width": 1600,
+    "height": 1066,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-05-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-05-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-05-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-05-960.webp 960w, /generated/images/writing/2026-06-24-dujiangyan-05-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-05-360.webp",
+        "bytes": 21210
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-05-640.webp",
+        "bytes": 60376
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-05-960.webp",
+        "bytes": 124896
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-05-1280.webp",
+        "bytes": 194150
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-06.webp": {
+    "width": 1199,
+    "height": 1800,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-06-960.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-06-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-06-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-06-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-06-360.webp",
+        "bytes": 22518
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-06-640.webp",
+        "bytes": 62870
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-06-960.webp",
+        "bytes": 121954
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-07.webp": {
+    "width": 1800,
+    "height": 756,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-07-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-07-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-07-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-07-960.webp 960w, /generated/images/writing/2026-06-24-dujiangyan-07-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-07-360.webp",
+        "bytes": 5360
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-07-640.webp",
+        "bytes": 13196
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-07-960.webp",
+        "bytes": 25604
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-07-1280.webp",
+        "bytes": 39722
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-08.webp": {
+    "width": 1200,
+    "height": 1600,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-08-960.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-08-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-08-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-08-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-08-360.webp",
+        "bytes": 30016
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-08-640.webp",
+        "bytes": 92684
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-08-960.webp",
+        "bytes": 192316
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-09.webp": {
+    "width": 1800,
+    "height": 1199,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-09-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-09-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-09-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-09-960.webp 960w, /generated/images/writing/2026-06-24-dujiangyan-09-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-09-360.webp",
+        "bytes": 6258
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-09-640.webp",
+        "bytes": 17606
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-09-960.webp",
+        "bytes": 38464
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-09-1280.webp",
+        "bytes": 65056
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-10.webp": {
+    "width": 1279,
+    "height": 1706,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-10-960.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-10-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-10-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-10-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-10-360.webp",
+        "bytes": 8606
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-10-640.webp",
+        "bytes": 24572
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-10-960.webp",
+        "bytes": 46592
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-11.webp": {
+    "width": 1706,
+    "height": 1279,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-11-1280.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-11-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-11-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-11-960.webp 960w, /generated/images/writing/2026-06-24-dujiangyan-11-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-11-360.webp",
+        "bytes": 18666
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-11-640.webp",
+        "bytes": 47908
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-11-960.webp",
+        "bytes": 92314
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-11-1280.webp",
+        "bytes": 139662
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-12.webp": {
+    "width": 1199,
+    "height": 1800,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-12-960.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-12-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-12-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-12-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-12-360.webp",
+        "bytes": 27266
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-12-640.webp",
+        "bytes": 67236
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-12-960.webp",
+        "bytes": 120492
+      }
+    ]
+  },
+  "/images/writing/2026-06-24-dujiangyan-13.webp": {
+    "width": 1200,
+    "height": 1600,
+    "src": "/generated/images/writing/2026-06-24-dujiangyan-13-960.webp",
+    "srcset": "/generated/images/writing/2026-06-24-dujiangyan-13-360.webp 360w, /generated/images/writing/2026-06-24-dujiangyan-13-640.webp 640w, /generated/images/writing/2026-06-24-dujiangyan-13-960.webp 960w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-13-360.webp",
+        "bytes": 30118
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-13-640.webp",
+        "bytes": 91310
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/2026-06-24-dujiangyan-13-960.webp",
+        "bytes": 180776
+      }
+    ]
+  },
+  "/images/writing/gaokao-season-2026-01.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/writing/gaokao-season-2026-01-1280.webp",
+    "srcset": "/generated/images/writing/gaokao-season-2026-01-360.webp 360w, /generated/images/writing/gaokao-season-2026-01-640.webp 640w, /generated/images/writing/gaokao-season-2026-01-960.webp 960w, /generated/images/writing/gaokao-season-2026-01-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/gaokao-season-2026-01-360.webp",
+        "bytes": 20658
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/gaokao-season-2026-01-640.webp",
+        "bytes": 55734
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/gaokao-season-2026-01-960.webp",
+        "bytes": 108868
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/gaokao-season-2026-01-1280.webp",
+        "bytes": 162942
+      }
+    ]
+  },
+  "/images/writing/gaokao-season-2026-02.webp": {
+    "width": 1600,
+    "height": 1200,
+    "src": "/generated/images/writing/gaokao-season-2026-02-1280.webp",
+    "srcset": "/generated/images/writing/gaokao-season-2026-02-360.webp 360w, /generated/images/writing/gaokao-season-2026-02-640.webp 640w, /generated/images/writing/gaokao-season-2026-02-960.webp 960w, /generated/images/writing/gaokao-season-2026-02-1280.webp 1280w",
+    "variants": [
+      {
+        "width": 360,
+        "src": "/generated/images/writing/gaokao-season-2026-02-360.webp",
+        "bytes": 15100
+      },
+      {
+        "width": 640,
+        "src": "/generated/images/writing/gaokao-season-2026-02-640.webp",
+        "bytes": 43380
+      },
+      {
+        "width": 960,
+        "src": "/generated/images/writing/gaokao-season-2026-02-960.webp",
+        "bytes": 90012
+      },
+      {
+        "width": 1280,
+        "src": "/generated/images/writing/gaokao-season-2026-02-1280.webp",
+        "bytes": 140674
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import { qinglongLakePhotos } from '../../data/qinglong-lake';
 
 const photos = qinglongLakePhotos;
@@ -22,7 +23,11 @@ const photos = qinglongLakePhotos;
               {photo.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
             </time>
             <figure>
-              <img src={photo.image} alt={photo.alt} loading="lazy" />
+              <ResponsiveImage
+                src={photo.image}
+                alt={photo.alt}
+                sizes="(max-width: 760px) calc(100vw - 28px), 916px"
+              />
               <figcaption>
                 <strong>{photo.title}</strong>
                 {photo.caption && <span>{photo.caption}</span>}

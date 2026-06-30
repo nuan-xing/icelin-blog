@@ -1,0 +1,42 @@
+---
+import imageManifest from '../data/generated-image-manifest.json';
+
+type ImageRecord = {
+  width: number;
+  height: number;
+  src: string;
+  srcset: string;
+};
+
+type Props = {
+  src: string;
+  alt: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  sizes?: string;
+  decoding?: 'async' | 'auto' | 'sync';
+};
+
+const {
+  src,
+  alt,
+  class: className,
+  loading = 'lazy',
+  sizes = '(max-width: 760px) calc(100vw - 28px), 760px',
+  decoding = 'async',
+} = Astro.props;
+
+const record = (imageManifest as Record<string, ImageRecord>)[src];
+---
+
+<img
+  src={record?.src ?? src}
+  srcset={record?.srcset}
+  sizes={record ? sizes : undefined}
+  width={record?.width}
+  height={record?.height}
+  alt={alt}
+  class={className}
+  loading={loading}
+  decoding={decoding}
+/>
