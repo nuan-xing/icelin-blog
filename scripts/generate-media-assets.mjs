@@ -10,7 +10,7 @@ const sourceImageDir = path.join(publicDir, 'images');
 const generatedImageDir = path.join(publicDir, 'generated', 'images');
 const manifestPath = path.join(root, 'src', 'data', 'generated-image-manifest.json');
 
-const widths = [360, 640, 960, 1280];
+const widths = [480, 768, 1080, 1440, 1600];
 const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
 
 const toPosix = (value) => value.split(path.sep).join('/');
@@ -45,6 +45,9 @@ async function generateImages() {
     if (!metadata.width || !metadata.height) continue;
 
     const targetWidths = widths.filter((width) => width < metadata.width);
+    if (metadata.width <= widths.at(-1) && !targetWidths.includes(metadata.width)) {
+      targetWidths.push(metadata.width);
+    }
     const normalizedWidths = targetWidths.length > 0 ? targetWidths : [metadata.width];
     const variants = [];
 
@@ -56,7 +59,7 @@ async function generateImages() {
       await sharp(file)
         .rotate()
         .resize({ width, withoutEnlargement: true })
-        .webp({ quality: 72, effort: 5 })
+        .webp({ quality: 84, effort: 5 })
         .toFile(outputFile);
 
       const outputStats = await stat(outputFile);
