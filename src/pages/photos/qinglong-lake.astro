@@ -17,7 +17,7 @@ const photos = qinglongLakePhotos;
 
     {photos.length > 0 ? (
       <div class="place-timeline">
-        {photos.map((photo) => (
+        {photos.map((photo, index) => (
           <article class="place-entry">
             <time datetime={photo.pubDate.toISOString()}>
               {photo.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
@@ -26,6 +26,7 @@ const photos = qinglongLakePhotos;
               <ResponsiveImage
                 src={photo.image}
                 alt={photo.alt}
+                loading={index < 2 ? 'eager' : 'lazy'}
                 sizes="(max-width: 760px) calc(100vw - 28px), 916px"
               />
               <figcaption>
