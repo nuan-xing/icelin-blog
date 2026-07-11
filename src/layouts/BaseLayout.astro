@@ -2,10 +2,28 @@
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 
+type Props = {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+};
+
 const {
   title = 'icelin',
   description = '生活随笔、摄影作品和个人日记。',
-} = Astro.props;
+  image = '/images/qinglong-lake/2026-06-18-hanging-flowers-water.webp',
+  type = 'website',
+  publishedTime,
+} = Astro.props as Props;
+
+const pageTitle = title === 'icelin' ? title : `${title} | icelin`;
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const socialImageUrl = new URL(image, siteUrl);
+const currentPath = Astro.url.pathname;
+const isCurrentPage = (href: string) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 
 const nav = [
   { href: '/', label: '首页' },
@@ -21,8 +39,24 @@ const nav = [
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8f5ee" />
+    <meta property="og:site_name" content="icelin" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:image" content={socialImageUrl.href} />
+    <meta property="og:image:alt" content="青龙湖湖边的自然光影" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl.href} />
+    <link rel="canonical" href={canonicalUrl.href} />
+    <link rel="alternate" type="application/rss+xml" title="icelin 随笔 RSS" href="/rss.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title === 'icelin' ? title : `${title} | icelin`}</title>
+    <title>{pageTitle}</title>
     <ClientRouter />
   </head>
   <body>
@@ -33,15 +67,19 @@ const nav = [
             <span class="brand-mark"></span>
             <span>icelin</span>
           </a>
-          <aside class="music-player" aria-label="Background music player" transition:persist>
+          <aside class="music-player" aria-label="背景音乐播放器" transition:persist>
             <audio class="music-audio" src="/audio/二人の時間-RADWIMPS.mp3" preload="metadata" loop></audio>
-            <button class="music-toggle" type="button" aria-label="Play Time for Two" aria-pressed="false" title="Time for Two">
-              <span class="music-icon" aria-hidden="true"></span>
+            <button class="music-toggle" type="button" aria-label="播放《Time for Two》" aria-pressed="false" title="Time for Two">
+              <span class="music-disc" aria-hidden="true">
+                <span class="music-icon"></span>
+              </span>
             </button>
           </aside>
         </div>
         <nav class="nav" aria-label="主导航">
-          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+          {nav.map((item) => (
+            <a href={item.href} aria-current={isCurrentPage(item.href) ? 'page' : undefined}>{item.label}</a>
+          ))}
         </nav>
       </header>
       <main>
@@ -58,6 +96,7 @@ const nav = [
           __icelinBindMotion?: (cards: HTMLElement[]) => void;
           __icelinMasonryTimer?: number;
           __icelinResizeBound?: boolean;
+          __icelinMusicUnlockBound?: boolean;
         }
       }
 
@@ -70,10 +109,26 @@ const nav = [
 
         musicAudio.volume = 0.6;
 
+        const getMusicPreference = () => {
+          try {
+            return window.localStorage.getItem('icelin-bgm');
+          } catch {
+            return null;
+          }
+        };
+
+        const setMusicPreference = (value: 'playing' | 'paused') => {
+          try {
+            window.localStorage.setItem('icelin-bgm', value);
+          } catch {
+            // Playback still works when storage is unavailable.
+          }
+        };
+
         const setMusicUi = (isPlaying: boolean) => {
           musicRoot.classList.toggle('is-playing', isPlaying);
           musicToggle.setAttribute('aria-pressed', String(isPlaying));
-          musicToggle.setAttribute('aria-label', isPlaying ? 'Pause Time for Two' : 'Play Time for Two');
+          musicToggle.setAttribute('aria-label', isPlaying ? '暂停《Time for Two》' : '播放《Time for Two》');
         };
 
         setMusicUi(!musicAudio.paused);
@@ -81,33 +136,56 @@ const nav = [
         if (musicRoot.dataset.musicBound === 'true') return;
         musicRoot.dataset.musicBound = 'true';
 
-        const tryAutoplay = async () => {
-          if (!musicAudio.paused) return;
+        const tryPlay = async () => {
+          if (!musicAudio.paused) return true;
 
           try {
             await musicAudio.play();
             setMusicUi(true);
+            return true;
           } catch {
             setMusicUi(false);
+            return false;
           }
         };
 
-        void tryAutoplay();
+        if (getMusicPreference() !== 'paused') {
+          void tryPlay();
+        }
 
         musicToggle.addEventListener('click', async () => {
           if (!musicAudio.paused) {
             musicAudio.pause();
+            setMusicPreference('paused');
             setMusicUi(false);
             return;
           }
 
-          try {
-            await musicAudio.play();
-            setMusicUi(true);
-          } catch {
-            setMusicUi(false);
-          }
+          setMusicPreference('playing');
+          await tryPlay();
         });
+
+        if (!window.__icelinMusicUnlockBound) {
+          window.__icelinMusicUnlockBound = true;
+
+          const removeUnlockListeners = () => {
+            document.removeEventListener('pointerdown', unlockMusic);
+            document.removeEventListener('keydown', unlockMusic);
+          };
+
+          const unlockMusic = async (event: Event) => {
+            if (event.target instanceof Element && event.target.closest('.music-toggle')) return;
+            if (getMusicPreference() === 'paused') {
+              removeUnlockListeners();
+              return;
+            }
+
+            if (await tryPlay()) removeUnlockListeners();
+          };
+
+          document.addEventListener('pointerdown', unlockMusic);
+          document.addEventListener('keydown', unlockMusic);
+        }
 
         musicAudio.addEventListener('play', () => setMusicUi(true));
         musicAudio.addEventListener('pause', () => setMusicUi(false));

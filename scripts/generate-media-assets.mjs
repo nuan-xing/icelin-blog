@@ -1,5 +1,7 @@
-import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
+import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { availableParallelism } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -9,9 +11,18 @@ const publicDir = path.join(root, 'public');
 const sourceImageDir = path.join(publicDir, 'images');
 const generatedImageDir = path.join(publicDir, 'generated', 'images');
 const manifestPath = path.join(root, 'src', 'data', 'generated-image-manifest.json');
+const cachePath = path.join(root, 'node_modules', '.cache', 'icelin-media.json');
+const astroCacheDir = path.join(root, '.astro');
+const astroContentStoreDir = path.join(root, 'node_modules', '.astro');
 
 const widths = [480, 768, 1080, 1440, 1600];
+const webpOptions = { quality: 84, effort: 5 };
+const pipelineSignature = JSON.stringify({ widths, webpOptions });
 const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
+const requestedConcurrency = Number.parseInt(process.env.MEDIA_CONCURRENCY ?? '', 10);
+const concurrency = Number.isFinite(requestedConcurrency)
+  ? Math.max(1, requestedConcurrency)
+  : Math.max(1, Math.min(4, availableParallelism()));
 
 const toPosix = (value) => value.split(path.sep).join('/');
 
@@ -27,57 +38,122 @@ async function walk(dir) {
   return files.flat();
 }
 
+async function readJson(file, fallback) {
+  try {
+    return JSON.parse(await readFile(file, 'utf8'));
+  } catch {
+    return fallback;
+  }
+}
+
+async function mapLimit(items, limit, worker) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function run() {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      results[index] = await worker(items[index]);
+    }
+  }
+
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, run));
+  return results;
+}
+
+function outputFileFromPublicPath(publicPath) {
+  return path.join(publicDir, publicPath.replace(/^\//, '').split('/').join(path.sep));
+}
+
+async function cacheRecordIsUsable(cached) {
+  if (!cached || cached.signature !== pipelineSignature || !cached.record?.variants?.length) return false;
+  return cached.record.variants.every((variant) => existsSync(outputFileFromPublicPath(variant.src)));
+}
+
+async function processImage(file, previousCache) {
+  const relativePath = path.relative(sourceImageDir, file);
+  const publicSource = `/images/${toPosix(relativePath)}`;
+  const hash = createHash('sha256').update(await readFile(file)).digest('hex');
+  const cached = previousCache.records?.[publicSource];
+
+  if (cached?.hash === hash && await cacheRecordIsUsable(cached)) {
+    return { publicSource, record: cached.record, cacheRecord: cached, generated: false };
+  }
+
+  const parsed = path.parse(relativePath);
+  const metadata = await sharp(file).metadata();
+
+  if (!metadata.width || !metadata.height) return null;
+
+  const targetWidths = widths.filter((width) => width < metadata.width);
+  if (metadata.width <= widths.at(-1) && !targetWidths.includes(metadata.width)) {
+    targetWidths.push(metadata.width);
+  }
+
+  const normalizedWidths = targetWidths.length > 0 ? targetWidths : [metadata.width];
+  const variants = [];
+
+  for (const width of normalizedWidths) {
+    const outputRelative = path.join(parsed.dir, `${parsed.name}-${width}.webp`);
+    const outputFile = path.join(generatedImageDir, outputRelative);
+    await mkdir(path.dirname(outputFile), { recursive: true });
+
+    await sharp(file)
+      .rotate()
+      .resize({ width, withoutEnlargement: true })
+      .webp(webpOptions)
+      .toFile(outputFile);
+
+    const outputStats = await stat(outputFile);
+    variants.push({
+      width,
+      src: `/generated/images/${toPosix(outputRelative)}`,
+      bytes: outputStats.size,
+    });
+  }
+
+  const record = {
+    width: metadata.width,
+    height: metadata.height,
+    src: variants.at(-1)?.src ?? publicSource,
+    srcset: variants.map((variant) => `${variant.src} ${variant.width}w`).join(', '),
+    variants,
+  };
+
+  return {
+    publicSource,
+    record,
+    cacheRecord: { hash, signature: pipelineSignature, record },
+    generated: true,
+  };
+}
+
 async function generateImages() {
   if (!existsSync(sourceImageDir)) return {};
 
-  await rm(generatedImageDir, { recursive: true, force: true });
   await mkdir(generatedImageDir, { recursive: true });
 
-  const manifest = {};
-  const files = (await walk(sourceImageDir)).filter((file) => imageExtensions.has(path.extname(file).toLowerCase()));
+  const previousCache = await readJson(cachePath, { records: {} });
+  const files = (await walk(sourceImageDir))
+    .filter((file) => imageExtensions.has(path.extname(file).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b, 'en'));
+  const processed = (await mapLimit(files, concurrency, (file) => processImage(file, previousCache)))
+    .filter(Boolean);
+  const manifest = Object.fromEntries(processed.map(({ publicSource, record }) => [publicSource, record]));
+  const cache = {
+    records: Object.fromEntries(processed.map(({ publicSource, cacheRecord }) => [publicSource, cacheRecord])),
+  };
 
-  for (const file of files) {
-    const relativePath = path.relative(sourceImageDir, file);
-    const publicSource = `/images/${toPosix(relativePath)}`;
-    const parsed = path.parse(relativePath);
-    const metadata = await sharp(file).metadata();
-
-    if (!metadata.width || !metadata.height) continue;
-
-    const targetWidths = widths.filter((width) => width < metadata.width);
-    if (metadata.width <= widths.at(-1) && !targetWidths.includes(metadata.width)) {
-      targetWidths.push(metadata.width);
-    }
-    const normalizedWidths = targetWidths.length > 0 ? targetWidths : [metadata.width];
-    const variants = [];
-
-    for (const width of normalizedWidths) {
-      const outputRelative = path.join(parsed.dir, `${parsed.name}-${width}.webp`);
-      const outputFile = path.join(generatedImageDir, outputRelative);
-      await mkdir(path.dirname(outputFile), { recursive: true });
-
-      await sharp(file)
-        .rotate()
-        .resize({ width, withoutEnlargement: true })
-        .webp({ quality: 84, effort: 5 })
-        .toFile(outputFile);
-
-      const outputStats = await stat(outputFile);
-      variants.push({
-        width,
-        src: `/generated/images/${toPosix(outputRelative)}`,
-        bytes: outputStats.size,
-      });
-    }
-
-    manifest[publicSource] = {
-      width: metadata.width,
-      height: metadata.height,
-      src: variants.at(-1)?.src ?? publicSource,
-      srcset: variants.map((variant) => `${variant.src} ${variant.width}w`).join(', '),
-      variants,
-    };
-  }
+  const expectedFiles = new Set(
+    processed.flatMap(({ record }) => record.variants.map((variant) => path.resolve(outputFileFromPublicPath(variant.src)))),
+  );
+  const generatedFiles = (await walk(generatedImageDir)).filter((file) => imageExtensions.has(path.extname(file).toLowerCase()));
+  await Promise.all(
+    generatedFiles
+      .filter((file) => !expectedFiles.has(path.resolve(file)))
+      .map((file) => rm(file, { force: true })),
+  );
 
   await mkdir(path.dirname(manifestPath), { recursive: true });
   await writeFile(`${manifestPath}.tmp`, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -93,7 +169,20 @@ async function generateImages() {
   }
 
   await rm(`${manifestPath}.tmp`, { force: true });
-  console.log(`Generated ${Object.keys(manifest).length} responsive image records.`);
+
+  await mkdir(path.dirname(cachePath), { recursive: true });
+  await writeFile(cachePath, `${JSON.stringify(cache)}\n`);
+
+  // Markdown rendering can otherwise retain srcsets from an older manifest.
+  await Promise.all([
+    rm(astroCacheDir, { recursive: true, force: true }),
+    rm(astroContentStoreDir, { recursive: true, force: true }),
+  ]);
+
+  const generatedCount = processed.filter(({ generated }) => generated).length;
+  console.log(
+    `Prepared ${processed.length} responsive image records (${generatedCount} regenerated, ${processed.length - generatedCount} reused).`,
+  );
 }
 
 await generateImages();
