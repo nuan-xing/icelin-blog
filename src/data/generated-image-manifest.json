@@ -271,6 +271,39 @@
       }
     ]
   },
+  "/images/photos/sun-last-under-1mb.webp": {
+    "width": 2789,
+    "height": 2652,
+    "src": "/generated/images/photos/sun-last-under-1mb-1600.webp",
+    "srcset": "/generated/images/photos/sun-last-under-1mb-480.webp 480w, /generated/images/photos/sun-last-under-1mb-768.webp 768w, /generated/images/photos/sun-last-under-1mb-1080.webp 1080w, /generated/images/photos/sun-last-under-1mb-1440.webp 1440w, /generated/images/photos/sun-last-under-1mb-1600.webp 1600w",
+    "variants": [
+      {
+        "width": 480,
+        "src": "/generated/images/photos/sun-last-under-1mb-480.webp",
+        "bytes": 25652
+      },
+      {
+        "width": 768,
+        "src": "/generated/images/photos/sun-last-under-1mb-768.webp",
+        "bytes": 58708
+      },
+      {
+        "width": 1080,
+        "src": "/generated/images/photos/sun-last-under-1mb-1080.webp",
+        "bytes": 140524
+      },
+      {
+        "width": 1440,
+        "src": "/generated/images/photos/sun-last-under-1mb-1440.webp",
+        "bytes": 275456
+      },
+      {
+        "width": 1600,
+        "src": "/generated/images/photos/sun-last-under-1mb-1600.webp",
+        "bytes": 348676
+      }
+    ]
+  },
   "/images/qinglong-lake/2026-01-10-winter-fall.webp": {
     "width": 1067,
     "height": 1600,

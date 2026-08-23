@@ -60,7 +60,7 @@ const qinglongPreview = qinglongLakePhotos.slice(0, 3);
               {photo.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
               {photo.data.location && ` / ${photo.data.location}`}
             </small>
-            {photo.data.caption && <p>{photo.data.caption}</p>}
+            <p>{photo.data.caption || photo.data.alt}</p>
           </figcaption>
         </figure>
       ))}
