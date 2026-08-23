@@ -19,6 +19,13 @@ logo:
 media_folder: /public/images
 public_folder: /images
 
+# Keep upload names URL-safe so image links work consistently on GitHub,
+# Cloudflare Pages and mobile browsers.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+
 collections:
   - name: writing
     label: 随笔
