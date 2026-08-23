@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: nuan-xing/icelin-blog
+  branch: main
+  auth_methods: [token]
+
+site_url: https://icelin-blog.pages.dev
+display_url: https://icelin-blog.pages.dev
+
+collections:
+  - name: writing
+    label: 随笔
+    label_singular: 随笔
+    folder: /src/content/writing
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{fields._slug}}"
+    preview_path: "/writing/{{slug}}"
+
+    media_folder: /public/images/writing
+    public_folder: /images/writing
+
+    fields:
+      - name: title
+        label: 标题
+        widget: string
+
+      - name: description
+        label: 摘要
+        widget: text
+
+      - name: pubDate
+        label: 发布日期
+        widget: datetime
+        type: date
+        default: "{{now}}"
+
+      - name: tags
+        label: 标签
+        widget: list
+        required: false
+        default: []
+
+      - name: draft
+        label: 草稿
+        widget: boolean
+        default: false
+
+      - name: body
+        label: 正文
+        widget: richtext
+        modes: [rich_text, raw]
+
+  - name: photos
+    label: 摄影
+    label_singular: 摄影作品
+    folder: /src/content/photos
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{fields._slug}}"
+
+    media_folder: /public/images/photos
+    public_folder: /images/photos
+
+    fields:
+      - name: title
+        label: 标题
+        widget: string
+
+      - name: location
+        label: 地点
+        widget: string
+        required: false
+
+      - name: pubDate
+        label: 拍摄日期
+        widget: datetime
+        type: date
+        default: "{{now}}"
+
+      - name: image
+        label: 图片
+        widget: image
+
+      - name: alt
+        label: 图片描述
+        widget: string
+
+      - name: caption
+        label: 说明
+        widget: text
+        required: false
