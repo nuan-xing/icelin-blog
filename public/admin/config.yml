@@ -8,6 +8,11 @@ backend:
 
 site_url: https://icelin-blog.pages.dev
 display_url: https://icelin-blog.pages.dev
+app_title: icelin 编辑室
+
+logo:
+  src: /favicon.svg
+  show_in_header: true
 
 # Sveltia requires a global media location. Each collection below narrows this
 # to its existing writing/photos subdirectory.
