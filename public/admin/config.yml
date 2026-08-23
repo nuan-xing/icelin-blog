@@ -9,6 +9,11 @@ backend:
 site_url: https://icelin-blog.pages.dev
 display_url: https://icelin-blog.pages.dev
 
+# Sveltia requires a global media location. Each collection below narrows this
+# to its existing writing/photos subdirectory.
+media_folder: /public/images
+public_folder: /images
+
 collections:
   - name: writing
     label: 随笔
