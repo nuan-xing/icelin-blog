@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T08:20:01.913Z",
+  "generatedAt": "2026-08-24T08:22:06.577Z",
   "folder": "/public/images/photos",
   "assets": [
     {
@@ -93,8 +93,8 @@
       ]
     },
     {
-      "name": "sun-last-under-1mb.webp",
-      "src": "/images/photos/sun-last-under-1mb.webp",
+      "name": "sun_horizontal_lines_removed_final.webp",
+      "src": "/images/photos/sun_horizontal_lines_removed_final.webp",
       "usedBy": [
         {
           "title": "色球层",
