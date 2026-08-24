@@ -17,12 +17,12 @@ photos:
     caption: 用一维把太阳一次一次扫过，从 Hα 谱线里拼回完整的日面。
   - title: 环中世界
     pubDate: 2026-08-05
-    image: /images/26.8.5.webp
+    image: /images/26.8.5.png
     alt: 土星与群卫
     caption: 土星与环系悬在夜空中，几颗卫星散落在它的身旁。
   - title: 云带之间
     pubDate: 2023-11-03
-    image: /images/23.11.03木星.webp
+    image: /images/23.11.03木星.png
     alt: 大冲之际，一颗木卫穿过木星盘面，短暂留在这片遥远的云海里。
     caption: 木卫掠过木星的那一刻，两颗遥远世界在视线中短暂重叠。
   - title: 雨海之脊
