@@ -25,4 +25,9 @@ photos:
     image: /images/photos/2025-08-16-milky-way.webp
     alt: 夜空中肉眼可见的银河。
     caption: 你一旦见过就会明白“Milky Way”和“银河”这两个名字的震撼之处。
+  - title: 雨海之脊
+    pubDate: 2026-08-05
+    image: /images/3333333.webp
+    alt: 沿着雨海的边缘，月球亚平宁山脉在光影之间延伸。
+    caption: ''
 ---
