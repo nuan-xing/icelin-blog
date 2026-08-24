@@ -106,6 +106,12 @@
         transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
       }
 
+      .admin-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
       .admin-return:hover {
         background: #f1ede4;
         border-color: var(--admin-warm);
@@ -150,7 +156,10 @@
             <span>写下日常，收藏光线</span>
           </div>
         </div>
-        <a class="admin-return" href="/">查看博客</a>
+        <nav class="admin-actions" aria-label="编辑室导航">
+          <a class="admin-return" href="/admin/media.html">整理摄影</a>
+          <a class="admin-return" href="/">查看博客</a>
+        </nav>
       </header>
       <main id="nc-root" aria-label="icelin 内容管理"></main>
     </div>

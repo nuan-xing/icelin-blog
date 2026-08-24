@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f5ee" />
+    <link rel="icon" href="/favicon.svg" />
+    <title>整理摄影 · icelin 编辑室</title>
+    <style>
+      :root {
+        --bg: #f8f5ee;
+        --surface: #fffdf8;
+        --ink: #25302c;
+        --muted: #657169;
+        --line: #e4ddd2;
+        --accent: #2f4b45;
+        --warm: #c68d4f;
+        --used-bg: #e8f0eb;
+        --unused-bg: #fbf0df;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--bg);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      }
+
+      a { color: inherit; }
+
+      .bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 68px;
+        padding: 12px clamp(20px, 4vw, 48px);
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .identity { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+      .mark { width: 34px; height: 34px; border-radius: 10px; background: var(--accent); position: relative; }
+      .mark::after { content: ""; position: absolute; width: 12px; height: 12px; inset: 11px; border-radius: 50%; background: var(--warm); box-shadow: 7px -6px 0 var(--surface); }
+      .brand { display: grid; gap: 1px; line-height: 1.2; }
+      .brand strong { font-size: 0.98rem; letter-spacing: -0.01em; }
+      .brand span { color: var(--muted); font-size: 0.78rem; }
+
+      .bar-actions { display: inline-flex; gap: 10px; align-items: center; }
+      .button, .filter {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        color: var(--accent);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 650;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+      }
+
+      .button:hover, .filter:hover { background: #f1ede4; border-color: var(--warm); }
+      .button.primary { color: #fff; background: var(--accent); border-color: var(--accent); }
+      .button.primary:hover { background: #213c36; border-color: #213c36; }
+      .button:focus-visible, .filter:focus-visible, .card-link:focus-visible { outline: 2px solid var(--warm); outline-offset: 3px; }
+
+      main { width: min(1240px, calc(100% - 40px)); margin: clamp(28px, 5vw, 68px) auto; }
+      .intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+      h1 { max-width: 20ch; margin: 0; font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.03em; text-wrap: balance; }
+      .intro p { max-width: 58ch; margin: 10px 0 0; color: var(--muted); line-height: 1.65; text-wrap: pretty; }
+      .intro small { display: block; margin-top: 10px; color: var(--muted); }
+
+      .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 24px 0; }
+      .filter[aria-pressed="true"] { color: #fff; background: var(--accent); border-color: var(--accent); }
+      .filter b { margin-left: 6px; font-size: 0.82em; }
+      .summary { margin-left: auto; color: var(--muted); font-size: 0.9rem; }
+
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(216px, 1fr)); gap: 16px; }
+      .asset { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+      .asset[hidden] { display: none; }
+      .thumb { display: grid; place-items: center; aspect-ratio: 1 / .8; background: #f0ece4; border-bottom: 1px solid var(--line); }
+      .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .asset-body { display: grid; gap: 10px; padding: 14px; }
+      .asset-name { overflow: hidden; font-size: 0.9rem; font-weight: 650; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
+      .state { width: fit-content; padding: 3px 8px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; }
+      .state.used { color: #25483b; background: var(--used-bg); }
+      .state.unused { color: #7a4c14; background: var(--unused-bg); }
+      .usage { min-height: 2.8em; color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+      .card-links { display: flex; flex-wrap: wrap; gap: 10px; }
+      .card-link { color: var(--accent); font-size: 0.84rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+      .empty { grid-column: 1 / -1; padding: 48px 20px; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: 12px; }
+      .error { color: #8c3431; }
+
+      @media (max-width: 680px) {
+        .bar { min-height: 60px; padding: 10px 16px; }
+        .brand span, .bar-actions .button:not(.primary) { display: none; }
+        main { width: min(100% - 28px, 1240px); margin-top: 30px; }
+        .intro { display: block; }
+        .intro .button { margin-top: 20px; }
+        .summary { width: 100%; margin: 2px 0 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) { .button, .filter { transition: none; } }
+    </style>
+  </head>
+  <body>
+    <header class="bar">
+      <a class="identity" href="/admin/" aria-label="返回 icelin 编辑室">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="brand"><strong>icelin 编辑室</strong><span>写下日常，收藏光线</span></span>
+      </a>
+      <nav class="bar-actions" aria-label="摄影素材操作">
+        <a class="button" href="/admin/">返回后台</a>
+        <a class="button primary" href="/admin/#/assets/public/images/photos">上传图片</a>
+      </nav>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <h1 id="page-title">摄影素材整理</h1>
+          <p>自动核对“摄影作品”中的图片字段与图库。先看未添加的照片，再从后台新建作品并选择它。</p>
+          <small id="generated-at">正在读取图库状态…</small>
+        </div>
+        <a class="button primary" href="/admin/#/collections/photos/new">新建摄影作品</a>
+      </section>
+      <section aria-label="素材筛选">
+        <div class="controls" role="toolbar" aria-label="按添加状态筛选">
+          <button class="filter" type="button" data-filter="unused" aria-pressed="true">未添加 <b id="unused-count">0</b></button>
+          <button class="filter" type="button" data-filter="used" aria-pressed="false">已添加 <b id="used-count">0</b></button>
+          <button class="filter" type="button" data-filter="all" aria-pressed="false">全部 <b id="all-count">0</b></button>
+          <span class="summary" id="summary" aria-live="polite"></span>
+        </div>
+        <div class="grid" id="asset-grid" aria-live="polite"></div>
+      </section>
+    </main>
+    <script>
+      const grid = document.querySelector('#asset-grid');
+      const summary = document.querySelector('#summary');
+      const filters = [...document.querySelectorAll('[data-filter]')];
+      let currentFilter = 'unused';
+      let assets = [];
+
+      const make = (tag, className, text) => {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (text !== undefined) element.textContent = text;
+        return element;
+      };
+
+      const render = () => {
+        grid.replaceChildren();
+        const visibleAssets = assets.filter((asset) => currentFilter === 'all' || asset.state === currentFilter);
+        summary.textContent = `显示 ${visibleAssets.length} 张图片`;
+        if (!visibleAssets.length) {
+          grid.append(make('p', 'empty', '这个筛选下没有图片。'));
+          return;
+        }
+        visibleAssets.forEach((asset) => {
+          const card = make('article', 'asset');
+          const thumb = make('div', 'thumb');
+          const image = document.createElement('img');
+          image.src = asset.src;
+          image.alt = asset.name;
+          image.loading = 'lazy';
+          thumb.append(image);
+          const body = make('div', 'asset-body');
+          body.append(make('div', 'asset-name', asset.name));
+          body.append(make('span', `state ${asset.state}`, asset.state === 'used' ? '已添加' : '未添加'));
+          const usage = make('div', 'usage');
+          const links = make('div', 'card-links');
+          if (asset.usedBy.length) {
+            usage.textContent = `用于：${asset.usedBy.map((entry) => entry.title).join('、')}`;
+            asset.usedBy.forEach((entry) => {
+              const link = make('a', 'card-link', '打开作品');
+              link.href = `/admin/#/collections/photos/entries/${encodeURIComponent(entry.slug)}`;
+              links.append(link);
+            });
+          } else {
+            usage.textContent = '尚未添加到任何摄影作品。';
+            const link = make('a', 'card-link', '新建摄影作品');
+            link.href = '/admin/#/collections/photos/new';
+            links.append(link);
+          }
+          body.append(usage, links);
+          card.append(thumb, body);
+          grid.append(card);
+        });
+      };
+
+      filters.forEach((button) => button.addEventListener('click', () => {
+        currentFilter = button.dataset.filter;
+        filters.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        render();
+      }));
+
+      fetch('/admin/media-status.json', { cache: 'no-store' })
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error('无法读取图库状态')))
+        .then((data) => {
+          assets = data.assets.map((asset) => ({ ...asset, state: asset.usedBy.length ? 'used' : 'unused' }));
+          const used = assets.filter((asset) => asset.state === 'used').length;
+          const unused = assets.length - used;
+          document.querySelector('#used-count').textContent = used;
+          document.querySelector('#unused-count').textContent = unused;
+          document.querySelector('#all-count').textContent = assets.length;
+          document.querySelector('#generated-at').textContent = `已于 ${new Date(data.generatedAt).toLocaleString('zh-CN')} 自动核对 ${data.folder}`;
+          render();
+        })
+        .catch(() => {
+          document.querySelector('#generated-at').textContent = '图库状态暂时无法读取，请稍后刷新。';
+          grid.append(make('p', 'empty error', '无法读取图库状态。'));
+        });
+    </script>
+  </body>
+</html>

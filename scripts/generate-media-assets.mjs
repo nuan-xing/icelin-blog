@@ -9,8 +9,10 @@ import sharp from 'sharp';
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicDir = path.join(root, 'public');
 const sourceImageDir = path.join(publicDir, 'images');
+const photoImageDir = path.join(sourceImageDir, 'photos');
 const generatedImageDir = path.join(publicDir, 'generated', 'images');
 const manifestPath = path.join(root, 'src', 'data', 'generated-image-manifest.json');
+const mediaStatusPath = path.join(publicDir, 'admin', 'media-status.json');
 const cachePath = path.join(root, 'node_modules', '.cache', 'icelin-media.json');
 const astroCacheDir = path.join(root, '.astro');
 const astroContentStoreDir = path.join(root, 'node_modules', '.astro');
@@ -64,6 +66,58 @@ async function mapLimit(items, limit, worker) {
 
 function outputFileFromPublicPath(publicPath) {
   return path.join(publicDir, publicPath.replace(/^\//, '').split('/').join(path.sep));
+}
+
+function readFrontmatterValue(frontmatter, key) {
+  const match = frontmatter.match(new RegExp(`^${key}:\\s*(.*)$`, 'm'));
+  if (!match) return '';
+
+  const value = match[1].trim();
+  const quoted = value.match(/^(?:"([\s\S]*)"|'([\s\S]*)')$/);
+  return (quoted?.[1] ?? quoted?.[2] ?? value).trim();
+}
+
+async function generatePhotoMediaStatus() {
+  const photoContentDir = path.join(root, 'src', 'content', 'photos');
+  const [imageFiles, entryFiles] = await Promise.all([
+    existsSync(photoImageDir) ? walk(photoImageDir) : [],
+    existsSync(photoContentDir) ? walk(photoContentDir) : [],
+  ]);
+  const entries = await Promise.all(
+    entryFiles
+      .filter((file) => path.extname(file).toLowerCase() === '.md')
+      .map(async (file) => {
+        const content = await readFile(file, 'utf8');
+        const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
+        return {
+          title: readFrontmatterValue(frontmatter, 'title') || path.basename(file, '.md'),
+          slug: toPosix(path.relative(photoContentDir, file)).replace(/\.md$/i, ''),
+          image: readFrontmatterValue(frontmatter, 'image'),
+        };
+      }),
+  );
+  const assets = imageFiles
+    .filter((file) => imageExtensions.has(path.extname(file).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b, 'en'))
+    .map((file) => {
+      const relativePath = toPosix(path.relative(sourceImageDir, file));
+      const src = `/images/${relativePath}`;
+      return {
+        name: path.basename(file),
+        src,
+        usedBy: entries
+          .filter((entry) => entry.image === src)
+          .map(({ title, slug }) => ({ title, slug })),
+      };
+    });
+
+  const status = {
+    generatedAt: new Date().toISOString(),
+    folder: '/public/images/photos',
+    assets,
+  };
+  await mkdir(path.dirname(mediaStatusPath), { recursive: true });
+  await writeFile(mediaStatusPath, `${JSON.stringify(status, null, 2)}\n`);
 }
 
 async function cacheRecordIsUsable(cached) {
@@ -169,6 +223,8 @@ async function generateImages() {
   }
 
   await rm(`${manifestPath}.tmp`, { force: true });
+
+  await generatePhotoMediaStatus();
 
   await mkdir(path.dirname(cachePath), { recursive: true });
   await writeFile(cachePath, `${JSON.stringify(cache)}\n`);

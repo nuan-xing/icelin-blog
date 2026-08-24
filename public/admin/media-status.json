@@ -1,0 +1,106 @@
+{
+  "generatedAt": "2026-08-24T08:20:01.913Z",
+  "folder": "/public/images/photos",
+  "assets": [
+    {
+      "name": "2025-06-16-dufu.webp",
+      "src": "/images/photos/2025-06-16-dufu.webp",
+      "usedBy": [
+        {
+          "title": "杜甫？",
+          "slug": "dufu-2025"
+        }
+      ]
+    },
+    {
+      "name": "2025-07-27-fireworks.webp",
+      "src": "/images/photos/2025-07-27-fireworks.webp",
+      "usedBy": [
+        {
+          "title": "焰火",
+          "slug": "fireworks-2025"
+        }
+      ]
+    },
+    {
+      "name": "2025-07-29-set-sail.webp",
+      "src": "/images/photos/2025-07-29-set-sail.webp",
+      "usedBy": [
+        {
+          "title": "启航",
+          "slug": "set-sail-2025"
+        }
+      ]
+    },
+    {
+      "name": "2025-07-30-rainy-west-lake.webp",
+      "src": "/images/photos/2025-07-30-rainy-west-lake.webp",
+      "usedBy": [
+        {
+          "title": "雨雾西湖",
+          "slug": "rainy-west-lake-2025"
+        }
+      ]
+    },
+    {
+      "name": "2025-08-16-milky-way.webp",
+      "src": "/images/photos/2025-08-16-milky-way.webp",
+      "usedBy": [
+        {
+          "title": "你曾肉眼见过银河吗",
+          "slug": "milky-way-2025"
+        }
+      ]
+    },
+    {
+      "name": "2025-09-08-lunar-eclipse.webp",
+      "src": "/images/photos/2025-09-08-lunar-eclipse.webp",
+      "usedBy": [
+        {
+          "title": "月食之日",
+          "slug": "lunar-eclipse-2025"
+        }
+      ]
+    },
+    {
+      "name": "2026-01-02-emei-night-hike.webp",
+      "src": "/images/photos/2026-01-02-emei-night-hike.webp",
+      "usedBy": [
+        {
+          "title": "夜爬峨眉",
+          "slug": "emei-night-hike-2026"
+        }
+      ]
+    },
+    {
+      "name": "2026-02-04-sunspot.webp",
+      "src": "/images/photos/2026-02-04-sunspot.webp",
+      "usedBy": [
+        {
+          "title": "太阳黑子",
+          "slug": "sunspot-2026"
+        }
+      ]
+    },
+    {
+      "name": "2026-03-08-chongqing-trip.webp",
+      "src": "/images/photos/2026-03-08-chongqing-trip.webp",
+      "usedBy": [
+        {
+          "title": "重庆行",
+          "slug": "chongqing-trip-2026"
+        }
+      ]
+    },
+    {
+      "name": "sun-last-under-1mb.webp",
+      "src": "/images/photos/sun-last-under-1mb.webp",
+      "usedBy": [
+        {
+          "title": "色球层",
+          "slug": "日面色球层"
+        }
+      ]
+    }
+  ]
+}
