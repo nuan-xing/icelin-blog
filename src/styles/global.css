@@ -482,6 +482,11 @@ h3 {
   border-radius: 8px;
 }
 
+.feature-list {
+  display: grid;
+  gap: 16px;
+}
+
 .feature-link:hover {
   background: color-mix(in srgb, var(--surface) 90%, transparent);
   border-color: color-mix(in srgb, var(--warm) 42%, var(--line));

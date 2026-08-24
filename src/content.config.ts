@@ -20,7 +20,19 @@ const photos = defineCollection({
     image: z.string(),
     alt: z.string(),
     caption: z.string().optional(),
+    topic: z.string().optional(),
   }),
 });
 
-export const collections = { writing, photos };
+const topics = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    coverImage: z.string(),
+    coverAlt: z.string(),
+    eyebrow: z.string().optional(),
+  }),
+});
+
+export const collections = { writing, photos, topics };

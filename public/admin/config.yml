@@ -113,3 +113,50 @@ collections:
         label: 说明
         widget: text
         required: false
+
+      - name: topic
+        label: 所属专题
+        widget: relation
+        collection: topics
+        value_field: "{{slug}}"
+        display_fields: [title]
+        search_fields: [title, description]
+        required: false
+
+  - name: topics
+    label: 专题
+    label_singular: 专题
+    description: 先创建专题，再在摄影作品中选择所属专题，网站会自动生成专题页。
+    folder: /src/content/topics
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{fields._slug}}"
+    preview_path: "/photos/topics/{{slug}}"
+
+    media_folder: /public/images/topics
+    public_folder: /images/topics
+
+    fields:
+      - name: title
+        label: 专题名称
+        widget: string
+
+      - name: description
+        label: 专题简介
+        widget: text
+
+      - name: coverImage
+        label: 封面图片
+        widget: image
+
+      - name: coverAlt
+        label: 封面图片描述
+        widget: string
+
+      - name: eyebrow
+        label: 小标题
+        widget: string
+        required: false
+        hint: 例如 Photo Story 或 城市散步

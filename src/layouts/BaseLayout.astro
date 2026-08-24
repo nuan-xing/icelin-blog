@@ -6,6 +6,7 @@ type Props = {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   type?: 'website' | 'article';
   publishedTime?: Date;
 };
@@ -14,6 +15,7 @@ const {
   title = 'icelin',
   description = '生活随笔、摄影作品和个人日记。',
   image = '/images/qinglong-lake/2026-06-18-hanging-flowers-water.webp',
+  imageAlt = '青龙湖湖边的自然光影',
   type = 'website',
   publishedTime,
 } = Astro.props as Props;
@@ -47,7 +49,7 @@ const nav = [
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:image" content={socialImageUrl.href} />
-    <meta property="og:image:alt" content="青龙湖湖边的自然光影" />
+    <meta property="og:image:alt" content={imageAlt} />
     {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
