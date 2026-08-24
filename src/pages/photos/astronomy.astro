@@ -2,12 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import { getEntry } from 'astro:content';
-import { astronomyPhotos } from '../../data/astronomy';
 
-const photos = astronomyPhotos;
 const topic = await getEntry('topics', 'astronomy');
 
 if (!topic) throw new Error('The astronomy topic is missing.');
+
+const photos = topic.data.photos;
 ---
 
 <BaseLayout
@@ -48,7 +48,7 @@ if (!topic) throw new Error('The astronomy topic is missing.');
       </div>
     ) : (
       <div class="empty-state">
-        <p>天文专题已经准备好了。</p>
+        <p>天文专栏已经准备好了。</p>
         <p>等你放入第一组照片后，这里会变成按时间排列的天空观察日记。</p>
       </div>
     )}

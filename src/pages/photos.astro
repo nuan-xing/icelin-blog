@@ -2,8 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { getCollection } from 'astro:content';
-import { qinglongLakePhotos } from '../data/qinglong-lake';
-import { astronomyPhotos } from '../data/astronomy';
 
 const photos = (await getCollection('photos'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -18,12 +16,12 @@ if (!qinglongTopic || !astronomyTopic) {
   throw new Error('The built-in photo topics are missing.');
 }
 
-const qinglongPreview = qinglongLakePhotos.slice(0, 3);
-const astronomyPreview = astronomyPhotos.slice(0, 3);
+const qinglongPreview = qinglongTopic.data.photos.slice(0, 3);
+const astronomyPreview = astronomyTopic.data.photos.slice(0, 3);
 const topicFeatures = topics.filter((topic) => !['qinglong-lake', 'astronomy'].includes(getTopicSlug(topic))).map((topic) => ({
   topic,
   slug: getTopicSlug(topic),
-  photos: photos.filter((photo) => photo.data.topic === getTopicSlug(topic)).slice(0, 3),
+  photos: topic.data.photos.slice(0, 3),
 }));
 ---
 
@@ -41,7 +39,7 @@ const topicFeatures = topics.filter((topic) => !['qinglong-lake', 'astronomy'].i
           <p class="eyebrow">{qinglongTopic.data.eyebrow || 'Photo Story'}</p>
           <h2>{qinglongTopic.data.title}</h2>
           <p>{qinglongTopic.data.description}</p>
-          <span class="text-link">查看这个专题</span>
+          <span class="text-link">查看这个专栏</span>
         </div>
         <div class="feature-preview" aria-hidden="true">
           {qinglongPreview.length > 0 ? (
@@ -63,7 +61,7 @@ const topicFeatures = topics.filter((topic) => !['qinglong-lake', 'astronomy'].i
           <p class="eyebrow">{astronomyTopic.data.eyebrow || 'Photo Story'}</p>
           <h2>{astronomyTopic.data.title}</h2>
           <p>{astronomyTopic.data.description}</p>
-          <span class="text-link">查看这个专题</span>
+          <span class="text-link">查看这个专栏</span>
         </div>
         <div class="feature-preview" aria-hidden="true">
           {astronomyPreview.length > 0 ? (
@@ -86,12 +84,12 @@ const topicFeatures = topics.filter((topic) => !['qinglong-lake', 'astronomy'].i
             <p class="eyebrow">{topic.data.eyebrow || 'Photo Story'}</p>
             <h2>{topic.data.title}</h2>
             <p>{topic.data.description}</p>
-            <span class="text-link">查看这个专题</span>
+            <span class="text-link">查看这个专栏</span>
           </div>
           <div class="feature-preview" aria-hidden="true">
             {topicPhotos.length > 0 ? (
               topicPhotos.map((photo) => (
-                <ResponsiveImage src={photo.data.image} alt="" sizes="(max-width: 760px) 31vw, 96px" />
+                <ResponsiveImage src={photo.image} alt="" sizes="(max-width: 760px) 31vw, 96px" />
               ))
             ) : (
               <ResponsiveImage src={topic.data.coverImage} alt="" sizes="(max-width: 760px) 31vw, 288px" />

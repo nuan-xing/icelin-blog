@@ -20,8 +20,15 @@ const photos = defineCollection({
     image: z.string(),
     alt: z.string(),
     caption: z.string().optional(),
-    topic: z.string().optional(),
   }),
+});
+
+const topicPhoto = z.object({
+  title: z.string(),
+  pubDate: z.coerce.date(),
+  image: z.string(),
+  alt: z.string(),
+  caption: z.string().optional(),
 });
 
 const topics = defineCollection({
@@ -32,6 +39,7 @@ const topics = defineCollection({
     coverImage: z.string(),
     coverAlt: z.string(),
     eyebrow: z.string().optional(),
+    photos: z.array(topicPhoto).default([]),
   }),
 });
 

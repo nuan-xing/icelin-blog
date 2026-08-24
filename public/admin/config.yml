@@ -14,8 +14,8 @@ logo:
   src: /favicon.svg
   show_in_header: true
 
-# Sveltia requires a global media location. Each collection below narrows this
-# to its existing writing/photos subdirectory.
+# Sveltia requires a global media location. Collections can narrow this to a
+# subdirectory when that makes uploads easier to organize.
 media_folder: /public/images
 public_folder: /images
 
@@ -114,19 +114,10 @@ collections:
         widget: text
         required: false
 
-      - name: topic
-        label: 所属专题
-        widget: relation
-        collection: topics
-        value_field: "{{slug}}"
-        display_fields: [title]
-        search_fields: [title, description]
-        required: false
-
   - name: topics
-    label: 专题
-    label_singular: 专题
-    description: 先创建专题，再在摄影作品中选择所属专题，网站会自动生成专题页。
+    label: 专栏
+    label_singular: 专栏
+    description: 打开专栏后，可以直接添加、删除和排序图片，并编辑每张图片的标题、日期、描述和说明。
     folder: /src/content/topics
     create: true
     delete: true
@@ -135,16 +126,17 @@ collections:
     slug: "{{fields._slug}}"
     preview_path: "/photos/topics/{{slug}}"
 
-    media_folder: /public/images/topics
-    public_folder: /images/topics
+    # Use the global library here so a column can reuse images from any folder.
+    media_folder: /public/images
+    public_folder: /images
 
     fields:
       - name: title
-        label: 专题名称
+        label: 专栏名称
         widget: string
 
       - name: description
-        label: 专题简介
+        label: 专栏简介
         widget: text
 
       - name: coverImage
@@ -160,3 +152,35 @@ collections:
         widget: string
         required: false
         hint: 例如 Photo Story 或 城市散步
+
+      - name: photos
+        label: 专栏图片
+        label_singular: 图片
+        widget: list
+        required: false
+        summary: "{{title}}"
+        thumbnail: image
+        collapsed: auto
+        hint: 在这里添加、删除或拖动排序；每张图片都可以单独编辑标题、日期、描述和说明。
+        fields:
+          - name: title
+            label: 图片标题
+            widget: string
+
+          - name: pubDate
+            label: 拍摄日期
+            widget: datetime
+            type: date
+
+          - name: image
+            label: 图片
+            widget: image
+
+          - name: alt
+            label: 图片描述
+            widget: string
+
+          - name: caption
+            label: 说明
+            widget: text
+            required: false

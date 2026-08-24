@@ -2,12 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import { getEntry } from 'astro:content';
-import { qinglongLakePhotos } from '../../data/qinglong-lake';
 
-const photos = qinglongLakePhotos;
 const topic = await getEntry('topics', 'qinglong-lake');
 
 if (!topic) throw new Error('The qinglong-lake topic is missing.');
+
+const photos = topic.data.photos;
 ---
 
 <BaseLayout title={topic.data.title} description={topic.data.description} image={topic.data.coverImage} imageAlt={topic.data.coverAlt}>
@@ -43,7 +43,7 @@ if (!topic) throw new Error('The qinglong-lake topic is missing.');
       </div>
     ) : (
       <div class="empty-state">
-        <p>青龙湖专题已经准备好了。</p>
+        <p>青龙湖专栏已经准备好了。</p>
         <p>等你放入第一组照片后，这里会变成按时间排列的湖边照片日记。</p>
       </div>
     )}

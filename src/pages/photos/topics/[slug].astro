@@ -12,10 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { topic } = Astro.props;
-const topicSlug = topic.id.replace(/\.md$/, '');
-const photos = (await getCollection('photos'))
-  .filter((photo) => photo.data.topic === topicSlug)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const photos = [...topic.data.photos].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 ---
 
 <BaseLayout
@@ -36,19 +33,19 @@ const photos = (await getCollection('photos'))
       <div class="place-timeline">
         {photos.map((photo, index) => (
           <article class="place-entry">
-            <time datetime={photo.data.pubDate.toISOString()}>
-              {photo.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+            <time datetime={photo.pubDate.toISOString()}>
+              {photo.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
             </time>
             <figure>
               <ResponsiveImage
-                src={photo.data.image}
-                alt={photo.data.alt}
+                src={photo.image}
+                alt={photo.alt}
                 loading={index < 2 ? 'eager' : 'lazy'}
                 sizes="(max-width: 760px) calc(100vw - 28px), 916px"
               />
               <figcaption>
-                <strong>{photo.data.title}</strong>
-                <span>{photo.data.caption || photo.data.alt}</span>
+                <strong>{photo.title}</strong>
+                <span>{photo.caption || photo.alt}</span>
               </figcaption>
             </figure>
           </article>
@@ -56,8 +53,8 @@ const photos = (await getCollection('photos'))
       </div>
     ) : (
       <div class="empty-state">
-        <p>这个专题已经准备好了。</p>
-        <p>在后台编辑摄影作品时选择这个专题，照片就会自动出现在这里。</p>
+        <p>这个专栏已经准备好了。</p>
+        <p>在后台打开这个专栏，添加第一张图片后，它就会出现在这里。</p>
       </div>
     )}
   </section>
