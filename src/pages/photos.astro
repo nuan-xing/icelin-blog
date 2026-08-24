@@ -9,12 +9,21 @@ const photos = (await getCollection('photos'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const topics = (await getCollection('topics'))
   .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
+const getTopicSlug = (topic: typeof topics[number]) => topic.id.replace(/\.md$/, '');
+const topicById = new Map(topics.map((topic) => [getTopicSlug(topic), topic]));
+const qinglongTopic = topicById.get('qinglong-lake');
+const astronomyTopic = topicById.get('astronomy');
+
+if (!qinglongTopic || !astronomyTopic) {
+  throw new Error('The built-in photo topics are missing.');
+}
 
 const qinglongPreview = qinglongLakePhotos.slice(0, 3);
 const astronomyPreview = astronomyPhotos.slice(0, 3);
-const topicFeatures = topics.map((topic) => ({
+const topicFeatures = topics.filter((topic) => !['qinglong-lake', 'astronomy'].includes(getTopicSlug(topic))).map((topic) => ({
   topic,
-  photos: photos.filter((photo) => photo.data.topic === topic.id).slice(0, 3),
+  slug: getTopicSlug(topic),
+  photos: photos.filter((photo) => photo.data.topic === getTopicSlug(topic)).slice(0, 3),
 }));
 ---
 
@@ -29,9 +38,9 @@ const topicFeatures = topics.map((topic) => ({
     <div class="feature-list">
       <a class="feature-link" href="/photos/qinglong-lake/">
         <div>
-          <p class="eyebrow">Place Journal</p>
-          <h2>青龙湖公园</h2>
-          <p>风、湖面、树影和一些独处时刻。这里会慢慢收集我在青龙湖拍下的照片。</p>
+          <p class="eyebrow">{qinglongTopic.data.eyebrow || 'Photo Story'}</p>
+          <h2>{qinglongTopic.data.title}</h2>
+          <p>{qinglongTopic.data.description}</p>
           <span class="text-link">查看这个专题</span>
         </div>
         <div class="feature-preview" aria-hidden="true">
@@ -51,9 +60,9 @@ const topicFeatures = topics.map((topic) => ({
 
       <a class="feature-link" href="/photos/astronomy/">
         <div>
-          <p class="eyebrow">Sky Journal</p>
-          <h2>天文</h2>
-          <p>从日月星辰到浩瀚深空，记录值得抬头看的天空。</p>
+          <p class="eyebrow">{astronomyTopic.data.eyebrow || 'Photo Story'}</p>
+          <h2>{astronomyTopic.data.title}</h2>
+          <p>{astronomyTopic.data.description}</p>
           <span class="text-link">查看这个专题</span>
         </div>
         <div class="feature-preview" aria-hidden="true">
@@ -71,8 +80,8 @@ const topicFeatures = topics.map((topic) => ({
         </div>
       </a>
 
-      {topicFeatures.map(({ topic, photos: topicPhotos }) => (
-        <a class="feature-link" href={`/photos/topics/${topic.id}/`}>
+      {topicFeatures.map(({ topic, slug, photos: topicPhotos }) => (
+        <a class="feature-link" href={`/photos/topics/${slug}/`}>
           <div>
             <p class="eyebrow">{topic.data.eyebrow || 'Photo Story'}</p>
             <h2>{topic.data.title}</h2>

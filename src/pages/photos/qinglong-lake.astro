@@ -1,18 +1,22 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
+import { getEntry } from 'astro:content';
 import { qinglongLakePhotos } from '../../data/qinglong-lake';
 
 const photos = qinglongLakePhotos;
+const topic = await getEntry('topics', 'qinglong-lake');
+
+if (!topic) throw new Error('The qinglong-lake topic is missing.');
 ---
 
-<BaseLayout title="青龙湖公园">
+<BaseLayout title={topic.data.title} description={topic.data.description} image={topic.data.coverImage} imageAlt={topic.data.coverAlt}>
   <section class="page">
     <div class="section-heading">
       <a class="text-link" href="/photos/">返回摄影</a>
-      <p class="eyebrow">Qinglong Lake</p>
-      <h1>青龙湖公园</h1>
-      <p>风、湖面、树影和一些独处时刻。这里会作为一个长期更新的湖边相册。</p>
+      <p class="eyebrow">{topic.data.eyebrow || 'Photo Story'}</p>
+      <h1>{topic.data.title}</h1>
+      <p>{topic.data.description}</p>
     </div>
 
     {photos.length > 0 ? (

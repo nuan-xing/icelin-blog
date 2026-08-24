@@ -6,14 +6,15 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const topics = await getCollection('topics');
   return topics.map((topic) => ({
-    params: { slug: topic.id },
+    params: { slug: topic.id.replace(/\.md$/, '') },
     props: { topic },
   }));
 }
 
 const { topic } = Astro.props;
+const topicSlug = topic.id.replace(/\.md$/, '');
 const photos = (await getCollection('photos'))
-  .filter((photo) => photo.data.topic === topic.id)
+  .filter((photo) => photo.data.topic === topicSlug)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
