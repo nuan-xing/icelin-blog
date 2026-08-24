@@ -9,7 +9,7 @@ photos:
     pubDate: 2026-08-05
     image: /images/moon11.webp
     alt: 云海之上，一道笔直的断层崖划过古老的月面。
-    caption: ''
+    caption: 云海之上，一道笔直的断层崖划过古老的月面。
   - title: 色球层
     pubDate: 2026-08-17
     image: /images/photos/sun_horizontal_lines_removed_final.webp
@@ -19,7 +19,7 @@ photos:
     pubDate: 2026-08-05
     image: /images/3333333.webp
     alt: 沿着雨海的边缘，月球亚平宁山脉在光影之间延伸。
-    caption: ''
+    caption: 沿着雨海的边缘，月球亚平宁山脉在光影之间延伸。
   - title: 太阳黑子
     pubDate: 2026-02-04
     image: /images/photos/2026-02-04-sunspot.webp
