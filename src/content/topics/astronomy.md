@@ -30,4 +30,9 @@ photos:
     image: /images/3333333.webp
     alt: 沿着雨海的边缘，月球亚平宁山脉在光影之间延伸。
     caption: ''
+  - title: 月球直壁
+    pubDate: 2026-08-05
+    image: /images/moon11.webp
+    alt: 云海之上，一道笔直的断层崖划过古老的月面。
+    caption: ''
 ---
