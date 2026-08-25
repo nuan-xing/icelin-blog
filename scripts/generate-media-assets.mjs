@@ -228,6 +228,10 @@ async function generateImages() {
     await generatePhotoMediaStatus();
     await mkdir(path.dirname(cachePath), { recursive: true });
     await writeFile(cachePath, `${JSON.stringify({ records: {} })}\n`);
+    await Promise.all([
+      rm(astroCacheDir, { recursive: true, force: true }),
+      rm(astroContentStoreDir, { recursive: true, force: true }),
+    ]);
     console.log('No local image source directory found; using external media URLs.');
     return {};
   }
