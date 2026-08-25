@@ -120,7 +120,7 @@
       </a>
       <nav class="bar-actions" aria-label="摄影素材操作">
         <a class="button" href="/admin/">返回后台</a>
-        <a class="button primary" href="/admin/#/assets/public/images/photos">上传图片</a>
+        <a class="button primary" href="/admin/#/collections/photos/new">上传图片</a>
       </nav>
     </header>
     <main>
@@ -181,7 +181,7 @@
             usage.textContent = `用于：${asset.usedBy.map((entry) => entry.title).join('、')}`;
             asset.usedBy.forEach((entry) => {
               const link = make('a', 'card-link', '打开作品');
-              link.href = `/admin/#/collections/photos/entries/${encodeURIComponent(entry.slug)}`;
+              link.href = entry.href || `/admin/#/collections/photos/entries/${encodeURIComponent(entry.slug)}`;
               links.append(link);
             });
           } else {

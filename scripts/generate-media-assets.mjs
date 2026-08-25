@@ -16,6 +16,7 @@ const mediaStatusPath = path.join(publicDir, 'admin', 'media-status.json');
 const cachePath = path.join(root, 'node_modules', '.cache', 'icelin-media.json');
 const astroCacheDir = path.join(root, '.astro');
 const astroContentStoreDir = path.join(root, 'node_modules', '.astro');
+const externalMediaBaseUrl = 'https://pub-2ab46ecc311a40e79c4d8c69c5f9da25.r2.dev';
 
 const widths = [480, 768, 1080, 1440, 1600];
 const webpOptions = { quality: 84, effort: 5 };
@@ -79,9 +80,11 @@ function readFrontmatterValue(frontmatter, key) {
 
 async function generatePhotoMediaStatus() {
   const photoContentDir = path.join(root, 'src', 'content', 'photos');
-  const [imageFiles, entryFiles] = await Promise.all([
+  const contentDir = path.join(root, 'src', 'content');
+  const [imageFiles, entryFiles, contentFiles] = await Promise.all([
     existsSync(photoImageDir) ? walk(photoImageDir) : [],
     existsSync(photoContentDir) ? walk(photoContentDir) : [],
+    existsSync(contentDir) ? walk(contentDir) : [],
   ]);
   const entries = await Promise.all(
     entryFiles
@@ -93,10 +96,11 @@ async function generatePhotoMediaStatus() {
           title: readFrontmatterValue(frontmatter, 'title') || path.basename(file, '.md'),
           slug: toPosix(path.relative(photoContentDir, file)).replace(/\.md$/i, ''),
           image: readFrontmatterValue(frontmatter, 'image'),
+          href: `/admin/#/collections/photos/entries/${encodeURIComponent(toPosix(path.relative(photoContentDir, file)).replace(/\.md$/i, ''))}`,
         };
       }),
   );
-  const assets = imageFiles
+  const localAssets = imageFiles
     .filter((file) => imageExtensions.has(path.extname(file).toLowerCase()))
     .sort((a, b) => a.localeCompare(b, 'en'))
     .map((file) => {
@@ -107,13 +111,46 @@ async function generatePhotoMediaStatus() {
         src,
         usedBy: entries
           .filter((entry) => entry.image === src)
-          .map(({ title, slug }) => ({ title, slug })),
+          .map(({ title, slug, href }) => ({ title, slug, href })),
       };
     });
 
+  const externalAssets = new Map();
+  const externalPrefix = `${externalMediaBaseUrl}/`;
+  for (const file of contentFiles.filter((candidate) => path.extname(candidate).toLowerCase() === '.md')) {
+    const content = await readFile(file, 'utf8');
+    const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
+    const relative = toPosix(path.relative(contentDir, file));
+    const collection = relative.split('/')[0];
+    const slug = relative.replace(/^.+\//, '').replace(/\.md$/i, '');
+    const usage = {
+      title: readFrontmatterValue(frontmatter, 'title') || slug,
+      slug,
+      href: `/admin/#/collections/${collection}/entries/${encodeURIComponent(slug)}`,
+    };
+    let cursor = 0;
+    while ((cursor = content.indexOf(externalPrefix, cursor)) !== -1) {
+      const keyStart = cursor + externalPrefix.length;
+      const key = content.slice(keyStart).split(/[\s)"']/, 1)[0];
+      if (!key) break;
+      const src = `${externalPrefix}${key}`;
+      const asset = externalAssets.get(src) ?? {
+        name: path.posix.basename(key),
+        src,
+        usedBy: [],
+      };
+      if (!asset.usedBy.some((entry) => entry.href === usage.href)) asset.usedBy.push(usage);
+      externalAssets.set(src, asset);
+      cursor = keyStart + key.length;
+    }
+  }
+
+  const assets = [...localAssets, ...externalAssets.values()]
+    .sort((a, b) => a.name.localeCompare(b.name, 'en'));
+
   const status = {
     generatedAt: new Date().toISOString(),
-    folder: '/public/images/photos',
+    folder: 'Cloudflare R2 · icelin-blog-media',
     assets,
   };
   await mkdir(path.dirname(mediaStatusPath), { recursive: true });
@@ -184,7 +221,16 @@ async function processImage(file, previousCache) {
 }
 
 async function generateImages() {
-  if (!existsSync(sourceImageDir)) return {};
+  if (!existsSync(sourceImageDir)) {
+    await rm(generatedImageDir, { recursive: true, force: true });
+    await mkdir(path.dirname(manifestPath), { recursive: true });
+    await writeFile(manifestPath, '{}\n');
+    await generatePhotoMediaStatus();
+    await mkdir(path.dirname(cachePath), { recursive: true });
+    await writeFile(cachePath, `${JSON.stringify({ records: {} })}\n`);
+    console.log('No local image source directory found; using external media URLs.');
+    return {};
+  }
 
   await mkdir(generatedImageDir, { recursive: true });
 
