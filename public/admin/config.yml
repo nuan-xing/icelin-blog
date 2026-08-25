@@ -19,12 +19,18 @@ logo:
 media_folder: /public/images
 public_folder: /images
 
-# Keep upload names URL-safe so image links work consistently on GitHub,
-# Cloudflare Pages and mobile browsers.
+# R2 is the single media source. GitHub should only store Markdown/frontmatter,
+# not binary uploads.
 media_libraries:
-  default:
-    config:
-      slugify_filename: true
+  default: false
+  cloudflare_r2:
+    # R2 Access Key ID from a bucket-scoped Object Read & Write token. The
+    # secret is entered in Sveltia
+    # when the R2 library is opened and must not be committed here.
+    access_key_id: 79a39e7791fbcc5204789dc8e7a3eab6
+    bucket: icelin-blog-media
+    account_id: 0254e00c62f6f7f64408d1dddac1c150
+    public_url: https://pub-2ab46ecc311a40e79c4d8c69c5f9da25.r2.dev
 
 collections:
   - name: writing
