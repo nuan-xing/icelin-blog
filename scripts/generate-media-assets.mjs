@@ -5,6 +5,7 @@ import { availableParallelism } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { getPublicR2MediaUrl, isR2MediaUrl } from '../src/lib/media.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicDir = path.join(root, 'public');
@@ -13,11 +14,10 @@ const photoImageDir = path.join(sourceImageDir, 'photos');
 const generatedImageDir = path.join(publicDir, 'generated', 'images');
 const manifestPath = path.join(root, 'src', 'data', 'generated-image-manifest.json');
 const mediaStatusPath = path.join(publicDir, 'admin', 'media-status.json');
+const r2RuntimeConfigPath = path.join(publicDir, 'admin', 'r2-runtime.json');
 const cachePath = path.join(root, 'node_modules', '.cache', 'icelin-media.json');
 const astroCacheDir = path.join(root, '.astro');
 const astroContentStoreDir = path.join(root, 'node_modules', '.astro');
-const externalMediaBaseUrl = 'https://pub-2ab46ecc311a40e79c4d8c69c5f9da25.r2.dev';
-
 const widths = [480, 768, 1080, 1440, 1600];
 const webpOptions = { quality: 84, effort: 5 };
 const pipelineSignature = JSON.stringify({ widths, webpOptions });
@@ -47,6 +47,18 @@ async function readJson(file, fallback) {
   } catch {
     return fallback;
   }
+}
+
+async function generateR2RuntimeConfig() {
+  const configPath = path.join(publicDir, 'admin', 'config.yml');
+  const configText = existsSync(configPath) ? await readFile(configPath, 'utf8') : '';
+  const configuredPublicUrl = configText.match(/^\s{4}public_url:\s*([^\r\n#]+)/m)?.[1]
+    ?.trim()
+    .replace(/^['"]|['"]$/g, '')
+    ?? '';
+  const publicUrl = process.env.PUBLIC_R2_BASE_URL?.trim() || configuredPublicUrl;
+  await mkdir(path.dirname(r2RuntimeConfigPath), { recursive: true });
+  await writeFile(r2RuntimeConfigPath, `${JSON.stringify({ publicUrl }, null, 2)}\n`);
 }
 
 async function mapLimit(items, limit, worker) {
@@ -116,7 +128,6 @@ async function generatePhotoMediaStatus() {
     });
 
   const externalAssets = new Map();
-  const externalPrefix = `${externalMediaBaseUrl}/`;
   for (const file of contentFiles.filter((candidate) => path.extname(candidate).toLowerCase() === '.md')) {
     const content = await readFile(file, 'utf8');
     const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
@@ -128,12 +139,13 @@ async function generatePhotoMediaStatus() {
       slug,
       href: `/admin/#/collections/${collection}/entries/${encodeURIComponent(slug)}`,
     };
-    let cursor = 0;
-    while ((cursor = content.indexOf(externalPrefix, cursor)) !== -1) {
-      const keyStart = cursor + externalPrefix.length;
-      const key = content.slice(keyStart).split(/[\s)"']/, 1)[0];
-      if (!key) break;
-      const src = `${externalPrefix}${key}`;
+    const mediaUrls = content.match(/https?:\/\/[^\s)"'<>]+/g) ?? [];
+    for (const candidate of mediaUrls) {
+      const rawSrc = candidate.replace(/[),.;]+$/, '');
+      if (!isR2MediaUrl(rawSrc)) continue;
+      const src = getPublicR2MediaUrl(rawSrc);
+      const key = new URL(rawSrc).pathname.replace(/^\/+/, '');
+      if (!key) continue;
       const asset = externalAssets.get(src) ?? {
         name: path.posix.basename(key),
         src,
@@ -141,7 +153,6 @@ async function generatePhotoMediaStatus() {
       };
       if (!asset.usedBy.some((entry) => entry.href === usage.href)) asset.usedBy.push(usage);
       externalAssets.set(src, asset);
-      cursor = keyStart + key.length;
     }
   }
 
@@ -221,6 +232,7 @@ async function processImage(file, previousCache) {
 }
 
 async function generateImages() {
+  await generateR2RuntimeConfig();
   if (!existsSync(sourceImageDir)) {
     await rm(generatedImageDir, { recursive: true, force: true });
     await mkdir(path.dirname(manifestPath), { recursive: true });

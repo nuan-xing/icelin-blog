@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 public/generated/
+public/admin/r2-runtime.json
 .vercel/
 .DS_Store
 npm-debug.log*

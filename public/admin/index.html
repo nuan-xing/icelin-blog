@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f8f5ee" />
     <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/admin/r2-image-field.css" />
     <title>icelin 编辑室</title>
     <style>
       :root {
@@ -163,6 +164,16 @@
       </header>
       <main id="nc-root" aria-label="icelin 内容管理"></main>
     </div>
+    <script>
+      // Register the R2 field before Sveltia reads config.yml.
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <script src="https://unpkg.com/@sveltia/cms@0.196.0/dist/sveltia-cms.js"></script>
+    <script src="/admin/r2-media.js"></script>
+    <script src="/admin/r2-routing.js"></script>
+    <script src="/admin/r2-image-field.js"></script>
+    <script>
+      CMS.init();
+    </script>
   </body>
 </html>

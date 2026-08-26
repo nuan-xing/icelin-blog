@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { getPublicR2MediaUrl, getResponsiveImageSrcset, getTransformedImageUrl, isR2MediaUrl } from './media.mjs';
 
 const manifestPath = path.resolve('src/data/generated-image-manifest.json');
 
@@ -30,15 +31,16 @@ export default function rehypeResponsiveImages(options = {}) {
       if (typeof src !== 'string') return;
 
       const record = manifest[src];
-      if (!record) return;
+      const externalSrcset = getResponsiveImageSrcset(src);
+      const externalR2 = isR2MediaUrl(src);
+      if (!record && !externalSrcset && !externalR2) return;
 
       node.properties = {
         ...node.properties,
-        src: record.src,
-        srcset: record.srcset,
+        src: record?.src ?? (externalR2 ? getTransformedImageUrl(src, 1080) : getPublicR2MediaUrl(src)),
+        srcset: record?.srcset ?? externalSrcset,
         sizes: node.properties.sizes ?? defaultSizes,
-        width: record.width,
-        height: record.height,
+        ...(record ? { width: record.width, height: record.height } : {}),
         loading: node.properties.loading ?? 'lazy',
         decoding: node.properties.decoding ?? 'async',
       };

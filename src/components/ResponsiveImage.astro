@@ -1,5 +1,6 @@
 ---
 import imageManifest from '../data/generated-image-manifest.json';
+import { getPublicR2MediaUrl, getResponsiveImageSrcset, getTransformedImageUrl, isR2MediaUrl } from '../lib/media.mjs';
 
 type ImageRecord = {
   width: number;
@@ -27,12 +28,14 @@ const {
 } = Astro.props;
 
 const record = (imageManifest as Record<string, ImageRecord>)[src];
+const externalSrcset = getResponsiveImageSrcset(src);
+const renderedSrc = record?.src ?? (isR2MediaUrl(src) && externalSrcset ? getTransformedImageUrl(src, 1080) : getPublicR2MediaUrl(src));
 ---
 
 <img
-  src={record?.src ?? src}
-  srcset={record?.srcset}
-  sizes={record ? sizes : undefined}
+  src={renderedSrc}
+  srcset={(record?.srcset ?? externalSrcset) || undefined}
+  sizes={record || externalSrcset ? sizes : undefined}
   width={record?.width}
   height={record?.height}
   alt={alt}
