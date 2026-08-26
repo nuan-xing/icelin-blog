@@ -169,9 +169,10 @@
       window.CMS_MANUAL_INIT = true;
     </script>
     <script src="https://unpkg.com/@sveltia/cms@0.196.0/dist/sveltia-cms.js"></script>
-    <script src="/admin/r2-media.js"></script>
-    <script src="/admin/r2-routing.js"></script>
-    <script src="/admin/r2-image-field.js"></script>
+    <!-- Keep the folder-locked uploader fresh after a Pages deployment. -->
+    <script src="/admin/r2-media.js?v=20260827-folder-lock"></script>
+    <script src="/admin/r2-routing.js?v=20260827-folder-lock"></script>
+    <script src="/admin/r2-image-field.js?v=20260827-folder-lock"></script>
     <script>
       CMS.init();
     </script>

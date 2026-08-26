@@ -20,7 +20,9 @@
 
   async function loadConfig() {
     if (!configPromise) {
-      configPromise = fetch(CONFIG_URL, { cache: 'no-store' })
+      // The CMS config controls the R2 endpoint. Do not let a previously open
+      // editor keep an older media configuration after a Pages deployment.
+      configPromise = fetch(CONFIG_URL + '?v=20260827-folder-lock', { cache: 'no-store' })
         .then(function (response) {
           if (!response.ok) throw new Error('无法读取 Sveltia 配置。');
           return response.text();
