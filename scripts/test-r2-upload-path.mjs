@@ -5,6 +5,7 @@ import { webcrypto } from 'node:crypto';
 
 const source = await readFile(new URL('../public/admin/r2-media.js', import.meta.url), 'utf8');
 const routingSource = await readFile(new URL('../public/admin/r2-routing.js', import.meta.url), 'utf8');
+const fieldSource = await readFile(new URL('../public/admin/r2-image-field.js', import.meta.url), 'utf8');
 const calls = [];
 
 class ResponseMock {
@@ -111,4 +112,47 @@ for (const { url, options } of putCalls) {
   assert.equal(Object.keys(options.headers).some((key) => key.toLowerCase() === 'host'), false);
 }
 assert.equal(calls.some(({ options }) => (options.method === 'GET' || options.method === 'HEAD') && options.body !== undefined), false);
-console.log('R2 upload path checks passed: topic slugs, new topics, and photos folders.');
+
+let registeredField;
+const fieldContext = {
+  window: {
+    CMS: {
+      registerFieldType: (...args) => {
+        registeredField = args;
+      },
+    },
+    createClass: (definition) => definition,
+    h: (type, props, ...children) => ({ type, props: props || {}, children }),
+    IcelinR2Media: media,
+    IcelinR2Routing: routing,
+    location: { hash: '#/collections/topics/entries/qinglong-lake', origin: 'https://icelin-blog.pages.dev' },
+  },
+  URL,
+  fetch: fetchMock,
+  Date,
+  Map,
+  Array,
+  console,
+};
+vm.runInNewContext(fieldSource, fieldContext);
+assert.equal(registeredField?.[0], 'r2_image');
+
+const control = registeredField[1];
+const controlState = control.getInitialState();
+const controlInstance = Object.assign({
+  props: {
+    forID: 'topic-photo-image',
+    field: { r2_folder_mode: 'entry' },
+    value: '',
+  },
+  state: controlState,
+}, control);
+const renderedControl = control.render.call(controlInstance);
+assert.match(JSON.stringify(renderedControl), /R2 \/qinglong-lake\//);
+assert.equal(control.inputId.call(controlInstance), 'topic-photo-image');
+const nestedListInstance = Object.assign({}, controlInstance, {
+  props: { field: { r2_folder_mode: 'entry' }, value: '' },
+});
+assert.equal(control.inputId.call(nestedListInstance), controlState.inputId);
+
+console.log('R2 upload path checks passed: topic slugs, new topics, photos folders, and the qinglong-lake field lock.');

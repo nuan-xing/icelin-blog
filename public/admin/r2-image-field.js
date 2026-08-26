@@ -87,6 +87,7 @@
   const R2ImageControl = createClass({
     getInitialState: function () {
       return {
+        inputId: 'r2-image-' + Math.random().toString(36).slice(2),
         dragActive: false,
         status: 'idle',
         message: '',
@@ -119,7 +120,10 @@
     },
 
     inputId: function () {
-      return this.props.forID || 'r2-image-' + Math.random().toString(36).slice(2);
+      // `forID` is supplied by Sveltia for normal fields. Keep a stable
+      // fallback for nested list fields so the Browse button always targets
+      // the same hidden input that the control rendered.
+      return this.props.forID || this.state.inputId;
     },
 
     triggerInput: function () {
@@ -399,7 +403,7 @@
         h(
           'div',
           { className: 'icelin-r2-drop-hint' },
-          folder ? '上传后将保存到 R2 · ' + folder + '/' : '请先保存专栏以确定目标文件夹',
+          folder ? '上传目标已锁定：R2 /' + folder + '/' : '请先保存专栏以确定目标文件夹',
         ),
       );
     },
