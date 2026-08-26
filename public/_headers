@@ -1,6 +1,15 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+/admin/*
+  Cache-Control: no-store
+
+/api-config.js
+  Cache-Control: no-store
+
+/site-app.js
+  Cache-Control: public, max-age=300
+
 /images/*
   Cache-Control: public, max-age=2592000
 

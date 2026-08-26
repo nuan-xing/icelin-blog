@@ -1,61 +1,15 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import ResponsiveImage from '../../../components/ResponsiveImage.astro';
 import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import RuntimeContent from '../../../components/RuntimeContent.astro';
 
+// Existing Markdown only emits current paths; D1 is the visible content source.
 export async function getStaticPaths() {
   const topics = await getCollection('topics');
-  return topics.map((topic) => ({
-    params: { slug: topic.id.replace(/\.md$/, '') },
-    props: { topic },
-  }));
+  return topics.map((topic) => ({ params: { slug: topic.id.replace(/\.md$/, '') } }));
 }
-
-const { topic } = Astro.props;
-const photos = [...topic.data.photos].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 ---
 
-<BaseLayout
-  title={topic.data.title}
-  description={topic.data.description}
-  image={topic.data.coverImage}
-  imageAlt={topic.data.coverAlt}
->
-  <section class="page">
-    <div class="section-heading">
-      <a class="text-link" href="/photos/">返回摄影</a>
-      <p class="eyebrow">{topic.data.eyebrow || 'Photo Story'}</p>
-      <h1>{topic.data.title}</h1>
-      <p>{topic.data.description}</p>
-    </div>
-
-    {photos.length > 0 ? (
-      <div class="place-timeline">
-        {photos.map((photo, index) => (
-          <article class="place-entry">
-            <time datetime={photo.pubDate.toISOString()}>
-              {photo.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
-            </time>
-            <figure>
-              <ResponsiveImage
-                src={photo.image}
-                alt={photo.alt}
-                loading={index < 2 ? 'eager' : 'lazy'}
-                sizes="(max-width: 760px) calc(100vw - 28px), 916px"
-              />
-              <figcaption>
-                <strong>{photo.title}</strong>
-                <span>{photo.caption || photo.alt}</span>
-              </figcaption>
-            </figure>
-          </article>
-        ))}
-      </div>
-    ) : (
-      <div class="empty-state">
-        <p>这个专栏已经准备好了。</p>
-        <p>在后台打开这个专栏，添加第一张图片后，它就会出现在这里。</p>
-      </div>
-    )}
-  </section>
+<BaseLayout title="专题">
+  <RuntimeContent fallbackTitle="专题" />
 </BaseLayout>

@@ -1,0 +1,63 @@
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS posts (
+  slug TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  body_markdown TEXT NOT NULL DEFAULT '',
+  pub_date TEXT NOT NULL,
+  tags_json TEXT NOT NULL DEFAULT '[]',
+  draft INTEGER NOT NULL DEFAULT 0 CHECK (draft IN (0, 1)),
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS photos (
+  slug TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  location TEXT NOT NULL DEFAULT '',
+  pub_date TEXT NOT NULL,
+  image_key TEXT NOT NULL,
+  alt TEXT NOT NULL DEFAULT '',
+  caption TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS topics (
+  slug TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  cover_key TEXT NOT NULL DEFAULT '',
+  cover_alt TEXT NOT NULL DEFAULT '',
+  eyebrow TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS topic_photos (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  topic_slug TEXT NOT NULL REFERENCES topics(slug) ON DELETE CASCADE,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  title TEXT NOT NULL,
+  pub_date TEXT NOT NULL,
+  image_key TEXT NOT NULL,
+  alt TEXT NOT NULL DEFAULT '',
+  caption TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_posts_pub_date ON posts(pub_date DESC);
+CREATE INDEX IF NOT EXISTS idx_photos_pub_date ON photos(pub_date DESC);
+CREATE INDEX IF NOT EXISTS idx_topic_photos_topic_order ON topic_photos(topic_slug, sort_order, id);
+
+CREATE TABLE IF NOT EXISTS media_assets (
+  object_key TEXT PRIMARY KEY,
+  folder TEXT NOT NULL,
+  file_name TEXT NOT NULL,
+  content_type TEXT NOT NULL DEFAULT '',
+  byte_size INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

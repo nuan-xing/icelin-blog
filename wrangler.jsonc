@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "icelin-blog-api",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-26",
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "blog",
+      "database_id": "98f15473-3dc2-414b-918f-928cc9f0ce78"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "icelin-blog-media"
+    }
+  ],
+  "vars": {
+    "MEDIA_PUBLIC_URL": "https://pub-2ab46ecc311a40e79c4d8c69c5f9da25.r2.dev",
+    "ALLOWED_ORIGIN": "https://icelin-blog.pages.dev",
+    "SITE_URL": "https://icelin-blog.pages.dev"
+  }
+}

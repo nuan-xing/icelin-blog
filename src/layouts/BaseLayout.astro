@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
 
 type Props = {
   title?: string;
@@ -59,7 +58,6 @@ const nav = [
     <link rel="alternate" type="application/rss+xml" title="icelin 随笔 RSS" href="/rss.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
-    <ClientRouter />
   </head>
   <body>
     <div class="site-shell">
@@ -96,6 +94,7 @@ const nav = [
       declare global {
         interface Window {
           __icelinBindMotion?: (cards: HTMLElement[]) => void;
+          __icelinRefreshLayout?: () => void;
           __icelinMasonryTimer?: number;
           __icelinResizeBound?: boolean;
           __icelinMusicUnlockBound?: boolean;
@@ -284,7 +283,7 @@ const nav = [
           const heights = new Array(columnCount).fill(0);
           cards.forEach((card) => {
             const targetIndex = heights.indexOf(Math.min(...heights));
-            columns[targetIndex].append(card);
+            columns[targetIndex].appendChild(card);
             heights[targetIndex] += card.getBoundingClientRect().height;
           });
 
@@ -300,13 +299,19 @@ const nav = [
         scheduleMasonry();
       };
 
+      window.__icelinRefreshLayout = () => {
+        const cards = [...document.querySelectorAll<HTMLElement>('.post-row, .feature-link, .photo-card')];
+        window.__icelinBindMotion?.(cards);
+        scheduleMasonry();
+      };
+
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', setupPage, { once: true });
       } else {
         setupPage();
       }
 
-      document.addEventListener('astro:page-load', setupPage);
+      document.addEventListener('icelin:content-rendered', () => window.__icelinRefreshLayout?.());
       window.addEventListener('load', scheduleMasonry);
 
       if (!window.__icelinResizeBound) {

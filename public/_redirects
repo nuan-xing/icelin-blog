@@ -1,0 +1,4 @@
+/writing/* /writing/index.html 200
+/photos/topics/* /photos/index.html 200
+/photos/* /photos/index.html 200
+/rss.xml https://icelin-blog-api.1256422744.workers.dev/v1/public/rss 302

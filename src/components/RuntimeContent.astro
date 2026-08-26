@@ -1,0 +1,16 @@
+---
+type Props = {
+  fallbackTitle?: string;
+};
+
+const { fallbackTitle = 'icelin' } = Astro.props as Props;
+---
+
+<section id="icelin-runtime" class="page" data-fallback-title={fallbackTitle} aria-live="polite">
+  <div class="empty-state">
+    <p>正在读取最新内容…</p>
+  </div>
+</section>
+
+<script is:inline src="/api-config.js"></script>
+<script is:inline src="/site-app.js"></script>

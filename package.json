@@ -6,9 +6,9 @@
   "scripts": {
     "media": "node scripts/generate-media-assets.mjs",
     "migrate:media": "node scripts/migrate-images-to-r2.mjs",
-    "test:r2": "node scripts/test-r2-upload-path.mjs",
-    "dev": "npm run media && astro dev",
-    "build": "npm run media && astro check && astro build",
+    "migrate:d1": "node scripts/migrate-content-to-d1.mjs",
+    "dev": "astro dev",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -17,7 +17,13 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.0.0",
+    "gray-matter": "^4.0.3",
     "sharp": "^0.35.1",
     "typescript": "^5.6.0"
+  },
+  "devDependencies": {
+    "@astrojs/cloudflare": "^12.3.0",
+    "@cloudflare/workers-types": "^5.20260826.1",
+    "wrangler": "^4.126.0"
   }
 }

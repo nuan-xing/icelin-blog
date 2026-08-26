@@ -1,180 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="noindex, nofollow" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f8f5ee" />
     <link rel="icon" href="/favicon.svg" />
-    <link rel="stylesheet" href="/admin/r2-image-field.css" />
+    <link rel="stylesheet" href="/admin/admin.css" />
     <title>icelin 编辑室</title>
-    <style>
-      :root {
-        --admin-bg: #f8f5ee;
-        --admin-surface: #fffdf8;
-        --admin-ink: #25302c;
-        --admin-muted: #657169;
-        --admin-line: #e4ddd2;
-        --admin-accent: #2f4b45;
-        --admin-warm: #c68d4f;
-      }
-
-      html,
-      body {
-        min-height: 100%;
-      }
-
-      body {
-        margin: 0;
-        background: var(--admin-bg);
-        color: var(--admin-ink);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
-      }
-
-      .admin-shell {
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr);
-        min-height: 100dvh;
-      }
-
-      .admin-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        min-height: 68px;
-        padding: 12px clamp(20px, 4vw, 48px);
-        background: var(--admin-surface);
-        border-bottom: 1px solid var(--admin-line);
-      }
-
-      .admin-identity {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 0;
-      }
-
-      .admin-mark {
-        position: relative;
-        display: grid;
-        place-items: center;
-        flex: 0 0 auto;
-        width: 34px;
-        height: 34px;
-        overflow: hidden;
-        background: var(--admin-accent);
-        border-radius: 10px;
-      }
-
-      .admin-mark::after {
-        width: 12px;
-        height: 12px;
-        content: "";
-        background: var(--admin-warm);
-        border-radius: 999px;
-        box-shadow: 7px -6px 0 var(--admin-surface);
-      }
-
-      .admin-title {
-        display: grid;
-        gap: 1px;
-        line-height: 1.2;
-      }
-
-      .admin-title strong {
-        font-size: 0.98rem;
-        font-weight: 720;
-        letter-spacing: -0.01em;
-      }
-
-      .admin-title span {
-        color: var(--admin-muted);
-        font-size: 0.78rem;
-      }
-
-      .admin-return {
-        display: inline-flex;
-        align-items: center;
-        min-height: 40px;
-        padding: 0 14px;
-        color: var(--admin-accent);
-        font-size: 0.9rem;
-        font-weight: 650;
-        text-decoration: none;
-        border: 1px solid var(--admin-line);
-        border-radius: 999px;
-        transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
-      }
-
-      .admin-actions {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .admin-return:hover {
-        background: #f1ede4;
-        border-color: var(--admin-warm);
-      }
-
-      .admin-return:focus-visible {
-        outline: 2px solid var(--admin-warm);
-        outline-offset: 3px;
-      }
-
-      #nc-root {
-        min-width: 0;
-        min-height: 0;
-        overflow: auto;
-      }
-
-      @media (max-width: 560px) {
-        .admin-bar {
-          min-height: 60px;
-          padding: 10px 16px;
-        }
-
-        .admin-title span {
-          display: none;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .admin-return {
-          transition: none;
-        }
-      }
-    </style>
   </head>
   <body>
-    <div class="admin-shell">
-      <header class="admin-bar">
-        <div class="admin-identity">
-          <span class="admin-mark" aria-hidden="true"></span>
-          <div class="admin-title">
-            <strong>icelin 编辑室</strong>
-            <span>写下日常，收藏光线</span>
-          </div>
-        </div>
-        <nav class="admin-actions" aria-label="编辑室导航">
-          <a class="admin-return" href="/admin/media.html">R2 图库</a>
-          <a class="admin-return" href="/">查看博客</a>
-        </nav>
-      </header>
-      <main id="nc-root" aria-label="icelin 内容管理"></main>
+    <div id="admin-root" class="admin-root" aria-live="polite">
+      <main class="boot-screen">
+        <span class="boot-mark" aria-hidden="true"></span>
+        <p>正在打开 icelin 编辑室…</p>
+      </main>
     </div>
-    <script>
-      // Register the R2 field before Sveltia reads config.yml.
-      window.CMS_MANUAL_INIT = true;
-    </script>
-    <script src="https://unpkg.com/@sveltia/cms@0.196.0/dist/sveltia-cms.js"></script>
-    <!-- Keep the folder-locked uploader fresh after a Pages deployment. -->
-    <script src="/admin/r2-media.js?v=20260827-folder-lock"></script>
-    <script src="/admin/r2-routing.js?v=20260827-folder-lock"></script>
-    <script src="/admin/r2-image-field.js?v=20260827-folder-lock"></script>
-    <script>
-      CMS.init();
-    </script>
+    <script src="/api-config.js"></script>
+    <script src="/admin/app.js"></script>
   </body>
 </html>

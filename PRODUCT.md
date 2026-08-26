@@ -10,7 +10,7 @@ product
 
 ## Product Purpose
 
-为 icelin 博客提供安全、直接的 GitHub 内容管理入口：编辑操作应当易懂、可靠，并在提交后继续触发现有 Cloudflare Pages 部署流程。
+为 icelin 博客提供安全、直接的 Cloudflare 内容管理入口：文字结构保存在 D1，图片原件保存在 R2；编辑后应立即反映在网站上。
 
 ## Brand Personality
 
@@ -25,7 +25,7 @@ product
 - 编辑任务优先：内容、字段与保存状态始终最醒目。
 - 延续而不复制：借用博客识别色，不把文章页的装饰搬进工具界面。
 - 状态可感知：交互、焦点、草稿和发布结果要有明确反馈。
-- 保持轻量：不影响 Sveltia CMS 的原生编辑和 GitHub 提交流程。
+- 保持轻量：不依赖第三方 Git CMS、浏览器中的对象存储密钥或 Git 提交流程。
 
 ## Accessibility & Inclusion
 
