@@ -109,7 +109,8 @@ collections:
 
       - name: image
         label: 图片
-        widget: image
+        widget: r2_image
+        r2_folder: photos
 
       - name: alt
         label: 图片描述
@@ -147,7 +148,8 @@ collections:
 
       - name: coverImage
         label: 封面图片
-        widget: image
+        widget: r2_image
+        r2_folder_mode: entry
 
       - name: coverAlt
         label: 封面图片描述
@@ -180,7 +182,8 @@ collections:
 
           - name: image
             label: 图片
-            widget: image
+            widget: r2_image
+            r2_folder_mode: entry
 
           - name: alt
             label: 图片描述

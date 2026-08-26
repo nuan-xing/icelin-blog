@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "media": "node scripts/generate-media-assets.mjs",
+    "migrate:media": "node scripts/migrate-images-to-r2.mjs",
+    "test:r2": "node scripts/test-r2-upload-path.mjs",
     "dev": "npm run media && astro dev",
     "build": "npm run media && astro check && astro build",
     "preview": "astro preview",
