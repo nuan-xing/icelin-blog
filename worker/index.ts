@@ -70,8 +70,10 @@ function responseHeaders(request: Request, env: Env, extra?: HeadersInit) {
 }
 
 function json(request: Request, env: Env, body: unknown, init: ResponseInit = {}) {
-  const headers = responseHeaders(request, env, init.headers);
-  Object.entries(jsonHeaders).forEach(([name, value]) => headers.set(name, value));
+  const headers = responseHeaders(request, env, jsonHeaders);
+  // Endpoint-specific headers (notably the short public cache policy) must
+  // override the safe no-store default used by admin and error responses.
+  new Headers(init.headers).forEach((value, name) => headers.set(name, value));
   return new Response(JSON.stringify(body), {
     ...init,
     headers,
@@ -257,10 +259,13 @@ function row<T extends JsonRecord>(result: D1Result<T>) {
   return result.results[0] || null;
 }
 
-async function getTopicPhotos(env: Env, slug: string) {
-  const result = await env.DB.prepare(
-    'SELECT id, sort_order, title, pub_date, image_key, alt, caption FROM topic_photos WHERE topic_slug = ? ORDER BY sort_order ASC, id ASC',
+async function getTopicPhotos(env: Env, slug: string, previewOnly = false) {
+  const statement = env.DB.prepare(
+    previewOnly
+      ? 'SELECT id, sort_order, title, pub_date, image_key, alt, caption FROM topic_photos WHERE topic_slug = ? ORDER BY sort_order ASC, id ASC LIMIT 3'
+      : 'SELECT id, sort_order, title, pub_date, image_key, alt, caption FROM topic_photos WHERE topic_slug = ? ORDER BY sort_order ASC, id ASC',
   ).bind(slug).all<JsonRecord>();
+  const result = await statement;
   return result.results.map((item) => ({
     id: Number(item.id),
     sortOrder: Number(item.sort_order),
@@ -273,15 +278,16 @@ async function getTopicPhotos(env: Env, slug: string) {
   }));
 }
 
-function publicPost(item: JsonRecord) {
+function publicPost(item: JsonRecord, includeBody = true) {
   return {
     slug: String(item.slug),
     title: String(item.title),
     description: String(item.description || ''),
-    body: String(item.body_markdown || ''),
     pubDate: String(item.pub_date),
     tags: parseTags(item.tags_json),
     draft: Boolean(item.draft),
+    // JSON.stringify omits undefined, keeping list and home responses lean.
+    body: includeBody ? String(item.body_markdown || '') : undefined,
   };
 }
 
@@ -298,7 +304,7 @@ function publicPhoto(env: Env, item: JsonRecord) {
   };
 }
 
-async function publicTopic(env: Env, item: JsonRecord, includePhotos = true) {
+async function publicTopic(env: Env, item: JsonRecord, includePhotos = true, previewOnly = false) {
   const topic = {
     slug: String(item.slug),
     title: String(item.title),
@@ -308,7 +314,7 @@ async function publicTopic(env: Env, item: JsonRecord, includePhotos = true) {
     coverAlt: String(item.cover_alt || ''),
     eyebrow: String(item.eyebrow || ''),
   };
-  return { ...topic, photos: includePhotos ? await getTopicPhotos(env, topic.slug) : [] };
+  return { ...topic, photos: includePhotos ? await getTopicPhotos(env, topic.slug, previewOnly) : [] };
 }
 
 async function publicRequest(request: Request, env: Env, pathname: string) {
@@ -316,20 +322,20 @@ async function publicRequest(request: Request, env: Env, pathname: string) {
 
   if (pathname === '/v1/public/bootstrap') {
     const [posts, photos, topics] = await Promise.all([
-      env.DB.prepare('SELECT slug, title, description, body_markdown, pub_date, tags_json, draft FROM posts WHERE draft = 0 ORDER BY pub_date DESC LIMIT 3').all<JsonRecord>(),
-      env.DB.prepare('SELECT slug, title, location, pub_date, image_key, alt, caption FROM photos ORDER BY pub_date DESC LIMIT 12').all<JsonRecord>(),
+      env.DB.prepare('SELECT slug, title, description, pub_date, tags_json, draft FROM posts WHERE draft = 0 ORDER BY pub_date DESC LIMIT 3').all<JsonRecord>(),
+      env.DB.prepare('SELECT slug, title, location, pub_date, image_key, alt, caption FROM photos ORDER BY pub_date DESC LIMIT 3').all<JsonRecord>(),
       env.DB.prepare('SELECT slug, title, description, cover_key, cover_alt, eyebrow FROM topics ORDER BY title COLLATE NOCASE ASC').all<JsonRecord>(),
     ]);
     return json(request, env, {
-      posts: posts.results.map(publicPost),
+      posts: posts.results.map((item) => publicPost(item, false)),
       photos: photos.results.map((item) => publicPhoto(env, item)),
-      topics: await Promise.all(topics.results.map((item) => publicTopic(env, item, true))),
+      topics: await Promise.all(topics.results.map((item) => publicTopic(env, item, true, true))),
     }, { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } });
   }
 
   if (pathname === '/v1/public/posts') {
-    const result = await env.DB.prepare('SELECT slug, title, description, body_markdown, pub_date, tags_json, draft FROM posts WHERE draft = 0 ORDER BY pub_date DESC').all<JsonRecord>();
-    return json(request, env, { posts: result.results.map(publicPost) }, { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } });
+    const result = await env.DB.prepare('SELECT slug, title, description, pub_date, tags_json, draft FROM posts WHERE draft = 0 ORDER BY pub_date DESC').all<JsonRecord>();
+    return json(request, env, { posts: result.results.map((item) => publicPost(item, false)) }, { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } });
   }
 
   if (pathname.startsWith('/v1/public/posts/')) {
@@ -338,7 +344,7 @@ async function publicRequest(request: Request, env: Env, pathname: string) {
     const item = row(result);
     if (!item) return error(request, env, 404, '未找到这篇随笔。');
     const post = publicPost(item);
-    return json(request, env, { post: { ...post, body: rewriteMediaUrls(post.body, env) } }, { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } });
+    return json(request, env, { post: { ...post, body: rewriteMediaUrls(post.body || '', env) } }, { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } });
   }
 
   if (pathname === '/v1/public/photos') {
@@ -348,7 +354,7 @@ async function publicRequest(request: Request, env: Env, pathname: string) {
 
   if (pathname === '/v1/public/topics') {
     const result = await env.DB.prepare('SELECT slug, title, description, cover_key, cover_alt, eyebrow FROM topics ORDER BY title COLLATE NOCASE ASC').all<JsonRecord>();
-    return json(request, env, { topics: await Promise.all(result.results.map((item) => publicTopic(env, item, true))) }, { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } });
+    return json(request, env, { topics: await Promise.all(result.results.map((item) => publicTopic(env, item, true, true))) }, { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } });
   }
 
   if (pathname.startsWith('/v1/public/topics/')) {

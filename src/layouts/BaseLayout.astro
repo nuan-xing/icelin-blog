@@ -68,7 +68,7 @@ const nav = [
             <span>icelin</span>
           </a>
           <aside class="music-player" aria-label="背景音乐播放器" transition:persist>
-            <audio class="music-audio" src="/audio/二人の時間-RADWIMPS.mp3" preload="metadata" loop></audio>
+            <audio class="music-audio" src="/audio/二人の時間-RADWIMPS.mp3" preload="none" loop></audio>
             <button class="music-toggle" type="button" aria-label="播放《Time for Two》" aria-pressed="false" title="Time for Two">
               <span class="music-disc" aria-hidden="true">
                 <span class="music-icon"></span>
@@ -97,7 +97,6 @@ const nav = [
           __icelinRefreshLayout?: () => void;
           __icelinMasonryTimer?: number;
           __icelinResizeBound?: boolean;
-          __icelinMusicUnlockBound?: boolean;
         }
       }
 
@@ -150,7 +149,9 @@ const nav = [
           }
         };
 
-        if (getMusicPreference() !== 'paused') {
+        // A first visit should not spend mobile data on background audio. A
+        // returning reader who explicitly opted in can still resume it.
+        if (getMusicPreference() === 'playing') {
           void tryPlay();
         }
 
@@ -165,28 +166,6 @@ const nav = [
           setMusicPreference('playing');
           await tryPlay();
         });
-
-        if (!window.__icelinMusicUnlockBound) {
-          window.__icelinMusicUnlockBound = true;
-
-          const removeUnlockListeners = () => {
-            document.removeEventListener('pointerdown', unlockMusic);
-            document.removeEventListener('keydown', unlockMusic);
-          };
-
-          const unlockMusic = async (event: Event) => {
-            if (event.target instanceof Element && event.target.closest('.music-toggle')) return;
-            if (getMusicPreference() === 'paused') {
-              removeUnlockListeners();
-              return;
-            }
-
-            if (await tryPlay()) removeUnlockListeners();
-          };
-
-          document.addEventListener('pointerdown', unlockMusic);
-          document.addEventListener('keydown', unlockMusic);
-        }
 
         musicAudio.addEventListener('play', () => setMusicUi(true));
         musicAudio.addEventListener('pause', () => setMusicUi(false));
