@@ -10,7 +10,11 @@
     summary: null,
     mediaFilter: 'all',
     mediaSearch: '',
+    mediaPicker: null,
   };
+
+  let mediaFieldSequence = 0;
+  let mediaPickerRequest = 0;
 
   if (!configuredApi) {
     root.innerHTML = '<main class="login-page"><section class="login-card"><span class="brand-mark" aria-hidden="true"></span><h1>编辑室尚未配置</h1><p>缺少公开 API 地址，请检查 <code>/api-config.js</code>。</p></section></main>';
@@ -122,6 +126,10 @@
   }
 
   function appShell(active, breadcrumb, content, actions = '') {
+    if (state.mediaPicker) {
+      mediaPickerRequest += 1;
+      state.mediaPicker = null;
+    }
     root.innerHTML = `
       <div class="app-shell">
         ${sidebar(active)}
@@ -136,6 +144,8 @@
   }
 
   function renderLogin(message = '') {
+    mediaPickerRequest += 1;
+    state.mediaPicker = null;
     root.innerHTML = `
       <main class="login-page">
         <form class="login-card" data-login-form>
@@ -180,9 +190,9 @@
   }
 
   function renderMediaField({ name, label, key = '', folder = '', helper = '', disabled = false }) {
-    const url = key ? mediaUrl(key) : '';
+    const url = key ? mediaPreviewUrl(key, 480) : '';
     const permission = disabled ? ' disabled' : '';
-    const preview = url ? `<img src="${escapeAttr(url)}" alt="" />` : '<span aria-hidden="true">图片</span>';
+    const preview = url ? `<img src="${escapeAttr(url)}" alt="" loading="lazy" decoding="async" />` : '<span aria-hidden="true">图片</span>';
     return `
       <div class="media-field" data-media-field="${escapeAttr(name)}" data-key="${escapeAttr(key)}" data-folder="${escapeAttr(folder)}" data-disabled="${disabled ? 'true' : 'false'}">
         <span class="field-label">${escapeHtml(label)}</span>
@@ -193,6 +203,7 @@
             <span data-media-name>${key ? escapeHtml(key) : (helper || (folder ? `将上传至 R2 /${folder}/` : '请先保存条目后再上传'))}</span>
             <div class="media-drop-actions">
               <button class="button quiet" type="button" data-action="browse-image"${permission}>选择图片</button>
+              <button class="button quiet" type="button" data-action="browse-media"${permission}>浏览图库</button>
               ${key ? '<button class="button quiet" type="button" data-action="clear-image">移除引用</button>' : ''}
             </div>
             <span class="media-progress" data-media-progress></span>
@@ -290,6 +301,13 @@
     return `${configuredMedia}/${String(key).split('/').map(encodeURIComponent).join('/')}`;
   }
 
+  function mediaPreviewUrl(key, width = 480) {
+    if (!key) return '';
+    const transformBase = String(window.ICELIN_IMAGE_TRANSFORM_BASE || '').replace(/\/+$/, '');
+    if (!transformBase) return mediaUrl(key);
+    return `${transformBase}/${String(key).replace(/^\/+/, '').split('/').map(encodeURIComponent).join('/')}?width=${width}`;
+  }
+
   function renderEntry(collection, item, isNew) {
     const info = collectionInfo[collection];
     appShell(collection, `<a href="#/collections/${collection}">${info.label}</a><span class="breadcrumb-separator">/</span><strong>${isNew ? `新建${info.singular}` : escapeHtml(item.title)}</strong>`, entryForm(collection, item, isNew));
@@ -308,13 +326,174 @@
   }
 
   function mediaCard(asset) {
-    const used = Array.isArray(asset.usedBy) && asset.usedBy.length > 0;
-    const usage = used ? asset.usedBy.map((item) => `${item.collection === 'writing' ? '随笔' : item.collection === 'photos' ? '摄影' : '专题'} · ${item.title}`).join('、') : '尚未添加到内容';
+    const used = mediaAssetUsed(asset);
+    const usage = mediaAssetUsage(asset);
     return `
       <article class="asset">
-        <a class="asset-thumb" href="${escapeAttr(asset.imageUrl)}" target="_blank" rel="noreferrer"><img src="${escapeAttr(asset.imageUrl)}" alt="" loading="lazy" /></a>
+        <a class="asset-thumb" href="${escapeAttr(asset.imageUrl)}" target="_blank" rel="noreferrer"><img src="${escapeAttr(mediaPreviewUrl(asset.key, 480))}" alt="" loading="lazy" decoding="async" /></a>
         <div class="asset-body"><div class="asset-name" title="${escapeAttr(asset.name)}">${escapeHtml(asset.name)}</div><div class="asset-path">/${escapeHtml(asset.key)}</div><span class="badge ${used ? 'used' : 'unused'}">${used ? '已添加' : '未添加'}</span><div class="asset-usage">${escapeHtml(usage)}</div><div class="form-actions-group"><button class="button quiet" type="button" data-action="copy-media-url" data-url="${escapeAttr(asset.imageUrl)}">复制链接</button><button class="button quiet danger" type="button" data-action="delete-media" data-key="${escapeAttr(asset.key)}" data-used="${used ? 'true' : 'false'}">删除</button></div></div>
       </article>`;
+  }
+
+  function mediaAssetUsed(asset) {
+    return Array.isArray(asset?.usedBy) && asset.usedBy.length > 0;
+  }
+
+  function mediaAssetUsage(asset) {
+    if (!mediaAssetUsed(asset)) return '尚未添加到内容';
+    return asset.usedBy.map((item) => `${item.collection === 'writing' ? '随笔' : item.collection === 'photos' ? '摄影' : '专题'} · ${item.title}`).join('、');
+  }
+
+  function mediaPickerTargetId(field) {
+    if (!field.dataset.mediaPickerId) {
+      mediaFieldSequence += 1;
+      field.dataset.mediaPickerId = `media-field-${mediaFieldSequence}`;
+    }
+    return field.dataset.mediaPickerId;
+  }
+
+  function mediaPickerTarget() {
+    const targetId = state.mediaPicker?.targetId;
+    if (!targetId) return null;
+    return [...root.querySelectorAll('[data-media-field]')].find((field) => field.dataset.mediaPickerId === targetId) || null;
+  }
+
+  function mediaPickerScopedAssets(picker) {
+    if (picker.scope !== 'folder' || !picker.folder) return picker.assets;
+    const prefix = `${picker.folder}/`;
+    return picker.assets.filter((asset) => asset.folder === picker.folder || asset.key.startsWith(prefix));
+  }
+
+  function mediaPickerVisibleAssets(picker) {
+    const query = picker.search.trim().toLowerCase();
+    return mediaPickerScopedAssets(picker).filter((asset) => {
+      const used = mediaAssetUsed(asset);
+      if (picker.filter === 'used' && !used) return false;
+      if (picker.filter === 'unused' && used) return false;
+      if (!query) return true;
+      return `${asset.key} ${asset.name} ${mediaAssetUsage(asset)}`.toLowerCase().includes(query);
+    });
+  }
+
+  function mediaPickerAsset(asset, currentKey, mode) {
+    const used = mediaAssetUsed(asset);
+    const selected = asset.key === currentKey;
+    return `
+      <button class="media-picker-asset${selected ? ' is-selected' : ''}" type="button" data-action="select-media-asset" data-key="${escapeAttr(asset.key)}" aria-pressed="${selected ? 'true' : 'false'}">
+        <span class="media-picker-thumb"><img src="${escapeAttr(mediaPreviewUrl(asset.key, 480))}" alt="" loading="lazy" decoding="async" /></span>
+        <span class="media-picker-info">
+          <strong title="${escapeAttr(asset.name)}">${escapeHtml(asset.name)}</strong>
+          <span title="/${escapeAttr(asset.key)}">/${escapeHtml(asset.key)}</span>
+          <span class="media-picker-usage"><span class="badge ${used ? 'used' : 'unused'}">${used ? '已添加' : '未添加'}</span><span>${escapeHtml(mediaAssetUsage(asset))}</span></span>
+        </span>
+        <span class="media-picker-select-label">${selected ? '当前图片' : (mode === 'body' ? '插入正文' : '选择')}</span>
+      </button>`;
+  }
+
+  function renderMediaPicker({ preserveSearch = false } = {}) {
+    const existing = root.querySelector('[data-media-picker]');
+    if (!state.mediaPicker) {
+      existing?.remove();
+      return;
+    }
+
+    const previousSearch = preserveSearch ? root.querySelector('[data-media-picker-search]') : null;
+    const previousSelection = previousSearch ? [previousSearch.selectionStart, previousSearch.selectionEnd] : [];
+    const picker = state.mediaPicker;
+    const scoped = mediaPickerScopedAssets(picker);
+    const assets = mediaPickerVisibleAssets(picker);
+    const usedCount = scoped.filter(mediaAssetUsed).length;
+    const unusedCount = scoped.length - usedCount;
+    const target = mediaPickerTarget();
+    const currentKey = target?.dataset.key || '';
+    const folderLabel = picker.folder ? `/${picker.folder}/` : '所有 R2 文件夹';
+    const title = picker.mode === 'body' ? '选择正文图片' : '浏览 R2 图库';
+    const description = picker.mode === 'body'
+      ? '选择后会把原图链接以 Markdown 插入正文；图片仍保留在 R2。'
+      : '选择后只会填入当前字段，保存内容时才会写入 D1。';
+    const content = picker.loading
+      ? '<div class="media-picker-empty"><strong>正在读取图库…</strong><span>正在同步 R2 文件列表，请稍候。</span></div>'
+      : picker.error
+        ? `<div class="media-picker-empty"><strong>图库读取失败</strong><span>${escapeHtml(picker.error)}</span><button class="button primary" type="button" data-action="reload-media-picker">重试</button></div>`
+        : assets.length
+          ? `<div class="media-picker-grid">${assets.map((asset) => mediaPickerAsset(asset, currentKey, picker.mode)).join('')}</div>`
+          : '<div class="media-picker-empty"><strong>没有符合条件的图片</strong><span>可以切换文件夹或筛选条件；本地尚未上传的图片请使用“选择图片”或直接拖拽上传。</span></div>';
+
+    existing?.remove();
+    root.insertAdjacentHTML('beforeend', `
+      <div class="media-picker-backdrop" data-media-picker data-action="media-picker-backdrop">
+        <section class="media-picker-dialog" role="dialog" aria-modal="true" aria-labelledby="media-picker-title">
+          <header class="media-picker-head">
+            <div><p class="eyebrow">${picker.mode === 'body' ? '正文媒体' : 'R2 媒体'}</p><h2 id="media-picker-title">${title}</h2><p>${description}</p></div>
+            <button class="icon-button media-picker-close" type="button" data-action="close-media-picker" aria-label="关闭图库">×</button>
+          </header>
+          <div class="media-picker-toolbar">
+            <div class="media-picker-toolbar-group" aria-label="文件夹范围">
+              ${picker.folder ? `<button class="filter" type="button" data-action="set-media-picker-scope" data-scope="folder" aria-pressed="${picker.scope === 'folder'}">当前文件夹 ${escapeHtml(folderLabel)}</button>` : ''}
+              <button class="filter" type="button" data-action="set-media-picker-scope" data-scope="all" aria-pressed="${picker.scope === 'all' || !picker.folder}">全部 R2</button>
+            </div>
+            <div class="media-picker-toolbar-group" aria-label="图片状态">
+              <button class="filter" type="button" data-action="set-media-picker-filter" data-filter="all" aria-pressed="${picker.filter === 'all'}">全部 ${scoped.length}</button>
+              <button class="filter" type="button" data-action="set-media-picker-filter" data-filter="used" aria-pressed="${picker.filter === 'used'}">已添加 ${usedCount}</button>
+              <button class="filter" type="button" data-action="set-media-picker-filter" data-filter="unused" aria-pressed="${picker.filter === 'unused'}">未添加 ${unusedCount}</button>
+            </div>
+            <label class="media-picker-search"><span class="sr-only">搜索图库</span><input class="search" type="search" data-media-picker-search value="${escapeAttr(picker.search)}" placeholder="搜索文件名或路径" /></label>
+          </div>
+          <div class="media-picker-meta"><span>当前范围：<strong>${escapeHtml(folderLabel)}</strong></span><span>显示 ${assets.length} / ${scoped.length} 张</span></div>
+          <div class="media-picker-body">${content}</div>
+          <footer class="media-picker-footer"><span>“未添加”表示图片已在 R2，但尚未被任何内容引用。</span><button class="button" type="button" data-action="close-media-picker">取消</button></footer>
+        </section>
+      </div>`);
+
+    if (previousSearch) {
+      const nextSearch = root.querySelector('[data-media-picker-search]');
+      nextSearch?.focus();
+      if (nextSearch && previousSelection[0] !== null) nextSearch.setSelectionRange(previousSelection[0], previousSelection[1]);
+    }
+  }
+
+  async function loadMediaPicker() {
+    const picker = state.mediaPicker;
+    if (!picker) return;
+    const requestId = ++mediaPickerRequest;
+    picker.loading = true;
+    picker.error = '';
+    renderMediaPicker();
+    try {
+      const payload = await api('/v1/admin/media');
+      if (requestId !== mediaPickerRequest || state.mediaPicker !== picker) return;
+      picker.assets = payload.objects || [];
+      picker.loading = false;
+      renderMediaPicker();
+    } catch (error) {
+      if (requestId !== mediaPickerRequest || state.mediaPicker !== picker) return;
+      picker.loading = false;
+      picker.error = error instanceof Error ? error.message : '无法读取 R2 图库。';
+      renderMediaPicker();
+    }
+  }
+
+  function openMediaPicker(field) {
+    if (!field || field.dataset.disabled === 'true') return;
+    state.mediaPicker = {
+      targetId: mediaPickerTargetId(field),
+      folder: field.dataset.folder || '',
+      mode: field.dataset.mediaField === 'bodyImage' ? 'body' : 'field',
+      scope: field.dataset.folder ? 'folder' : 'all',
+      filter: 'all',
+      search: '',
+      assets: [],
+      loading: true,
+      error: '',
+    };
+    renderMediaPicker();
+    return loadMediaPicker();
+  }
+
+  function closeMediaPicker() {
+    mediaPickerRequest += 1;
+    state.mediaPicker = null;
+    renderMediaPicker();
   }
 
   async function renderMedia() {
@@ -431,6 +610,41 @@
     return file;
   }
 
+  function setMediaFieldAsset(field, asset) {
+    if (!field || !asset?.key) return false;
+    field.dataset.key = asset.key;
+    field.querySelector('[data-media-preview]').innerHTML = `<img src="${escapeAttr(mediaPreviewUrl(asset.key, 480))}" alt="" loading="lazy" decoding="async" />`;
+    field.querySelector('[data-media-title]').textContent = asset.name || asset.key.split('/').pop() || asset.key;
+    field.querySelector('[data-media-name]').textContent = asset.key;
+    const clear = field.querySelector('[data-action="clear-image"]');
+    if (!clear) {
+      const actions = field.querySelector('.media-drop-actions');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'button quiet';
+      button.dataset.action = 'clear-image';
+      button.textContent = '移除引用';
+      actions.append(button);
+    }
+    return true;
+  }
+
+  function insertImageIntoBody(field, asset) {
+    const form = field?.closest('[data-entry-form]');
+    const editor = form?.querySelector('[name="body"]');
+    if (!editor || !asset?.key) {
+      toast('正文编辑框尚未找到，无法插入图片。', 'error');
+      return false;
+    }
+    const imageUrl = asset.imageUrl || mediaUrl(asset.key);
+    const markdown = `![${asset.name || asset.key}](${imageUrl})`;
+    const start = Number.isInteger(editor.selectionStart) ? editor.selectionStart : editor.value.length;
+    const end = Number.isInteger(editor.selectionEnd) ? editor.selectionEnd : start;
+    editor.value = `${editor.value.slice(0, start)}${editor.value && !editor.value.endsWith('\n') ? '\n\n' : ''}${markdown}\n${editor.value.slice(end)}`;
+    editor.focus();
+    return true;
+  }
+
   async function uploadToField(field, file, insertIntoBody = false) {
     if (!file) return;
     if (field.dataset.disabled === 'true') return toast('请先保存专题，系统才能确定它的 R2 文件夹。', 'error');
@@ -446,30 +660,9 @@
       const result = await api('/v1/admin/media', { method: 'POST', body: data });
       const asset = result.asset;
       if (insertIntoBody) {
-        const form = field.closest('[data-entry-form]');
-        const editor = form?.querySelector('[name="body"]');
-        if (editor) {
-          const markdown = `![${asset.name}](${asset.imageUrl})`;
-          const start = editor.selectionStart || editor.value.length;
-          const end = editor.selectionEnd || start;
-          editor.value = `${editor.value.slice(0, start)}${editor.value && !editor.value.endsWith('\n') ? '\n\n' : ''}${markdown}\n${editor.value.slice(end)}`;
-          editor.focus();
-        }
+        insertImageIntoBody(field, asset);
       } else {
-        field.dataset.key = asset.key;
-        field.querySelector('[data-media-preview]').innerHTML = `<img src="${escapeAttr(asset.imageUrl)}" alt="" />`;
-        field.querySelector('[data-media-title]').textContent = asset.name;
-        field.querySelector('[data-media-name]').textContent = asset.key;
-        const clear = field.querySelector('[data-action="clear-image"]');
-        if (!clear) {
-          const actions = field.querySelector('.media-drop-actions');
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'button quiet';
-          button.dataset.action = 'clear-image';
-          button.textContent = '移除引用';
-          actions.append(button);
-        }
+        setMediaFieldAsset(field, asset);
       }
       await refreshSummary();
       toast(`已上传到 R2 /${asset.folder}/。`, 'success');
@@ -537,7 +730,34 @@
     if (action === 'new-entry') return go(`collections/${control.dataset.collection}/entries/new`);
     if (action === 'retry-route') return renderRoute();
     if (action === 'browse-image') return control.closest('[data-media-field]')?.querySelector('[data-upload-input]')?.click();
+    if (action === 'browse-media') return openMediaPicker(control.closest('[data-media-field]'));
     if (action === 'browse-gallery-image') return root.querySelector('[data-gallery-input]')?.click();
+    if (action === 'media-picker-backdrop') {
+      if (event.target === control) closeMediaPicker();
+      return;
+    }
+    if (action === 'close-media-picker') return closeMediaPicker();
+    if (action === 'reload-media-picker') return loadMediaPicker();
+    if (action === 'set-media-picker-scope') {
+      if (!state.mediaPicker) return;
+      state.mediaPicker.scope = control.dataset.scope === 'folder' && state.mediaPicker.folder ? 'folder' : 'all';
+      return renderMediaPicker();
+    }
+    if (action === 'set-media-picker-filter') {
+      if (!state.mediaPicker) return;
+      state.mediaPicker.filter = control.dataset.filter || 'all';
+      return renderMediaPicker();
+    }
+    if (action === 'select-media-asset') {
+      const picker = state.mediaPicker;
+      const asset = picker?.assets.find((item) => item.key === control.dataset.key);
+      const target = mediaPickerTarget();
+      if (!picker || !asset || !target) return toast('图片选择目标已失效，请重新打开图库。', 'error');
+      const inserted = picker.mode === 'body' ? insertImageIntoBody(target, asset) : setMediaFieldAsset(target, asset);
+      if (!inserted) return;
+      closeMediaPicker();
+      return toast(picker.mode === 'body' ? '已将图片 Markdown 插入正文。' : '已选择 R2 图片，保存内容后生效。', 'success');
+    }
     if (action === 'clear-image') {
       const field = control.closest('[data-media-field]');
       if (!field) return;
@@ -628,6 +848,14 @@
       window.clearTimeout(state.searchTimer);
       state.searchTimer = window.setTimeout(renderMedia, 180);
     }
+    if (input instanceof HTMLInputElement && input.matches('[data-media-picker-search]') && state.mediaPicker) {
+      state.mediaPicker.search = input.value;
+      renderMediaPicker({ preserveSearch: true });
+    }
+  });
+
+  root.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && state.mediaPicker) closeMediaPicker();
   });
 
   root.addEventListener('dragover', (event) => {
