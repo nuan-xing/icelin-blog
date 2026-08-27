@@ -246,7 +246,13 @@
         ${textArea('description', '专题说明', item.description, { hint: '用几句话说明这个专题的主题。' })}
         ${renderMediaField({ name: 'coverKey', label: '专题封面', key: item.coverKey || '', folder, disabled: !folder, helper: folder ? `将上传至 R2 /${folder}/` : '请先保存专题，系统会创建对应的 R2 文件夹。' })}
         ${field('coverAlt', '封面图片描述', item.coverAlt, { full: true, placeholder: '给封面图片的一句话描述' })}
-        <div class="field full"><span class="field-label">专题图片</span><span class="hint">专题中的图片固定上传到 R2 /${escapeHtml(folder || '专题-slug')}/，可增加、删除并调整顺序。</span><div class="topic-photo-list" data-topic-photo-list>${(item.photos || []).map((photo, index) => topicPhotoForm(photo, index, folder)).join('')}</div><button class="button" type="button" data-action="add-topic-photo"${folder ? '' : ' disabled'}>添加一张图片</button></div>`;
+        <div class="field full">
+          <div class="topic-photo-toolbar">
+            <div><span class="field-label">专题图片</span><span class="hint">专题中的图片固定上传到 R2 /${escapeHtml(folder || '专题-slug')}/，可增加、删除并调整顺序。</span></div>
+            <button class="button primary" type="button" data-action="add-topic-photo"${folder ? '' : ' disabled'}>＋ 添加一张图片</button>
+          </div>
+          <div class="topic-photo-list" data-topic-photo-list>${(item.photos || []).map((photo, index) => topicPhotoForm(photo, index, folder)).join('')}</div>
+        </div>`;
     }
     const notice = collection === 'topics' && isNew ? '<div class="notice">先保存专题一次，系统会生成 slug 并启用对应 R2 文件夹上传。</div>' : '';
     return `
