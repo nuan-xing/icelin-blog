@@ -7,6 +7,7 @@
 
   const apiBase = String(window.ICELIN_API_URL || '').replace(/\/+$/, '');
   const transformBase = String(window.ICELIN_IMAGE_TRANSFORM_BASE || '').replace(/\/+$/, '');
+  const mediaPublicBase = String(window.ICELIN_MEDIA_PUBLIC_URL || '').replace(/\/+$/, '');
 
   const escapeHtml = (value) => String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -31,20 +32,41 @@
     return payload;
   }
 
-  function imageSource(url, width) {
+  function mediaKey(url) {
+    if (!mediaPublicBase || !url) return '';
+    try {
+      const source = new URL(url, location.origin);
+      const base = new URL(mediaPublicBase);
+      if (source.origin !== base.origin) return '';
+      const basePath = base.pathname.replace(/\/+$/, '');
+      if (basePath && !source.pathname.startsWith(`${basePath}/`)) return '';
+      const keyPath = basePath ? source.pathname.slice(basePath.length) : source.pathname;
+      return keyPath.replace(/^\/+/, '').split('/').filter(Boolean).map((part) => decodeURIComponent(part)).join('/');
+    } catch {
+      return '';
+    }
+  }
+
+  function transformedImageSource(key, width) {
+    if (!transformBase || !key) return '';
+    return `${transformBase}/${String(key).replace(/^\/+/, '').split('/').map(encodeURIComponent).join('/')}?width=${width}`;
+  }
+
+  function imageSource(url, width, key = '') {
     if (!transformBase || !url) return url;
-    const endpoint = transformBase.endsWith('/cdn-cgi/image') ? transformBase : `${transformBase}/cdn-cgi/image`;
-    return `${endpoint}/width=${width},format=auto,quality=82,fit=scale-down/${url}`;
+    return transformedImageSource(key || mediaKey(url), width) || url;
   }
 
   function imageMarkup(item, options = {}) {
     const { loading = 'lazy', sizes = '(max-width: 760px) calc(100vw - 28px), 760px', className = '' } = options;
     const src = item.imageUrl || item.coverUrl || '';
     const alt = item.alt || item.coverAlt || item.title || '';
+    const key = item.imageKey || item.coverKey || mediaKey(src);
     if (!src) return '<span aria-hidden="true"></span>';
-    const srcset = transformBase ? [480, 768, 1080, 1440, 1600, 1920]
-      .map((width) => `${escapeAttr(imageSource(src, width))} ${width}w`).join(', ') : '';
-    return `<img${className ? ` class="${escapeAttr(className)}"` : ''} src="${escapeAttr(transformBase ? imageSource(src, 1080) : src)}"${srcset ? ` srcset="${srcset}" sizes="${escapeAttr(sizes)}"` : ''} alt="${escapeAttr(alt)}" loading="${loading}" decoding="async" />`;
+    const canTransform = Boolean(transformBase && key);
+    const srcset = canTransform ? [480, 768, 1080, 1440, 1600, 1920]
+      .map((width) => `${escapeAttr(imageSource(src, width, key))} ${width}w`).join(', ') : '';
+    return `<img${className ? ` class="${escapeAttr(className)}"` : ''} src="${escapeAttr(canTransform ? imageSource(src, 1080, key) : src)}"${srcset ? ` srcset="${srcset}" sizes="${escapeAttr(sizes)}"` : ''} data-original-src="${escapeAttr(src)}" alt="${escapeAttr(alt)}" loading="${loading}" decoding="async" />`;
   }
 
   function setMetadata(title, description = '') {
@@ -74,8 +96,33 @@
     root.innerHTML = html;
     setMetadata(title, description);
     setNav();
+    root.querySelectorAll('img[data-original-src]').forEach((image) => {
+      if (image.closest('a')) return;
+      image.setAttribute('title', '点击查看原图');
+      image.setAttribute('role', 'button');
+      image.setAttribute('tabindex', '0');
+    });
     refreshEffects();
   }
+
+  function openOriginalImage(image) {
+    const original = image.dataset.originalSrc;
+    if (original) window.open(original, '_blank', 'noopener,noreferrer');
+  }
+
+  root.addEventListener('click', (event) => {
+    const image = event.target instanceof HTMLImageElement ? event.target : null;
+    if (!image?.dataset.originalSrc || image.closest('a')) return;
+    openOriginalImage(image);
+  });
+
+  root.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const image = event.target instanceof HTMLImageElement ? event.target : null;
+    if (!image?.dataset.originalSrc || image.closest('a')) return;
+    event.preventDefault();
+    openOriginalImage(image);
+  });
 
   function notFound(message = '没有找到这页内容。') {
     render(`<div class="empty-state"><div><p>${escapeHtml(message)}</p><a class="text-link" href="/">返回首页</a></div></div>`, '未找到内容');
@@ -114,7 +161,7 @@
     return source
       .replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+&quot;[^)]*&quot;)?\)/g, (_, alt, url) => {
         const safe = safeUrl(url);
-        return safe ? `<img src="${escapeAttr(safe)}" alt="${escapeAttr(alt)}" loading="lazy" decoding="async" />` : alt;
+        return safe ? imageMarkup({ imageUrl: safe, title: alt, alt }, { sizes: '(max-width: 760px) calc(100vw - 28px), 760px' }) : alt;
       })
       .replace(/\[([^\]]+)\]\(([^\s)]+)\)/g, (_, label, url) => {
         const safe = safeUrl(url);
@@ -135,7 +182,7 @@
       const imageOnly = block.match(/^!\[([^\]]*)\]\(([^\s)]+)(?:\s+&quot;[^)]*&quot;)?\)$/);
       if (imageOnly) {
         const safe = safeUrl(imageOnly[2]);
-        return safe ? `<figure><img src="${escapeAttr(safe)}" alt="${escapeAttr(imageOnly[1])}" loading="lazy" decoding="async" /><figcaption>${escapeHtml(imageOnly[1])}</figcaption></figure>` : '';
+        return safe ? `<figure>${imageMarkup({ imageUrl: safe, title: imageOnly[1], alt: imageOnly[1] }, { sizes: '(max-width: 760px) calc(100vw - 28px), 760px' })}<figcaption>${escapeHtml(imageOnly[1])}</figcaption></figure>` : '';
       }
       return `<p>${inlineMarkdown(block).replace(/\n/g, '<br />')}</p>`;
     }).join('');

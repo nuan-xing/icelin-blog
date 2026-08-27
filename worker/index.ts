@@ -168,6 +168,49 @@ function mediaUrl(env: Env, key: string) {
   return `${trimSlashes(env.MEDIA_PUBLIC_URL)}/${key.split('/').map(encodeURIComponent).join('/')}`;
 }
 
+const responsiveImageWidths = new Set([480, 768, 1080, 1440, 1600, 1920]);
+const supportedImageExtensions = new Set(['avif', 'gif', 'jpeg', 'jpg', 'png', 'webp']);
+
+function transformWidth(value: string | null) {
+  const width = Number(value || 1080);
+  return responsiveImageWidths.has(width) ? width : 1080;
+}
+
+function negotiatedImageFormat(request: Request): 'avif' | 'webp' | undefined {
+  const accept = request.headers.get('accept') || '';
+  if (/image\/avif/i.test(accept)) return 'avif';
+  if (/image\/webp/i.test(accept)) return 'webp';
+  return undefined;
+}
+
+async function transformedMedia(request: Request, env: Env, url: URL) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') return error(request, env, 405, '图片只支持读取。');
+
+  let key = '';
+  try {
+    key = cleanObjectKey(decodeURIComponent(url.pathname.slice('/v1/media/'.length)));
+  } catch {
+    return error(request, env, 400, '图片路径无效。');
+  }
+  const extension = key.split('.').pop()?.toLowerCase() || '';
+  if (!key || !supportedImageExtensions.has(extension)) return error(request, env, 400, '只支持图片文件。');
+
+  const format = negotiatedImageFormat(request);
+  const image = {
+    fit: 'scale-down' as const,
+    width: transformWidth(url.searchParams.get('width')),
+    quality: 84,
+    ...(format ? { format } : {}),
+  };
+  const response = await fetch(mediaUrl(env, key), { cf: { image } });
+  if (!response.ok) return response;
+
+  const headers = new Headers(response.headers);
+  headers.set('cache-control', 'public, max-age=31536000, immutable');
+  headers.set('vary', 'Accept');
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 function isR2Url(value: string, env: Env) {
   try {
     const url = new URL(value);
@@ -600,6 +643,7 @@ export default {
     }
     if (!originIsAllowed(request, env)) return error(request, env, 403, '此来源无权访问编辑接口。');
     try {
+      if (url.pathname.startsWith('/v1/media/')) return await transformedMedia(request, env, url);
       if (url.pathname.startsWith('/v1/public/')) return await publicRequest(request, env, url.pathname);
       if (url.pathname.startsWith('/v1/admin/')) return await adminRequest(request, env, url.pathname, url);
       return error(request, env, 404, '未找到接口。');
