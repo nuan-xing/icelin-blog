@@ -220,6 +220,7 @@
     const info = collectionInfo[collection];
     const title = isNew ? `新建${info.singular}` : `编辑${info.singular}`;
     const slug = item.slug || '';
+    const folder = collection === 'topics' ? slug : '';
     let fields = '';
     if (collection === 'writing') {
       fields = `
@@ -239,7 +240,6 @@
         ${field('alt', '图片描述', item.alt, { full: true, placeholder: '用于网站展示和无障碍阅读' })}
         ${textArea('caption', '说明', item.caption, { hint: '显示在摄影详情中，可留空。' })}`;
     } else {
-      const folder = slug || '';
       fields = `
         ${field('title', '专题名称', item.title, { placeholder: '例如：青龙湖' })}
         ${field('eyebrow', '小标题', item.eyebrow, { placeholder: '例如：自然光影' })}
