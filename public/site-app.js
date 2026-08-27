@@ -25,11 +25,48 @@
   };
   const currentPath = () => decodeURIComponent(location.pathname).replace(/\/+$/, '') || '/';
 
+  const retryDelay = [450, 1200];
+
+  const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+  async function fetchWithTimeout(url, options = {}, timeout = 15000) {
+    if (typeof AbortController === 'undefined' || options.signal) return fetch(url, options);
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), timeout);
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      window.clearTimeout(timer);
+    }
+  }
+
+  function transientNetworkError(error) {
+    return error instanceof TypeError || error?.name === 'AbortError';
+  }
+
+  function readableNetworkError(error) {
+    if (error?.name === 'AbortError') return new Error('网络连接超时，请检查网络后重新加载。');
+    if (error instanceof TypeError) return new Error('网络连接暂时不可用，请检查网络后重新加载。');
+    return error instanceof Error ? error : new Error('暂时无法读取内容。');
+  }
+
   async function api(path) {
-    const response = await fetch(`${apiBase}${path}`);
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(payload?.error || '暂时无法读取内容。');
-    return payload;
+    let lastError;
+    for (let attempt = 0; attempt <= retryDelay.length; attempt += 1) {
+      try {
+        const response = await fetchWithTimeout(`${apiBase}${path}`, { headers: { accept: 'application/json' } });
+        const payload = await response.json().catch(() => ({}));
+        if (response.ok) return payload;
+        const failure = new Error(payload?.error || '暂时无法读取内容。');
+        if (![429, 500, 502, 503, 504].includes(response.status)) throw failure;
+        lastError = failure;
+      } catch (error) {
+        if (!transientNetworkError(error)) throw error;
+        lastError = error;
+      }
+      if (attempt < retryDelay.length) await wait(retryDelay[attempt]);
+    }
+    throw readableNetworkError(lastError);
   }
 
   function mediaKey(url) {

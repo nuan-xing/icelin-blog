@@ -69,22 +69,61 @@
     window.setTimeout(() => item.remove(), 4600);
   }
 
+  const apiRetryDelay = [500, 1300];
+
+  const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+  async function fetchWithTimeout(url, options = {}, timeout = 20000) {
+    if (typeof AbortController === 'undefined' || options.signal) return fetch(url, options);
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), timeout);
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      window.clearTimeout(timer);
+    }
+  }
+
+  function transientNetworkError(error) {
+    return error instanceof TypeError || error?.name === 'AbortError';
+  }
+
+  function readableNetworkError(error) {
+    if (error?.name === 'AbortError') return new Error('网络连接超时，请检查网络后重试。');
+    if (error instanceof TypeError) return new Error('网络连接暂时不可用，请检查网络后重试。');
+    return error instanceof Error ? error : new Error('请求暂时无法完成。');
+  }
+
   async function api(path, options = {}) {
     const headers = new Headers(options.headers || {});
     if (state.token) headers.set('Authorization', `Bearer ${state.token}`);
     if (options.body && !(options.body instanceof FormData) && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
-    const response = await fetch(`${configuredApi}${path}`, { ...options, headers });
-    const contentType = response.headers.get('content-type') || '';
-    const payload = contentType.includes('application/json') ? await response.json().catch(() => ({})) : null;
-    if (!response.ok) {
-      if (response.status === 401 && path !== '/v1/admin/login') {
-        state.token = '';
-        sessionStorage.removeItem(TOKEN_KEY);
-        renderLogin('登录已失效，请重新输入密码。');
+    headers.set('Accept', 'application/json');
+    const method = String(options.method || 'GET').toUpperCase();
+    const canRetry = method === 'GET';
+    const timeout = options.body instanceof FormData ? 90000 : 20000;
+    let lastError;
+    for (let attempt = 0; attempt <= apiRetryDelay.length; attempt += 1) {
+      try {
+        const response = await fetchWithTimeout(`${configuredApi}${path}`, { ...options, headers }, timeout);
+        const contentType = response.headers.get('content-type') || '';
+        const payload = contentType.includes('application/json') ? await response.json().catch(() => ({})) : null;
+        if (response.ok) return payload;
+        if (response.status === 401 && path !== '/v1/admin/login') {
+          state.token = '';
+          sessionStorage.removeItem(TOKEN_KEY);
+          renderLogin('登录已失效，请重新输入密码。');
+        }
+        const failure = new Error(payload?.error || `请求失败（${response.status}）`);
+        if (!canRetry || ![429, 500, 502, 503, 504].includes(response.status)) throw failure;
+        lastError = failure;
+      } catch (error) {
+        if (!canRetry || !transientNetworkError(error)) throw readableNetworkError(error);
+        lastError = error;
       }
-      throw new Error(payload?.error || `请求失败（${response.status}）`);
+      if (attempt < apiRetryDelay.length) await wait(apiRetryDelay[attempt]);
     }
-    return payload;
+    throw readableNetworkError(lastError);
   }
 
   async function refreshSummary() {
