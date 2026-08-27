@@ -278,6 +278,13 @@
       </article>`;
   }
 
+  function renumberTopicPhotos(list) {
+    [...(list?.children || [])].forEach((card, index) => {
+      const label = card.querySelector('.topic-photo-head strong');
+      if (label) label.textContent = `第 ${index + 1} 张`;
+    });
+  }
+
   function mediaUrl(key) {
     if (!key) return '';
     return `${configuredMedia}/${String(key).split('/').map(encodeURIComponent).join('/')}`;
@@ -548,14 +555,24 @@
       if (!folder) return toast('请先保存专题。', 'error');
       const holder = document.createElement('div');
       holder.innerHTML = topicPhotoForm({}, list.children.length, folder);
-      list.append(holder.firstElementChild);
+      list.prepend(holder.firstElementChild);
+      renumberTopicPhotos(list);
       return;
     }
-    if (action === 'remove-topic-photo') return control.closest('[data-topic-photo]')?.remove();
+    if (action === 'remove-topic-photo') {
+      const card = control.closest('[data-topic-photo]');
+      const list = card?.parentElement;
+      card?.remove();
+      renumberTopicPhotos(list);
+      return;
+    }
     if (action === 'move-topic-photo') {
       const card = control.closest('[data-topic-photo]');
       const sibling = control.dataset.direction === 'up' ? card?.previousElementSibling : card?.nextElementSibling;
-      if (card && sibling) control.dataset.direction === 'up' ? card.parentElement.insertBefore(card, sibling) : card.parentElement.insertBefore(sibling, card);
+      if (card && sibling) {
+        control.dataset.direction === 'up' ? card.parentElement.insertBefore(card, sibling) : card.parentElement.insertBefore(sibling, card);
+        renumberTopicPhotos(card.parentElement);
+      }
       return;
     }
     if (action === 'delete-entry') {
